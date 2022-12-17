@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>AdventOfCode2022</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <None Update="**\*.txt">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\common-csharp\common.csproj" />
+    </ItemGroup>
+
+</Project>
