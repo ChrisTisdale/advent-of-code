@@ -1,5 +1,7 @@
-﻿namespace AdventOfCode.day12;
+﻿namespace AdventOfCode2022.day12;
 
-using AdventOfCode2022.day12;
+using System.Numerics;
+using Common;
 
-internal record Node<T>(T Data, bool Start, bool End, Point Point);
+internal record Node<TValue, TPoint>(TValue Data, bool Start, bool End, Point<TPoint> Point)
+    where TPoint : INumber<TPoint>;

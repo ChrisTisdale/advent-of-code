@@ -1,6 +1,5 @@
 ﻿namespace AdventOfCode2022.day12;
 
-using AdventOfCode.day12;
 using Common;
 
 public class Day12 : Base2022
@@ -17,9 +16,9 @@ public class Day12 : Base2022
         await HandleFile(GetFileLocation("measurements.txt"));
     }
     
-    private static Node<char> GetNode(char value, int row, int col)
+    private static Node<char, int> GetNode(char value, int row, int col)
     {
-        return new Node<char>(
+        return new Node<char, int>(
             value switch
             {
                 'S' => 'a',
@@ -28,13 +27,13 @@ public class Day12 : Base2022
             },
             value is 'S',
             value is 'E',
-            new Point(row, col));
+            new Point<int>(row, col));
     }
     
-    private static async ValueTask<Graph<char>> BuildGraph(string fileName)
+    private static async ValueTask<Graph<char, int>> BuildGraph(string fileName)
     {
-        var nodes = new List<Node<char>>();
-        var edges = new Dictionary<Node<char>, IReadOnlyList<Node<char>>>();
+        var nodes = new List<Node<char, int>>();
+        var edges = new Dictionary<Node<char, int>, IReadOnlyList<Node<char, int>>>();
         var lines = await File.ReadAllLinesAsync(fileName);
         for (var row = 0; row < lines.Length; ++row)
         {
@@ -44,7 +43,7 @@ public class Day12 : Base2022
                 var node = GetNode(value, row, col);
                 nodes.Add(node);
 
-                var localEdges = new List<Node<char>>();
+                var localEdges = new List<Node<char, int>>();
                 if (row is not 0)
                 {
                     localEdges.Add(GetNode(lines[row - 1][col], row - 1, col));
@@ -69,23 +68,23 @@ public class Day12 : Base2022
             }
         }
 
-        return new Graph<char>(nodes, edges);
+        return new Graph<char, int>(nodes, edges);
     }
     
-    private static long GetCost(Node<char> item1, Node<char> item2)
+    private static long GetCost(Node<char, int> item1, Node<char, int> item2)
     {
         var item1Value = item1.Data - 'a' + 1;
         var item2Value = item2.Data - 'a' + 1;
         return item2Value - item1Value;
     }
 
-    private static ValueTask<int> FindPath(Graph<char> graph, Node<char> start)
+    private static ValueTask<int> FindPath(Graph<char, int> graph, Node<char, int> start)
     {
         var edges = graph.Edges[start];
         var priorityQueue =
-            new PriorityQueue<Node<char>, int>(edges.Where(x => GetCost(start, x) <= 1).Select(x => (x, 1)));
+            new PriorityQueue<Node<char, int>, int>(edges.Where(x => GetCost(start, x) <= 1).Select(x => (x, 1)));
 
-        var visited = new Dictionary<Node<char>, int> { { start, 0 } };
+        var visited = new Dictionary<Node<char, int>, int> { { start, 0 } };
         while (priorityQueue.TryDequeue(out var next, out var count))
         {
             //Console.WriteLine($"Looking at node: {next}.  With cost: {data.Count}");
@@ -117,7 +116,7 @@ public class Day12 : Base2022
         Console.WriteLine($"{file} Answer is: {path}");
     }
 
-    private static async ValueTask<int> FindMinPath(Graph<char> graph)
+    private static async ValueTask<int> FindMinPath(Graph<char, int> graph)
     {
         var minValue = int.MaxValue;
         foreach (var start in graph.PossibleStarts)

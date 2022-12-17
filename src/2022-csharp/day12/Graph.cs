@@ -1,11 +1,15 @@
 ﻿namespace AdventOfCode2022.day12;
 
+using System.Numerics;
 using System.Text;
-using AdventOfCode.day12;
+using Common;
 
-internal record Graph<T>
+internal record Graph<TValue, TPoint> where TPoint : INumber<TPoint>
 {
-    public Graph(IReadOnlyCollection<Node<T>> nodes, IReadOnlyDictionary<Node<T>, IReadOnlyList<Node<T>>> edges)
+    public Graph(
+        IReadOnlyCollection<Node<TValue, TPoint>> nodes,
+        IReadOnlyDictionary<Node<TValue, TPoint>,
+            IReadOnlyList<Node<TValue, TPoint>>> edges)
     {
         Nodes = nodes;
         Edges = edges;
@@ -15,15 +19,15 @@ internal record Graph<T>
         PossibleStarts = nodes.Where(n => Equals(n.Data, Start.Data)).ToList();
     }
 
-    public Node<T> Start { get; }
+    public Node<TValue, TPoint> Start { get; }
 
-    public IReadOnlyList<Node<T>> PossibleStarts { get; }
+    public IReadOnlyList<Node<TValue, TPoint>> PossibleStarts { get; }
 
-    public Node<T> End { get; }
+    public Node<TValue, TPoint> End { get; }
 
-    public IReadOnlyCollection<Node<T>> Nodes { get; }
+    public IReadOnlyCollection<Node<TValue, TPoint>> Nodes { get; }
 
-    public IReadOnlyDictionary<Node<T>, IReadOnlyList<Node<T>>> Edges { get; }
+    public IReadOnlyDictionary<Node<TValue, TPoint>, IReadOnlyList<Node<TValue, TPoint>>> Edges { get; }
 
     protected virtual bool PrintMembers(StringBuilder builder)
     {
@@ -38,7 +42,7 @@ internal record Graph<T>
         return true;
     }
 
-    private static long GetCost(Node<T> node, Node<T> node1)
+    private static long GetCost(Node<TValue, TPoint> node, Node<TValue, TPoint> node1)
     {
         var item1Value = (node.Data is char data ? data : '\0') - 'a' + 1;
         var item2Value = (node1.Data is char node1Data ? node1Data : '\0') - 'a' + 1;
