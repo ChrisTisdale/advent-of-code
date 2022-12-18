@@ -1,5 +1,6 @@
 ﻿namespace Common;
 
+using System.Drawing;
 using System.Numerics;
 
 public readonly record struct Line<T> where T : INumber<T>
@@ -13,7 +14,7 @@ public readonly record struct Line<T> where T : INumber<T>
             throw new InvalidDataException($"The increment for the points must match");
         }
     }
-    
+
     public Point<T> One { get; init; }
 
     public Point<T> Two { get; init; }
@@ -51,7 +52,8 @@ public readonly record struct Line<T> where T : INumber<T>
             var end = One.Y > Two.Y ? One.Y : Two.Y;
             for (var i = One.Y > Two.Y ? Two.Y : One.Y; i <= end; i += One.Increment)
             {
-                yield return One with { Y = i };
+                var res = One with { Y = i };
+                yield return res;
             }
         }
         else if (One.Y == Two.Y)
@@ -59,7 +61,8 @@ public readonly record struct Line<T> where T : INumber<T>
             var end = One.X > Two.X ? One.X : Two.X;
             for (var i = One.X > Two.X ? Two.X : One.X; i <= end; i += One.Increment)
             {
-                yield return One with { X = i };
+                var res = One with { X = i };
+                yield return res;
             }
         }
         else

@@ -3,23 +3,22 @@
 using System.Text.RegularExpressions;
 using Common;
 
-public class Day13 : Base2022
+public class Day13 : Base2022<int>
 {
     private static readonly Regex Regex = new Regex($"({Regex.Escape(",")}|{Regex.Escape("[")}|{Regex.Escape("]")})");
 
-    public override ValueTask ExecutePart1()
+    public override ValueTask<int> ExecutePart1(string fileName)
     {
         // TODO add part 1
-        return ExecutePart2();
+        return ExecutePart2(fileName);
     }
 
-    public override async ValueTask ExecutePart2()
+    public override async ValueTask<int> ExecutePart2(string fileName)
     {
-        await HandleFile(GetFileLocation("sample.txt"));
-        await HandleFile(GetFileLocation("measurements.txt"));
+        return await HandleFile(fileName);
     }
 
-    private async ValueTask HandleFile(string file)
+    private async Task<int> HandleFile(string file)
     {
         var result = await GetPackets(file);
         var starter = new ListPacket(new[] { new ListPacket(new[] { new ValuePacket(2) }) });
@@ -43,9 +42,7 @@ public class Day13 : Base2022
             }
         }
 
-        Console.WriteLine(
-            $"{file} has start {startIndex} and end {endIndex} with an answer of {startIndex * endIndex}");
-        //Console.WriteLine(string.Join(Environment.NewLine, sortedList));
+        return startIndex * endIndex;
     }
 
     private async ValueTask<IReadOnlyList<PacketChecker>> GetPackets(string file)

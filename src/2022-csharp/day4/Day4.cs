@@ -1,19 +1,16 @@
 ﻿namespace AdventOfCode2022.day4;
 
-public class Day4 : Base2022
+public class Day4 : Base2022<int>
 {
-    public override ValueTask ExecutePart1()
+    public override ValueTask<int> ExecutePart1(string fileName)
     {
-        return ExecutePart2();
+        return ExecutePart2(fileName);
     }
 
-    public override async ValueTask ExecutePart2()
+    public override async ValueTask<int> ExecutePart2(string fileName)
     {
-        var result = await FindSubsets(GetFileLocation("sample.txt"));
-        Console.WriteLine($"Sample Found subsets: {result}");
-
-        result = await FindSubsets(GetFileLocation("measurements.txt"));
-        Console.WriteLine($"Measure Found subset: {result}");
+        var result = await FindSubsets(fileName);
+        return result;
     }
 
     private static async ValueTask<int> FindSubsets(string filename)

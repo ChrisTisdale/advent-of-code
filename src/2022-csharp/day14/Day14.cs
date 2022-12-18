@@ -2,108 +2,70 @@
 
 using Common;
 
-public class Day14 : Base2022
+public class Day14 : Base2022<int>
 {
     private static readonly Point<int> SandDrop = new(500, 0);
-    
-    public override async ValueTask ExecutePart1()
+
+    public override async ValueTask<int> ExecutePart1(string fileName)
     {
-        await HandleSandDrop(GetFileLocation("sample.txt"));
-        await HandleSandDrop(GetFileLocation("measurements.txt"));
+        return await HandleSandDrop(fileName);
     }
 
-    public override async ValueTask ExecutePart2()
+    public override async ValueTask<int> ExecutePart2(string fileName)
     {
-        await HandleSandDrop(GetFileLocation("sample.txt"), true);
-        await HandleSandDrop(GetFileLocation("measurements.txt"), true);
+        return await HandleSandDrop(fileName, true);
     }
 
-    private static async ValueTask HandleSandDrop(string file, bool stopAtTop = false)
+    private static async Task<int> HandleSandDrop(string file, bool stopAtTop = false)
     {
         var (result, maxY) = await ParseFile(file, stopAtTop);
         var set = new HashSet<Point<int>>();
-        Point<int>? top = null;
         while (true)
         {
-            if (stopAtTop && top == SandDrop)
+            if (stopAtTop && set.Contains(SandDrop))
             {
                 break;
             }
-            
-            if (!top.HasValue)
-            {
-                top = FindDropPoint(SandDrop, result, set, maxY);
-                if (top is null)
-                {
-                    break;
-                }
 
-                set.Add(top.Value);
-                //Console.WriteLine($"Item-{set.Count}: {top.Value}");
-            }
-            else
+            var dropPoint = FindDropPoint(SandDrop, result, set, maxY);
+            if (dropPoint is null)
             {
-                var left = top.Value with { X = top.Value.X - 1 };
-                var right = top.Value with { X = top.Value.X + 1 };
-                if (!set.Contains(left) && !ResultsContain(result, left))
-                {
-                    var findDropPoint = FindDropPoint(left, result, set, maxY);
-                    if (findDropPoint is null)
-                    {
-                        break;
-                    }
-                    
-                    set.Add(findDropPoint.Value);
-                    //Console.WriteLine($"Item-{set.Count}: {findDropPoint.Value}");
-                }
-                else if (!set.Contains(right) && !ResultsContain(result, right))
-                {
-                    var findDropPoint = FindDropPoint(right, result, set, maxY);
-                    if (findDropPoint is null)
-                    {
-                        break;
-                    }
-                    
-                    set.Add(findDropPoint.Value);
-                    //Console.WriteLine($"Item-{set.Count}: {findDropPoint.Value}");
-                }
-                else
-                {
-                    top = top.Value with { Y = top.Value.Y - 1 };
-                    set.Add(top.Value);
-                    //Console.WriteLine($"Item-{set.Count}: {top.Value}");
-                }
+                break;
             }
+
+            set.Add(dropPoint.Value);
         }
-        
-        Console.WriteLine($"{file} has {set.Count} dropped");
+
+        return set.Count;
     }
 
     private static Point<int>? FindDropPoint(
         Point<int> start,
         IReadOnlyList<RockFormation> result,
-        HashSet<Point<int>> sand,
+        IReadOnlySet<Point<int>> sand,
         int maxY)
     {
         for (var i = start.Y; i <= maxY; i++)
         {
             var updated = new Point<int>(start.X, i);
-            if (sand.Contains(updated) || ResultsContain(result, updated))
+            if (!sand.Contains(updated) && !ResultsContain(result, updated))
             {
-                var left = updated with { X = updated.X - 1 };
-                var right = updated with { X = updated.X + 1 };
-                if (!sand.Contains(left) && !ResultsContain(result, left))
-                {
-                    return FindDropPoint(left, result, sand, maxY);
-                }
-
-                if (!sand.Contains(right) && !ResultsContain(result, right))
-                {
-                    return FindDropPoint(right, result, sand, maxY);
-                }
-                
-                return new Point<int>(start.X, i - 1);
+                continue;
             }
+
+            var left = updated with { X = updated.X - 1 };
+            var right = updated with { X = updated.X + 1 };
+            if (!sand.Contains(left) && !ResultsContain(result, left))
+            {
+                return FindDropPoint(left, result, sand, maxY);
+            }
+
+            if (!sand.Contains(right) && !ResultsContain(result, right))
+            {
+                return FindDropPoint(right, result, sand, maxY);
+            }
+
+            return new Point<int>(start.X, i - 1);
         }
 
         return null;
@@ -134,7 +96,7 @@ public class Day14 : Base2022
             {
                 maxY = y;
             }
-            
+
             //Console.WriteLine(rockFormation);
             formations.Add(rockFormation);
         }
@@ -167,7 +129,7 @@ public class Day14 : Base2022
             {
                 maxY = p2.Y;
             }
-            
+
             lines.Add(new Line<int>(p1, p2));
         }
 

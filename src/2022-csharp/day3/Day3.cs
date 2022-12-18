@@ -2,20 +2,17 @@
 
 using System.Text;
 
-public class Day3 : Base2022
+public class Day3 : Base2022<decimal>
 {
-    public override ValueTask ExecutePart1()
+    public override ValueTask<decimal> ExecutePart1(string fileName)
     {
-        return ExecutePart2();
+        return ExecutePart2(fileName);
     }
 
-    public override async ValueTask ExecutePart2()
+    public override async ValueTask<decimal> ExecutePart2(string fileName)
     {
-        var result = await FindScore(GetFileLocation("sample.txt"));
-        Console.WriteLine($"Sample Found scores: {result}");
-
-        result = await FindScore(GetFileLocation("measurements.txt"));
-        Console.WriteLine($"Measure Found scores: {result}");
+        var result = await FindScore(fileName);
+        return result;
     }
 
     private static ValueTask<decimal> FindScore(string filename)

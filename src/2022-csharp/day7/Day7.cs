@@ -1,30 +1,22 @@
 ﻿namespace AdventOfCode2022.day7;
 
-public class Day7 : Base2022
+public class Day7 : Base2022<string>
 {
-    public override ValueTask ExecutePart1()
+    public override ValueTask<string> ExecutePart1(string fileName)
     {
         // TODO handle part 1
-        return ExecutePart2();
+        return ExecutePart2(fileName);
     }
 
-    public override async ValueTask ExecutePart2()
+    public override async ValueTask<string> ExecutePart2(string fileName)
     {
-        var result = (await GetStacks(GetFileLocation("sample.txt"))).ToArray();
-        for (var i = 0; i < result.Length; ++i)
+        var result = (await GetStacks(fileName)).ToArray();
+        /*for (var i = 0; i < result.Length; ++i)
         {
-            Console.WriteLine($"Sample Found subsets: {i}-{string.Join(',', result[i])}");
-        }
+            Console.WriteLine($"{fileName} Found subsets: {i}-{string.Join(',', result[i])}");
+        }*/
 
-        Console.WriteLine($"$Sample Answer: {string.Join("", result.Select(x => x.Pop()))}");
-
-        result = (await GetStacks(GetFileLocation("measurements.txt"))).ToArray();
-        for (var i = 0; i < result.Length; ++i)
-        {
-            Console.WriteLine($"Measure Found subsets: {i}-{string.Join(',', result[i])}");
-        }
-
-        Console.WriteLine($"Measure Answer: {string.Join("", result.Select(x => x.Pop()))}");
+        return string.Join("", result.Select(x => x.Pop()));
     }
 
     private static ValueTask<IEnumerable<Stack<char>>> GetStacks(string fileName)
@@ -44,7 +36,7 @@ public class Day7 : Base2022
                 {
                     continue;
                 }
-            
+
                 sources[j].Push(character);
             }
         }
@@ -60,7 +52,7 @@ public class Day7 : Base2022
             {
                 data[j] = sources[from - 1].Pop();
             }
-        
+
             foreach (var c in data)
             {
                 sources[to - 1].Push(c);

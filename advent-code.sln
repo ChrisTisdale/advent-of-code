@@ -1,11 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33110.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "startup", "src\startup-csharp\startup.csproj", "{6F8EF99B-18DF-4136-9BE1-A19905A2DA14}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "startup", "src\startup-csharp\startup.csproj", "{6F8EF99B-18DF-4136-9BE1-A19905A2DA14}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "common", "src\common-csharp\common.csproj", "{B8DCC6E1-C2CD-4ED7-BFCC-7BCEC1685D57}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "common", "src\common-csharp\common.csproj", "{B8DCC6E1-C2CD-4ED7-BFCC-7BCEC1685D57}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "advent-code-2022", "src\2022-csharp\advent-code-2022.csproj", "{9D327696-60B3-40D1-BA86-1CC2BF046F6E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "advent-code-2022", "src\2022-csharp\advent-code-2022.csproj", "{9D327696-60B3-40D1-BA86-1CC2BF046F6E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "advent-code-2022Tests", "tests\advent-code-2022Tests\advent-code-2022Tests.csproj", "{62B4D17B-1A11-4C90-9C14-7BFE19F14808}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{4C8799C7-63EB-4DB9-9D11-5B18EF7E93B4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{64CCB6FC-BB04-482F-AB39-530A0FC62D09}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,10 +21,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CF24652A-F465-4FA4-B332-B64FAA96E50E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CF24652A-F465-4FA4-B332-B64FAA96E50E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CF24652A-F465-4FA4-B332-B64FAA96E50E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CF24652A-F465-4FA4-B332-B64FAA96E50E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6F8EF99B-18DF-4136-9BE1-A19905A2DA14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6F8EF99B-18DF-4136-9BE1-A19905A2DA14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F8EF99B-18DF-4136-9BE1-A19905A2DA14}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -29,5 +33,21 @@ Global
 		{9D327696-60B3-40D1-BA86-1CC2BF046F6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D327696-60B3-40D1-BA86-1CC2BF046F6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D327696-60B3-40D1-BA86-1CC2BF046F6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62B4D17B-1A11-4C90-9C14-7BFE19F14808}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62B4D17B-1A11-4C90-9C14-7BFE19F14808}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62B4D17B-1A11-4C90-9C14-7BFE19F14808}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62B4D17B-1A11-4C90-9C14-7BFE19F14808}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EFC2ABDF-E543-4910-8D00-EC44325BD6A3}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9D327696-60B3-40D1-BA86-1CC2BF046F6E} = {4C8799C7-63EB-4DB9-9D11-5B18EF7E93B4}
+		{B8DCC6E1-C2CD-4ED7-BFCC-7BCEC1685D57} = {4C8799C7-63EB-4DB9-9D11-5B18EF7E93B4}
+		{6F8EF99B-18DF-4136-9BE1-A19905A2DA14} = {4C8799C7-63EB-4DB9-9D11-5B18EF7E93B4}
+		{62B4D17B-1A11-4C90-9C14-7BFE19F14808} = {64CCB6FC-BB04-482F-AB39-530A0FC62D09}
 	EndGlobalSection
 EndGlobal

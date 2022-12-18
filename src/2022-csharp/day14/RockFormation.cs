@@ -15,9 +15,11 @@ internal record RockFormation(IReadOnlyList<Line<int>> Lines)
                 return true;
             }
         }
-        
+
         return false;
     }
+
+    public IEnumerable<Point<int>> GetPoints() => Lines.SelectMany(x => x.GetPoints());
 
     protected virtual bool PrintMembers(StringBuilder builder)
     {

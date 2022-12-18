@@ -2,21 +2,18 @@
 
 using Common;
 
-public class Day9 : Base2022
+public class Day9 : Base2022<int>
 {
-    public override ValueTask ExecutePart1()
+    public override ValueTask<int> ExecutePart1(string fileName)
     {
         // TODO process part 1
-        return ExecutePart2();
+        return ExecutePart2(fileName);
     }
 
-    public override async ValueTask ExecutePart2()
+    public override async ValueTask<int> ExecutePart2(string fileName)
     {
-        var result = await GetUniqueSpaces(ProcessFile(GetFileLocation("sample.txt")));
-        Console.WriteLine($"Sample Found: {result}");
-
-        result = await GetUniqueSpaces(ProcessFile(GetFileLocation("measurements.txt")));
-        Console.WriteLine($"Measurements Found: {result}");
+        var result = await GetUniqueSpaces(ProcessFile(fileName));
+        return result;
     }
 
     private static async IAsyncEnumerable<Input> ProcessFile(string fileName)
@@ -46,17 +43,17 @@ public class Day9 : Base2022
                     'R' => head with { X = head.X + 1 },
                     _ => throw new ArgumentException()
                 };
-    
+
                 for (var j = 0; j < middlePoints.Length; ++j)
                 {
                     middlePoints[j] = GetTailLocation(j == 0 ? head : middlePoints[j - 1], middlePoints[j]);
                 }
-    
+
                 tail = GetTailLocation(middlePoints[^1], tail);
                 set.Add(tail);
             }
         }
-    
+
         return set.Count;
     }
 
@@ -68,17 +65,17 @@ public class Day9 : Base2022
         {
             return new Point<int>(tail.X > head.X ? tail.X - 1 : tail.X + 1, tail.Y > head.Y ? tail.Y - 1 : tail.Y + 1);
         }
-    
+
         if (xNeedsUpdate)
         {
             return tail with { X = tail.X > head.X ? tail.X - 1 : tail.X + 1 };
         }
-    
+
         if (yNeedsUpdate)
         {
             return tail with { Y = tail.Y > head.Y ? tail.Y - 1 : tail.Y + 1 };
         }
-    
+
         return tail;
     }
 }

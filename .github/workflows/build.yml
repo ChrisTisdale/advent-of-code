@@ -1,0 +1,37 @@
+name: build
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - release/*
+  pull_request:
+    branches:
+      - main
+      - release/*
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: ['7.0.x']
+        configuration: ['Release','Debug']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Install dependencies
+        run: dotnet restore advent-code.sln
+      - name: Build
+        run: dotnet build --configuration ${{ matrix.configuration }} --no-restore advent-code.sln
+      - name: Test
+        if: ${{ matrix.configuration == 'Debug' }}
+        run: dotnet test --no-build --no-restore --verbosity normal advent-code.sln

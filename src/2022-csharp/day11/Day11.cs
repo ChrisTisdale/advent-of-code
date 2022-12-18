@@ -1,21 +1,20 @@
 ﻿namespace AdventOfCode2022.day11;
 
 using System.Text.RegularExpressions;
-using Common;
 
-public class Day11 : Base2022
+public class Day11 : Base2022<long>
 {
     private static readonly Regex Regex = new Regex(
         $"({Regex.Escape("+")}|{Regex.Escape("*")}|{Regex.Escape("-")}|{Regex.Escape("/")})");
 
-    public override async ValueTask ExecutePart1()
+    public override async ValueTask<long> ExecutePart1(string fileName)
     {
-        await HandleRound(true, 20);
+        return await HandleRound(fileName, true, 20);
     }
 
-    public override async ValueTask ExecutePart2()
+    public override async ValueTask<long> ExecutePart2(string fileName)
     {
-        await HandleRound(false, 10000);
+        return await HandleRound(fileName, false, 10000);
     }
 
     private static async ValueTask<IReadOnlyList<Monkey>> ProcessFile(string fileName)
@@ -122,17 +121,12 @@ public class Day11 : Base2022
         var id = int.Parse(truther.Last());
         return new Evaluator(expected, checker, id);
     }
-    
-    private async ValueTask HandleRound(bool round1, int roundCount, bool print = false)
+
+    private async Task<long> HandleRound(string fileName, bool round1, int roundCount, bool print = false)
     {
-        var result = await ProcessFile(GetFileLocation("sample.txt"));
+        var result = await ProcessFile(fileName);
         var inspected = await EvaluateRounds(result, roundCount, round1, print);
         var highestTwo = inspected.Values.OrderDescending().Take(2).ToArray();
-        Console.WriteLine($"Sample-{(round1 ? 1 : 2)} Answer is: {(highestTwo[0] * highestTwo[1])}");
-
-        result = await ProcessFile(GetFileLocation("measurements.txt"));
-        inspected = await EvaluateRounds(result, roundCount, round1, print);
-        highestTwo = inspected.Values.OrderDescending().Take(2).ToArray();
-        Console.WriteLine($"Measurements-{(round1 ? 1 : 2)} Answer is: {(highestTwo[0] * highestTwo[1])}");
+        return highestTwo[0] * highestTwo[1];
     }
 }

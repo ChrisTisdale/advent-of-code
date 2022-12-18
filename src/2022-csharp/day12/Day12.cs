@@ -2,20 +2,19 @@
 
 using Common;
 
-public class Day12 : Base2022
+public class Day12 : Base2022<int>
 {
-    public override ValueTask ExecutePart1()
+    public override ValueTask<int> ExecutePart1(string fileName)
     {
         // TODO add part 1
-        return ExecutePart2();
+        return ExecutePart2(fileName);
     }
 
-    public override async ValueTask ExecutePart2()
+    public override async ValueTask<int> ExecutePart2(string fileName)
     {
-        await HandleFile(GetFileLocation("sample.txt"));
-        await HandleFile(GetFileLocation("measurements.txt"));
+        return await HandleFile(fileName);
     }
-    
+
     private static Node<char, int> GetNode(char value, int row, int col)
     {
         return new Node<char, int>(
@@ -29,7 +28,7 @@ public class Day12 : Base2022
             value is 'E',
             new Point<int>(row, col));
     }
-    
+
     private static async ValueTask<Graph<char, int>> BuildGraph(string fileName)
     {
         var nodes = new List<Node<char, int>>();
@@ -70,7 +69,7 @@ public class Day12 : Base2022
 
         return new Graph<char, int>(nodes, edges);
     }
-    
+
     private static long GetCost(Node<char, int> item1, Node<char, int> item2)
     {
         var item1Value = item1.Data - 'a' + 1;
@@ -108,12 +107,12 @@ public class Day12 : Base2022
 
         return ValueTask.FromResult(0);
     }
-    
-    private static async ValueTask HandleFile(string file)
+
+    private static async Task<int> HandleFile(string file)
     {
         var result = await BuildGraph(file);
         var path = await FindMinPath(result);
-        Console.WriteLine($"{file} Answer is: {path}");
+        return path;
     }
 
     private static async ValueTask<int> FindMinPath(Graph<char, int> graph)

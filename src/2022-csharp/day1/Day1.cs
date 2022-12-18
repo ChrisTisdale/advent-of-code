@@ -1,19 +1,16 @@
 ﻿namespace AdventOfCode2022.day1;
 
-public class Day1 : Base2022
+public class Day1 : Base2022<decimal>
 {
-    public override ValueTask ExecutePart1()
+    public override ValueTask<decimal> ExecutePart1(string fileName)
     {
-        return ExecutePart2();
+        return ExecutePart2(fileName);
     }
 
-    public override async ValueTask ExecutePart2()
+    public override async ValueTask<decimal> ExecutePart2(string fileName)
     {
-        var result = await FindBest("sample.txt");
-        Console.WriteLine($"Sample Found max: {result}");
-
-        result = await FindBest("measurements.txt");
-        Console.WriteLine($"Result Found max: {result}");
+        var result = await FindBest(fileName);
+        return result;
     }
 
     private static async ValueTask<decimal> FindBest(string filename)

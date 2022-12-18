@@ -1,21 +1,18 @@
 ﻿namespace AdventOfCode2022.day10;
 
-public class Day10 : Base2022
+public class Day10 : Base2022<int>
 {
-    public override ValueTask ExecutePart1()
+    public override ValueTask<int> ExecutePart1(string fileName)
     {
         // TODO Add part 1
-        return ExecutePart2();
+        return ExecutePart2(fileName);
     }
 
-    public override async ValueTask ExecutePart2()
+    public override async ValueTask<int> ExecutePart2(string fileName)
     {
         var cycles = new[] { 20, 60, 100, 140, 180, 220 };
-        var result = await GetSignalStrengths(await ProcessFile(GetFileLocation("sample.txt")), cycles);
-        Console.WriteLine($"Sample Found: {result.Sum()}");
-
-        result = await GetSignalStrengths(await ProcessFile(GetFileLocation("measurements.txt")), cycles);
-        Console.WriteLine($"Sample Found: {result.Sum()}");
+        var result = await GetSignalStrengths(await ProcessFile(fileName), cycles);
+        return result.Sum();
     }
 
     private static async ValueTask<IReadOnlyList<ICommand>> ProcessFile(string fileName)

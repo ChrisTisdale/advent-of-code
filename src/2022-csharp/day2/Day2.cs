@@ -1,23 +1,17 @@
 ﻿namespace AdventOfCode2022.day2;
 
-public class Day2 : Base2022
+public class Day2 : Base2022<decimal>
 {
-    public override async ValueTask ExecutePart1()
+    public override async ValueTask<decimal> ExecutePart1(string fileName)
     {
-        var result = await FindScore("sample.txt", true);
-        Console.WriteLine($"Sample Found score: {result}");
-
-        result = await FindScore(GetFileLocation("measurements.txt"), true);
-        Console.WriteLine($"Measure Found score: {result}");
+        var result = await FindScore(fileName, true);
+        return result;
     }
 
-    public override async ValueTask ExecutePart2()
+    public override async ValueTask<decimal> ExecutePart2(string fileName)
     {
-        var result = await FindScore("sample.txt", false);
-        Console.WriteLine($"Sample Found score: {result}");
-
-        result = await FindScore(GetFileLocation("measurements.txt"), false);
-        Console.WriteLine($"Measure Found score: {result}");
+        var result = await FindScore(fileName, false);
+        return result;
     }
 
     private static async ValueTask<decimal> FindScore(string filename, bool round1)
@@ -29,14 +23,14 @@ public class Day2 : Base2022
             {
                 continue;
             }
-    
+
             var strings = readLine.Split(' ');
             var opponent = GetResult(strings[0]);
             var yours = GetResult(round1 ? strings[1] : readLine);
             var found = CalculateScore(opponent, yours);
             score += found;
         }
-    
+
         return score;
     }
 

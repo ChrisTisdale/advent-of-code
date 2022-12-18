@@ -1,0 +1,17 @@
+<Project>
+    <PropertyGroup>
+        <TargetFrameworks>net7.0</TargetFrameworks>
+        <LangVersion>latest</LangVersion>
+        <NeutralLanguage>en</NeutralLanguage>
+        <Nullable>enable</Nullable>
+        <Company />
+        <Copyright>Copyright © 2022</Copyright>
+        <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+        <RepositoryUrl>https://github.com/ChrisTisdale/advent-of-code</RepositoryUrl>
+        <Authors>Chris Tisdale</Authors>
+        <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+        <IsPackable>false</IsPackable>
+        <IsPublishable>False</IsPublishable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+</Project>

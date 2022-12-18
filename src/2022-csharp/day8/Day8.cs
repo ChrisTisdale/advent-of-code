@@ -1,24 +1,19 @@
 ﻿namespace AdventOfCode2022.day8;
 
-public class Day8 : Base2022
+public class Day8 : Base2022<TreeScore>
 {
-    public override ValueTask ExecutePart1()
+    public override ValueTask<TreeScore> ExecutePart1(string fileName)
     {
         // TODO handle part 1
-        return ExecutePart2();
+        return ExecutePart2(fileName);
     }
 
-    public override async ValueTask ExecutePart2()
+    public override async ValueTask<TreeScore> ExecutePart2(string fileName)
     {
-        var result = await BuildGraph(GetFileLocation("sample.txt"));
+        var result = await BuildGraph(fileName);
         var visibleTrees = await CalculateVisibleTrees(result);
         var bestScore = await CalculateBetScenicScore(result);
-        Console.WriteLine($"Sample Answer: {visibleTrees}, Best Score: {bestScore}");
-
-        result = await BuildGraph(GetFileLocation("measurements.txt"));
-        visibleTrees = await CalculateVisibleTrees(result);
-        bestScore = await CalculateBetScenicScore(result);
-        Console.WriteLine($"Measure Answer: {visibleTrees}, Best Score: {bestScore}");
+        return new TreeScore(visibleTrees, bestScore);
     }
 
     private static async ValueTask<Graph> BuildGraph(string fileName)
