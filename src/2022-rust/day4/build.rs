@@ -30,19 +30,24 @@ fn copy_dir<P, Q>(from: P, to: Q)
     }
 }
 
+fn get_output_path() -> PathBuf {
+    //<root or manifest path>/target/<profile>/
+    let manifest_dir_string = env::var("OUT_DIR").unwrap();
+    let path = Path::new(&manifest_dir_string).parent().unwrap().parent().unwrap().parent().unwrap().join(COPY_DIR);
+    return PathBuf::from(path);
+}
+
+fn get_source_path() -> PathBuf {
+    let manifest_dir_string = env::var("CARGO_MANIFEST_DIR").unwrap();
+    let path = Path::new(&manifest_dir_string).join(COPY_DIR);
+    return PathBuf::from(path);
+}
+
 fn main() {
-    // Request the output directory
-    let out = env::var("PROFILE").unwrap();
-    let out = PathBuf::from(format!("target/{}/{}", out, COPY_DIR));
-
-    // If it is already in the output directory, delete it and start over
-    if out.exists() {
-        fs::remove_dir_all(&out).unwrap();
+    let target_dir = get_output_path();
+    let source = get_source_path();
+    if !target_dir.exists() {
+        fs::create_dir(&target_dir).unwrap();
     }
-
-    // Create the out directory
-    fs::create_dir(&out).unwrap();
-
-    // Copy the directory
-    copy_dir(COPY_DIR, &out);
+    copy_dir(source, target_dir)
 }

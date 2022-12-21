@@ -3,7 +3,7 @@ use std::fs;
 fn main() {
     let mut count: i32 = 0;
 
-    let data = fs::read_to_string("assets/measurements.txt")
+    let data = fs::read_to_string("assets/day2/measurements.txt")
         .unwrap()
         .lines()
         .filter(|s | !s.is_empty())
@@ -11,8 +11,9 @@ fn main() {
             s.parse::<i32>().unwrap()
         }).collect::<Vec<i32>>();
 
-    let lines = fs::read_to_string("assets/measurements.txt")
-        .unwrap()
+    let file = fs::read_to_string("assets/day2/measurements.txt")
+        .unwrap();
+    let lines = file
         .lines();
     let mut max_value: i32 = 0;
     for (i, _value) in lines.enumerate() {

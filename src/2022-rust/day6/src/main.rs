@@ -3,7 +3,7 @@ use std::fs;
 
 fn main()
 {
-    for d in fs::read_to_string("assets/measurements.txt")
+    for d in fs::read_to_string("assets/day6/measurements.txt")
         .unwrap()
         .lines()
         .filter(|s | !s.is_empty())

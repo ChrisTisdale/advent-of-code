@@ -24,7 +24,7 @@ fn main()
 {
     let mut map: HashMap<String, Folder> = HashMap::new();
     let mut current_dir = String::new();
-    for d in fs::read_to_string("assets/measurements.txt")
+    for d in fs::read_to_string("assets/day7/measurements.txt")
         .unwrap()
         .lines()
         .filter(|s | !s.is_empty())
