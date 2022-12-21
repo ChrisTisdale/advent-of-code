@@ -9,4 +9,16 @@ updates:
   allow:
     # Allow both direct and indirect updates for all packages
     - dependency-type: "all"
+  target-branch: "main"
+  open-pull-requests-limit: 99
+- package-ecosystem: nuget
+  directory: "/"
+  schedule:
+    interval: daily
+    time: '00:00'
+    timezone: US/Central
+  allow:
+    # Allow both direct and indirect updates for all packages
+    - dependency-type: "all"
+  target-branch: "main"
   open-pull-requests-limit: 99
