@@ -4,13 +4,11 @@ using Common;
 
 public abstract class Base2022<T> : IAdventOfCodeDay
 {
-    private static readonly string[] DefaultFiles = { "sample.txt", "measurements.txt" };
-
     public DateOnly Year => new(2022, 12, 1);
 
     private readonly string[] _files;
 
-    protected Base2022() : this(DefaultFiles)
+    protected Base2022() : this(Constants.DefaultFiles)
     {
     }
 
@@ -38,6 +36,7 @@ public abstract class Base2022<T> : IAdventOfCodeDay
     }
 
     public abstract ValueTask<T> ExecutePart1(string fileName);
+
     public abstract ValueTask<T> ExecutePart2(string fileName);
 
     public string GetFileLocation(string file)
