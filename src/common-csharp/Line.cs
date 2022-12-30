@@ -1,29 +1,42 @@
 ﻿namespace Common;
 
-using System.Drawing;
+using System.Collections;
 using System.Numerics;
 
-public readonly record struct Line<T> where T : INumber<T>
+public readonly record struct Line<T> : IEnumerable<Point<T>> where T : INumber<T>
 {
-    public Line(Point<T> one, Point<T> two)
+    public Line(Point<T> one, Point<T> two, T increment)
     {
         One = one;
         Two = two;
-        if (one.Increment != two.Increment)
-        {
-            throw new InvalidDataException($"The increment for the points must match");
-        }
+        Increment = increment;
+        CheckForValidLine();
+    }
+
+    public Line(Point<T> one, Point<T> two) : this(one, two, T.One)
+    {
     }
 
     public Point<T> One { get; init; }
 
     public Point<T> Two { get; init; }
 
+    public T Increment { get; init; }
+
+    private T XDistance => T.Abs(One.X - Two.X);
+
+    private T YDistance => T.Abs(One.Y - Two.Y);
+
+    public T ManhattanDistance()
+    {
+        return Point<T>.ManhattanDistance(One, Two);
+    }
+
     public bool IsInLine(Point<T> point)
     {
-        if (point.X != One.X && point.Y != One.Y)
+        if (point == One || point == Two)
         {
-            return false;
+            return true;
         }
 
         if (One.X == Two.X)
@@ -45,12 +58,27 @@ public readonly record struct Line<T> where T : INumber<T>
         throw new NotImplementedException();
     }
 
-    public IEnumerable<Point<T>> GetPoints()
+    public IEnumerable<Point<T>> GetPoints() => this;
+
+    public void Deconstruct(out Point<T> one, out Point<T> two)
+    {
+        one = One;
+        two = Two;
+    }
+
+    public void Deconstruct(out Point<T> one, out Point<T> two, out T increment)
+    {
+        one = One;
+        two = Two;
+        increment = Increment;
+    }
+
+    public IEnumerator<Point<T>> GetEnumerator()
     {
         if (One.X == Two.X)
         {
             var end = One.Y > Two.Y ? One.Y : Two.Y;
-            for (var i = One.Y > Two.Y ? Two.Y : One.Y; i <= end; i += One.Increment)
+            for (var i = One.Y > Two.Y ? Two.Y : One.Y; i <= end; i += Increment)
             {
                 var res = One with { Y = i };
                 yield return res;
@@ -59,7 +87,7 @@ public readonly record struct Line<T> where T : INumber<T>
         else if (One.Y == Two.Y)
         {
             var end = One.X > Two.X ? One.X : Two.X;
-            for (var i = One.X > Two.X ? Two.X : One.X; i <= end; i += One.Increment)
+            for (var i = One.X > Two.X ? Two.X : One.X; i <= end; i += Increment)
             {
                 var res = One with { X = i };
                 yield return res;
@@ -71,9 +99,21 @@ public readonly record struct Line<T> where T : INumber<T>
         }
     }
 
-    public void Deconstruct(out Point<T> one, out Point<T> two)
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+    private void CheckForValidLine()
     {
-        one = One;
-        two = Two;
+        var tType = typeof(T);
+        if (tType == typeof(decimal) || tType == typeof(float))
+        {
+            return;
+        }
+
+        var xDiff = XDistance;
+        var yDiff = YDistance;
+        if (xDiff % Increment != T.Zero || yDiff % Increment != T.Zero)
+        {
+            throw new InvalidDataException("The line can't make valid points");
+        }
     }
 }

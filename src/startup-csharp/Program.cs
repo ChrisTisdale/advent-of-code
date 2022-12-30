@@ -39,7 +39,7 @@ async ValueTask<bool> ProcessYear()
     {
         Console.WriteLine($"Press {i+1} for {runnableDaysKeys[i]}");
     }
-    
+
     Console.WriteLine("Press Q to Quit");
     Console.Write("Input: ");
     var read = Console.ReadLine();
@@ -68,12 +68,12 @@ async ValueTask<bool> ProcessDay(DateOnly dateOnly)
     {
         Console.WriteLine($"Press {i+1} for {adventOfCodeDays[i].GetType().Name}");
     }
-    
+
     if (runnableDaysKeys.Length > 1)
     {
         Console.WriteLine("Press Y to return to the year selection");
     }
-    
+
     Console.WriteLine("Press Q to Quit");
     Console.Write("Input: ");
     var read = Console.ReadLine();
@@ -86,7 +86,7 @@ async ValueTask<bool> ProcessDay(DateOnly dateOnly)
     {
         return await ProcessYear();
     }
-    
+
     if (read is "q" or "Q")
     {
         return false;
