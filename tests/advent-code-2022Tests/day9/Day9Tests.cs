@@ -25,7 +25,7 @@ public class Day9Tests
         part1Result.Should().Be(13);
     }
 
-    [Fact(Timeout = 1000)]
+    [Fact(Timeout = 2000)]
     public async Task Sample_Part_2_Matches()
     {
         var part1Result = await _target.ExecutePart2(_target.GetFileLocation("samplePart2.txt"));
