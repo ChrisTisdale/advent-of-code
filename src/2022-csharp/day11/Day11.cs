@@ -118,7 +118,7 @@ public class Day11 : Base2022AdventOfCodeDay<long>
         return new Evaluator(expected, checker, id);
     }
 
-    private async Task<long> HandleRound(string fileName, bool round1, int roundCount, bool print = false)
+    private static async Task<long> HandleRound(string fileName, bool round1, int roundCount, bool print = false)
     {
         var result = await ProcessFile(fileName);
         var inspected = await EvaluateRounds(result, roundCount, round1, print);

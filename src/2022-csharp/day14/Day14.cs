@@ -91,7 +91,6 @@ public class Day14 : Base2022AdventOfCodeDay<int>
                 maxY = y;
             }
 
-            //Console.WriteLine(rockFormation);
             formations.Add(rockFormation);
         }
 

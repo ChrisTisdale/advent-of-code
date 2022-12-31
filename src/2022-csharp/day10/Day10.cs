@@ -58,7 +58,6 @@ public class Day10 : Base2022AdventOfCodeDay<int>
                 if (currentPos >= image.Length)
                 {
                     currentPos = 0;
-                    Console.WriteLine(new string(image));
                 }
 
                 ++clockCycles;
