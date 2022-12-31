@@ -75,7 +75,7 @@ public class Day6 : Base2022AdventOfCodeDay<Results>
             }
         }
 
-        return new Results(new []{ count });
+        return new Results(count);
     }
 
     private static bool AnyOverlap(int[] range1, int[] range2) =>

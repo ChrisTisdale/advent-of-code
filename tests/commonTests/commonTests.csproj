@@ -2,10 +2,17 @@
 
     <PropertyGroup>
         <RootNamespace>CommonTests</RootNamespace>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\..\src\common-csharp\common.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="..\..\.dockerignore">
+            <Link>.dockerignore</Link>
+        </Content>
     </ItemGroup>
 
 </Project>
