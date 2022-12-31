@@ -2,14 +2,14 @@
 
 public class Day7 : Base2022AdventOfCodeDay<long>
 {
-    public override async ValueTask<long> ExecutePart1(string fileName)
+    public override async ValueTask<long> ExecutePart1(Stream fileName)
     {
         var (directories, _) = await GetDirectories(fileName);
         var result = await GetSumOfDirectoriesAtMostSize(directories, 100000);
         return result;
     }
 
-    public override async ValueTask<long> ExecutePart2(string fileName)
+    public override async ValueTask<long> ExecutePart2(Stream fileName)
     {
         var (directories, root) = await GetDirectories(fileName);
         var result = await FindBestDeletionSize(directories, root, 70000000, 30000000);
@@ -32,13 +32,20 @@ public class Day7 : Base2022AdventOfCodeDay<long>
     private static ValueTask<long> GetSumOfDirectoriesAtMostSize(IEnumerable<DirectoryInfo> directories, long size) =>
         ValueTask.FromResult(directories.Where(x => x.Size <= size).Sum(x => x.Size));
 
-    private static async ValueTask<(IReadOnlyList<DirectoryInfo> directories, DirectoryInfo root)> GetDirectories(string filename)
+    private static async ValueTask<(IReadOnlyList<DirectoryInfo> directories, DirectoryInfo root)> GetDirectories(Stream filename)
     {
         var folders = new Dictionary<string, DirectoryInfo>();
 
         var currentDir = "";
-        await foreach (var line in File.ReadLinesAsync(filename))
+        using var sr = new StreamReader(filename);
+        while (!sr.EndOfStream)
         {
+            var line = await sr.ReadLineAsync();
+            if (line is null)
+            {
+                continue;
+            }
+
             if (line.StartsWith("$"))
             {
                 currentDir = HandleCommand(line, currentDir, folders);

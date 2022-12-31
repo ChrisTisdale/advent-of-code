@@ -1,14 +1,14 @@
-﻿namespace AdventOfCode2022Tests.day12;
+﻿namespace AdventOfCode2021Tests.day1;
 
-using AdventOfCode2022.day12;
+using AdventOfCode2021.day1;
 
-public class Day12Tests
+public class Day1Tests
 {
-    private readonly Day12 _target;
+    private readonly Day1 _target;
 
-    public Day12Tests()
+    public Day1Tests()
     {
-        _target = new Day12();
+        _target = new Day1();
     }
 
     [Fact]
@@ -22,27 +22,27 @@ public class Day12Tests
     public async Task Sample_Part_1_Matches()
     {
         var part1Result = await _target.ExecutePart1(_target.GetFileStream("sample.txt"));
-        part1Result.Should().Be(31);
+        part1Result.Should().Be(7);
     }
 
     [Fact(Timeout = 1000)]
     public async Task Sample_Part_2_Matches()
     {
         var part1Result = await _target.ExecutePart2(_target.GetFileStream("sample.txt"));
-        part1Result.Should().Be(29);
+        part1Result.Should().Be(5);
     }
 
-    [Fact(Skip = "Test is too long")]
+    [Fact(Timeout = 2000)]
     public async Task Measurements_Part_1_Matches()
     {
         var part1Result = await _target.ExecutePart1(_target.GetFileStream("measurements.txt"));
-        part1Result.Should().Be(425);
+        part1Result.Should().Be(1722);
     }
 
-    [Fact(Skip = "Test is too long")]
+    [Fact(Timeout = 2000)]
     public async Task Measurements_Part_2_Matches()
     {
         var part1Result = await _target.ExecutePart2(_target.GetFileStream("measurements.txt"));
-        part1Result.Should().Be(418);
+        part1Result.Should().Be(1748);
     }
 }

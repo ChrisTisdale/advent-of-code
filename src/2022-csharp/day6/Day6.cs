@@ -2,21 +2,21 @@
 
 public class Day6 : Base2022AdventOfCodeDay<Results>
 {
-    public override async ValueTask<Results> ExecutePart1(string fileName)
+    public override async ValueTask<Results> ExecutePart1(Stream fileName)
     {
         var result = await FindMarkers(fileName, 4);
         return result;
     }
 
-    public override async ValueTask<Results> ExecutePart2(string fileName)
+    public override async ValueTask<Results> ExecutePart2(Stream fileName)
     {
         var result = await FindMarkers(fileName, 14);
         return result;
     }
 
-    private static async ValueTask<Results> FindMarkers(string fileName, int distinctCount)
+    private static async ValueTask<Results> FindMarkers(Stream fileName, int distinctCount)
     {
-        var readLines = (await File.ReadAllLinesAsync(fileName)).Where(x => !string.IsNullOrEmpty(x)).ToArray();
+        var readLines = (await ReadFile(fileName)).Where(x => !string.IsNullOrEmpty(x)).ToArray();
         var results = new int[readLines.Length];
         for (var index = 0; index < readLines.Length; index++)
         {

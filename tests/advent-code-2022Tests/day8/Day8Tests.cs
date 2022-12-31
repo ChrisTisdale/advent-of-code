@@ -22,7 +22,7 @@ public class Day8Tests
     public async Task Sample_Part_1_Matches()
     {
         var expectedScore = new TreeScore(21, 8);
-        var part1Result = await _target.ExecutePart1(_target.GetFileLocation("sample.txt"));
+        var part1Result = await _target.ExecutePart1(_target.GetFileStream("sample.txt"));
         part1Result.Should().Be(expectedScore.VisibleTrees);
     }
 
@@ -30,7 +30,7 @@ public class Day8Tests
     public async Task Sample_Part_2_Matches()
     {
         var expectedScore = new TreeScore(21, 8);
-        var part1Result = await _target.ExecutePart2(_target.GetFileLocation("sample.txt"));
+        var part1Result = await _target.ExecutePart2(_target.GetFileStream("sample.txt"));
         part1Result.Should().Be(expectedScore.BestScore);
     }
 
@@ -38,7 +38,7 @@ public class Day8Tests
     public async Task Measurements_Part_1_Matches()
     {
         var expectedScore = new TreeScore(1719, 590824);
-        var part1Result = await _target.ExecutePart1(_target.GetFileLocation("measurements.txt"));
+        var part1Result = await _target.ExecutePart1(_target.GetFileStream("measurements.txt"));
         part1Result.Should().Be(expectedScore.VisibleTrees);
     }
 
@@ -46,7 +46,7 @@ public class Day8Tests
     public async Task Measurements_Part_2_Matches()
     {
         var expectedScore = new TreeScore(1719, 590824);
-        var part1Result = await _target.ExecutePart2(_target.GetFileLocation("measurements.txt"));
+        var part1Result = await _target.ExecutePart2(_target.GetFileStream("measurements.txt"));
         part1Result.Should().Be(expectedScore.BestScore);
     }
 }

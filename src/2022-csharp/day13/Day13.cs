@@ -6,11 +6,11 @@ public class Day13 : Base2022AdventOfCodeDay<int>
 {
     private static readonly Regex Regex = new($"({Regex.Escape(",")}|{Regex.Escape("[")}|{Regex.Escape("]")})");
 
-    public override async ValueTask<int> ExecutePart1(string fileName) => await HandleFilePart1(fileName);
+    public override async ValueTask<int> ExecutePart1(Stream fileName) => await HandleFilePart1(fileName);
 
-    public override async ValueTask<int> ExecutePart2(string fileName) => await HandleFile(fileName);
+    public override async ValueTask<int> ExecutePart2(Stream fileName) => await HandleFile(fileName);
 
-    private static async Task<int> HandleFile(string file)
+    private static async Task<int> HandleFile(Stream file)
     {
         var result = await GetPackets(file);
         var starter = new ListPacket(new[] { new ListPacket(new[] { new ValuePacket(2) }) });
@@ -37,7 +37,7 @@ public class Day13 : Base2022AdventOfCodeDay<int>
         return startIndex * endIndex;
     }
 
-    private static async Task<int> HandleFilePart1(string file)
+    private static async Task<int> HandleFilePart1(Stream file)
     {
         var result = await GetPackets(file);
         var count = 0;
@@ -54,11 +54,11 @@ public class Day13 : Base2022AdventOfCodeDay<int>
         return count;
     }
 
-    private static async ValueTask<IReadOnlyList<PacketChecker>> GetPackets(string file)
+    private static async ValueTask<IReadOnlyList<PacketChecker>> GetPackets(Stream file)
     {
-        var lines = await File.ReadAllLinesAsync(file);
+        var lines = await ReadFile(file);
         var comparisons = new List<PacketChecker>();
-        for (var i = 0; i < lines.Length; i += 3)
+        for (var i = 0; i < lines.Count; i += 3)
         {
             var left = ParseLine(lines[i]);
             var right = ParseLine(lines[i + 1]);

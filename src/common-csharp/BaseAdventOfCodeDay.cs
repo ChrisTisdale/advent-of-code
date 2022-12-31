@@ -20,7 +20,8 @@ public abstract class BaseAdventOfCodeDay<T> : IAdventOfCodeDay
     {
         foreach (var file in _files[Part.Part1])
         {
-            var results = await ExecutePart1(GetFileLocation(file));
+            await using var fileStream = GetFileStream(file);
+            var results = await ExecutePart1(fileStream);
             Console.WriteLine($"{file} Has the answer: {results}");
         }
     }
@@ -29,18 +30,33 @@ public abstract class BaseAdventOfCodeDay<T> : IAdventOfCodeDay
     {
         foreach (var file in _files[Part.Part2])
         {
-            var results = await ExecutePart2(GetFileLocation(file));
+            await using var fileStream = GetFileStream(file);
+            var results = await ExecutePart2(fileStream);
             Console.WriteLine($"{file} Has the answer: {results}");
         }
     }
 
-    public abstract ValueTask<T> ExecutePart1(string fileName);
+    public abstract ValueTask<T> ExecutePart1(Stream stream);
 
-    public abstract ValueTask<T> ExecutePart2(string fileName);
+    public abstract ValueTask<T> ExecutePart2(Stream stream);
 
-    public string GetFileLocation(string file)
+    public Stream GetFileStream(string file)
     {
-        var ns = GetType().Namespace ?? throw new InvalidOperationException();
-        return Path.Combine(ns.Split('.').Last(), file);
+        var type = GetType();
+        var ns = type.Namespace ?? throw new InvalidOperationException();
+        return type.Assembly.GetManifestResourceStream($"{ns}.{file}") ?? throw new InvalidOperationException();
+    }
+
+    protected static async ValueTask<IReadOnlyList<string>> ReadFile(Stream stream)
+    {
+        var lines = new List<string>();
+        using var sr = new StreamReader(stream);
+        while (!sr.EndOfStream)
+        {
+            var line = await sr.ReadLineAsync() ?? string.Empty;
+            lines.Add(line);
+        }
+
+        return lines;
     }
 }

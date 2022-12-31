@@ -6,11 +6,11 @@ public class Day14 : Base2022AdventOfCodeDay<int>
 {
     private static readonly Point<int> SandDrop = new(500, 0);
 
-    public override async ValueTask<int> ExecutePart1(string fileName) => await HandleSandDrop(fileName);
+    public override async ValueTask<int> ExecutePart1(Stream fileName) => await HandleSandDrop(fileName);
 
-    public override async ValueTask<int> ExecutePart2(string fileName) => await HandleSandDrop(fileName, true);
+    public override async ValueTask<int> ExecutePart2(Stream fileName) => await HandleSandDrop(fileName, true);
 
-    private static async Task<int> HandleSandDrop(string file, bool stopAtTop = false)
+    private static async Task<int> HandleSandDrop(Stream file, bool stopAtTop = false)
     {
         var (result, maxY) = await ParseFile(file, stopAtTop);
         var set = new HashSet<Point<int>>();
@@ -79,12 +79,19 @@ public class Day14 : Base2022AdventOfCodeDay<int>
         return false;
     }
 
-    private static async ValueTask<(IReadOnlyList<RockFormation>, int)> ParseFile(string file, bool hasFloor = false)
+    private static async ValueTask<(IReadOnlyList<RockFormation>, int)> ParseFile(Stream file, bool hasFloor = false)
     {
         var formations = new List<RockFormation>();
         var maxY = 0;
-        await foreach (var line in File.ReadLinesAsync(file))
+        using var sr = new StreamReader(file);
+        while (!sr.EndOfStream)
         {
+            var line = await sr.ReadLineAsync();
+            if (line == null)
+            {
+                continue;
+            }
+
             var (rockFormation, y) = ParseLine(line);
             if (y > maxY)
             {

@@ -2,19 +2,19 @@
 
 public class Day8 : Base2022AdventOfCodeDay<int>
 {
-    public override async ValueTask<int> ExecutePart1(string fileName)
+    public override async ValueTask<int> ExecutePart1(Stream fileName)
     {
         var score = await GetTreeScore(fileName);
         return score.VisibleTrees;
     }
 
-    public override async ValueTask<int> ExecutePart2(string fileName)
+    public override async ValueTask<int> ExecutePart2(Stream fileName)
     {
         var score = await GetTreeScore(fileName);
         return score.BestScore;
     }
 
-    private static async ValueTask<TreeScore> GetTreeScore(string fileName)
+    private static async ValueTask<TreeScore> GetTreeScore(Stream fileName)
     {
         var result = await BuildGraph(fileName);
         var visibleTrees = await CalculateVisibleTrees(result);
@@ -22,12 +22,12 @@ public class Day8 : Base2022AdventOfCodeDay<int>
         return new TreeScore(visibleTrees, bestScore);
     }
 
-    private static async ValueTask<Graph> BuildGraph(string fileName)
+    private static async ValueTask<Graph> BuildGraph(Stream fileName)
     {
-        var lines = await File.ReadAllLinesAsync(fileName);
+        var lines = await ReadFile(fileName);
         var nodes = new List<TreeNode>();
         var edgeNodes = new Dictionary<TreeNode, IReadOnlyDictionary<Direction, EdgeNode>>();
-        for (var row = 0; row < lines.Length; ++row)
+        for (var row = 0; row < lines.Count; ++row)
         {
             var rowItem = lines[row];
             for (var col = 0; col < rowItem.Length; ++col)

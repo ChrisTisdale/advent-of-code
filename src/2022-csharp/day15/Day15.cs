@@ -4,10 +4,20 @@ using Common;
 
 public class Day15 : Base2022AdventOfCodeDay<long>
 {
-    public override async ValueTask<long> ExecutePart1(string fileName)
+    public override async ValueTask ExecutePart1()
     {
-        var (sensors, points) = await GetSensors(fileName);
-        var expectedY = Path.GetFileName(fileName) == Constants.DefaultFiles[Part.Part1][0] ? 10 : 2000000;
+        foreach (var fileName in Constants.DefaultFiles[Part.Part1])
+        {
+            await using var fileStream = GetFileStream(fileName);
+            var results = await ExecutePart1(fileName, fileStream);
+            Console.WriteLine($@"{fileName} Has the answer: {results}");
+        }
+    }
+
+    public async ValueTask<long> ExecutePart1(string fileName, Stream stream)
+    {
+        var expectedY = fileName == Constants.DefaultFiles[Part.Part1][0] ? 10 : 2000000;
+        var (sensors, points) = await GetSensors(stream);
         var set = new HashSet<Point<int>>(10000000);
         foreach (var sensor in sensors)
         {
@@ -20,7 +30,9 @@ public class Day15 : Base2022AdventOfCodeDay<long>
         return set.Count;
     }
 
-    public override async ValueTask<long> ExecutePart2(string fileName)
+    public override ValueTask<long> ExecutePart1(Stream fileName) => throw new NotImplementedException();
+
+    public override async ValueTask<long> ExecutePart2(Stream fileName)
     {
         const long xMultiple = 4000000;
         var (sensors, points) = await GetSensors(fileName);
@@ -31,12 +43,19 @@ public class Day15 : Base2022AdventOfCodeDay<long>
         }
     }
 
-    private static async ValueTask<(IReadOnlyList<Sensor>, HashSet<Point<int>>)> GetSensors(string fileName)
+    private static async ValueTask<(IReadOnlyList<Sensor>, HashSet<Point<int>>)> GetSensors(Stream fileName)
     {
         var sensors = new List<Sensor>();
         var points = new HashSet<Point<int>>();
-        await foreach (var line in File.ReadLinesAsync(fileName))
+        using var sr = new StreamReader(fileName);
+        while (!sr.EndOfStream)
         {
+            var line = await sr.ReadLineAsync();
+            if (line == null)
+            {
+                continue;
+            }
+
             var dataPoints = line.Split(':');
             var sensorData = dataPoints[0].Split('=', ',');
             var sensorPoint = new Point<int>(int.Parse(sensorData[1]), int.Parse(sensorData[3]));

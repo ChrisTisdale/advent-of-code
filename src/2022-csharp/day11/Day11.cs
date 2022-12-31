@@ -7,14 +7,14 @@ public class Day11 : Base2022AdventOfCodeDay<long>
     private static readonly Regex Regex = new(
         $"({Regex.Escape("+")}|{Regex.Escape("*")}|{Regex.Escape("-")}|{Regex.Escape("/")})");
 
-    public override async ValueTask<long> ExecutePart1(string fileName) => await HandleRound(fileName, true, 20);
+    public override async ValueTask<long> ExecutePart1(Stream fileName) => await HandleRound(fileName, true, 20);
 
-    public override async ValueTask<long> ExecutePart2(string fileName) => await HandleRound(fileName, false, 10000);
+    public override async ValueTask<long> ExecutePart2(Stream fileName) => await HandleRound(fileName, false, 10000);
 
-    private static async ValueTask<IReadOnlyList<Monkey>> ProcessFile(string fileName)
+    private static async ValueTask<IReadOnlyList<Monkey>> ProcessFile(Stream fileName)
     {
         var monkeys = new List<Monkey>();
-        var linesAsync = await File.ReadAllLinesAsync(fileName);
+        var linesAsync = (await ReadFile(fileName)).ToArray();
         for (var i = 0; i < linesAsync.Length; i += 7)
         {
             var id = int.Parse(linesAsync[i].Split(' ')[1].TrimEnd(':'));
@@ -118,7 +118,7 @@ public class Day11 : Base2022AdventOfCodeDay<long>
         return new Evaluator(expected, checker, id);
     }
 
-    private static async Task<long> HandleRound(string fileName, bool round1, int roundCount, bool print = false)
+    private static async Task<long> HandleRound(Stream fileName, bool round1, int roundCount, bool print = false)
     {
         var result = await ProcessFile(fileName);
         var inspected = await EvaluateRounds(result, roundCount, round1, print);

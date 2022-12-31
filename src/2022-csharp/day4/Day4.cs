@@ -2,23 +2,30 @@
 
 public class Day4 : Base2022AdventOfCodeDay<int>
 {
-    public override async ValueTask<int> ExecutePart1(string fileName)
+    public override async ValueTask<int> ExecutePart1(Stream fileName)
     {
         var result = await FindSubsets(fileName, false);
         return result;
     }
 
-    public override async ValueTask<int> ExecutePart2(string fileName)
+    public override async ValueTask<int> ExecutePart2(Stream fileName)
     {
         var result = await FindSubsets(fileName, true);
         return result;
     }
 
-    private static async ValueTask<int> FindSubsets(string filename, bool anyOverlap)
+    private static async ValueTask<int> FindSubsets(Stream filename, bool anyOverlap)
     {
         var count = 0;
-        await foreach (var line in File.ReadLinesAsync(filename))
+        using var sr = new StreamReader(filename);
+        while (!sr.EndOfStream)
         {
+            var line = await sr.ReadLineAsync();
+            if (string.IsNullOrEmpty(line))
+            {
+                continue;
+            }
+
             var split = line.Split(',', '-').Select(int.Parse).ToArray();
             if (split.Length != 4)
             {

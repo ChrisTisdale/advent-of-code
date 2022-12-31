@@ -44,13 +44,13 @@ public class Day15Tests
 
     private async Task Part_1_Matches(string fileName, long expectedResult)
     {
-        var part1Result = await _target.ExecutePart1(_target.GetFileLocation(fileName));
+        var part1Result = await _target.ExecutePart1(fileName, _target.GetFileStream(fileName));
         part1Result.Should().Be(expectedResult);
     }
 
     private async Task Part_2_Matches(string fileName, long expectedResult)
     {
-        var part1Result = await _target.ExecutePart2(_target.GetFileLocation(fileName));
+        var part1Result = await _target.ExecutePart2(_target.GetFileStream(fileName));
         part1Result.Should().Be(expectedResult);
     }
 }

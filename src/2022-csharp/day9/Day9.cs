@@ -15,22 +15,29 @@ public class Day9 : Base2022AdventOfCodeDay<int>
     {
     }
 
-    public override async ValueTask<int> ExecutePart1(string fileName)
+    public override async ValueTask<int> ExecutePart1(Stream fileName)
     {
         var result = await GetUniqueSpaces(ProcessFile(fileName), false);
         return result;
     }
 
-    public override async ValueTask<int> ExecutePart2(string fileName)
+    public override async ValueTask<int> ExecutePart2(Stream fileName)
     {
         var result = await GetUniqueSpaces(ProcessFile(fileName), true);
         return result;
     }
 
-    private static async IAsyncEnumerable<Input> ProcessFile(string fileName)
+    private static async IAsyncEnumerable<Input> ProcessFile(Stream fileName)
     {
-        await foreach (var line in File.ReadLinesAsync(fileName))
+        using var sr = new StreamReader(fileName);
+        while (!sr.EndOfStream)
         {
+            var line = await sr.ReadLineAsync();
+            if (line == null)
+            {
+                continue;
+            }
+
             var inputs = line.Split(' ');
             yield return new Input(inputs[0][0], int.Parse(inputs[1]));
         }

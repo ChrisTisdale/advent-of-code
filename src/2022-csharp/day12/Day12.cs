@@ -4,9 +4,9 @@ using Common;
 
 public class Day12 : Base2022AdventOfCodeDay<int>
 {
-    public override async ValueTask<int> ExecutePart1(string fileName) => await HandleFile(fileName, false);
+    public override async ValueTask<int> ExecutePart1(Stream fileName) => await HandleFile(fileName, false);
 
-    public override async ValueTask<int> ExecutePart2(string fileName) => await HandleFile(fileName, true);
+    public override async ValueTask<int> ExecutePart2(Stream fileName) => await HandleFile(fileName, true);
 
     private static Node<char, int> GetNode(char value, int row, int col)
     {
@@ -22,12 +22,12 @@ public class Day12 : Base2022AdventOfCodeDay<int>
             new Point<int>(row, col));
     }
 
-    private static async ValueTask<Graph<char, int>> BuildGraph(string fileName, bool anyA)
+    private static async ValueTask<Graph<char, int>> BuildGraph(Stream fileName, bool anyA)
     {
         var nodes = new List<Node<char, int>>();
         var edges = new Dictionary<Node<char, int>, IReadOnlyList<Node<char, int>>>();
-        var lines = await File.ReadAllLinesAsync(fileName);
-        for (var row = 0; row < lines.Length; ++row)
+        var lines = await ReadFile(fileName);
+        for (var row = 0; row < lines.Count; ++row)
         {
             for (var col = 0; col < lines[row].Length; ++col)
             {
@@ -41,7 +41,7 @@ public class Day12 : Base2022AdventOfCodeDay<int>
                     localEdges.Add(GetNode(lines[row - 1][col], row - 1, col));
                 }
 
-                if (row < lines.Length - 1)
+                if (row < lines.Count - 1)
                 {
                     localEdges.Add(GetNode(lines[row + 1][col], row + 1, col));
                 }
@@ -100,7 +100,7 @@ public class Day12 : Base2022AdventOfCodeDay<int>
         return ValueTask.FromResult(0);
     }
 
-    private static async Task<int> HandleFile(string file, bool anyA)
+    private static async Task<int> HandleFile(Stream file, bool anyA)
     {
         var result = await BuildGraph(file, anyA);
         var path = await FindMinPath(result);

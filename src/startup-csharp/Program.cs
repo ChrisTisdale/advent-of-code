@@ -1,11 +1,11 @@
-﻿using AdventOfCode2022;
-using Common;
+﻿using Common;
 using Microsoft.Extensions.DependencyInjection;
 using NaturalSort.Extension;
+using Startup.Properties;
 
 var serviceCollection = new ServiceCollection();
 serviceCollection.Scan(
-    x => x.FromAssemblies(typeof(I2022Marker).Assembly)
+    x => x.FromApplicationDependencies()
         .AddClasses(z => z.AssignableTo<IAdventOfCodeDay>())
         .AsImplementedInterfaces());
 
@@ -37,11 +37,11 @@ async ValueTask<bool> ProcessYear()
     Console.Clear();
     for (var i = 0; i < runnableDaysKeys.Length; i++)
     {
-        Console.WriteLine($"Press {i + 1} for {runnableDaysKeys[i]}");
+        Console.WriteLine(Resources.YearSelectionFmt, i + 1, runnableDaysKeys[i]);
     }
 
-    Console.WriteLine("Press Q to Quit");
-    Console.Write("Input: ");
+    Console.WriteLine(Resources.Quit);
+    Console.Write(Resources.Input);
     var read = Console.ReadLine();
 
     if (int.TryParse(read, out var index) && index <= runnableDaysKeys.Length)
@@ -66,16 +66,16 @@ async ValueTask<bool> ProcessDay(DateOnly dateOnly)
             .ToArray();
     for (var i = 0; i < adventOfCodeDays.Length; i++)
     {
-        Console.WriteLine($"Press {i + 1} for {adventOfCodeDays[i].GetType().Name}");
+        Console.WriteLine(Resources.YearSelectionFmt, i + 1, adventOfCodeDays[i].GetType().Name);
     }
 
     if (runnableDaysKeys.Length > 1)
     {
-        Console.WriteLine("Press Y to return to the year selection");
+        Console.WriteLine(Resources.ReturnToYearSelection);
     }
 
-    Console.WriteLine("Press Q to Quit");
-    Console.Write("Input: ");
+    Console.WriteLine(Resources.Quit);
+    Console.Write(Resources.Input);
     var read = Console.ReadLine();
     if (int.TryParse(read, out var index) && index <= adventOfCodeDays.Length)
     {
@@ -98,16 +98,16 @@ async ValueTask<bool> ProcessDay(DateOnly dateOnly)
 async ValueTask<bool> ProcessPart(IAdventOfCodeDay codeDay)
 {
     Console.Clear();
-    Console.WriteLine("Press 1 for Part1");
-    Console.WriteLine("Press 2 for Part2");
-    Console.WriteLine("Press D to return to the day selection");
+    Console.WriteLine(Resources.ExecutePart1);
+    Console.WriteLine(Resources.ExecutePart2);
+    Console.WriteLine(Resources.ReturnToDaySelection);
     if (runnableDaysKeys.Length > 1)
     {
-        Console.WriteLine("Press Y to return to the year selection");
+        Console.WriteLine(Resources.ReturnToYearSelection);
     }
 
-    Console.WriteLine("Press Q to Quit");
-    Console.Write("Input: ");
+    Console.WriteLine(Resources.Quit);
+    Console.Write(Resources.Input);
     return Console.ReadLine() switch
     {
         "1" => await RunPart1(codeDay),
@@ -123,14 +123,19 @@ async ValueTask<bool> RunPart1(IAdventOfCodeDay codeDay)
 {
     Console.Clear();
     await codeDay.ExecutePart1();
+    return await Test(codeDay, runnableDaysKeys, RunPart1);
+}
+
+async Task<bool> Test(IAdventOfCodeDay adventOfCodeDay, IReadOnlyCollection<DateOnly> dates, Func<IAdventOfCodeDay, ValueTask<bool>> action)
+{
     var key = GetExecutionKey();
     return key switch
     {
-        "r" or "R" => await RunPart1(codeDay),
-        "d" or "D" => await ProcessPart(codeDay),
-        "y" or "Y" => await ProcessDay(codeDay.Year),
+        "r" or "R" => await action(adventOfCodeDay),
+        "d" or "D" => await ProcessDay(adventOfCodeDay.Year),
+        "y" or "Y" when dates.Count > 1 => await ProcessYear(),
         "q" or "Q" => false,
-        _ => true
+        _ => await Test(adventOfCodeDay, dates, action)
     };
 }
 
@@ -138,29 +143,21 @@ async ValueTask<bool> RunPart2(IAdventOfCodeDay codeDay)
 {
     Console.Clear();
     await codeDay.ExecutePart2();
-    var key = GetExecutionKey();
-    return key switch
-    {
-        "r" or "R" => await RunPart2(codeDay),
-        "d" or "D" => await ProcessPart(codeDay),
-        "y" or "Y" => await ProcessDay(codeDay.Year),
-        "q" or "Q" => false,
-        _ => true
-    };
+    return await Test(codeDay, runnableDaysKeys, RunPart2);
 }
 
 string? GetExecutionKey()
 {
-    Console.WriteLine("Press R to re-run");
-    Console.WriteLine("Press D to return to the day");
+    Console.WriteLine(Resources.ReRun);
+    Console.WriteLine(Resources.ReturnToPartSelection);
+    Console.WriteLine(Resources.ReturnToDaySelection);
     if (runnableDaysKeys.Length > 1)
     {
-        Console.WriteLine("Press Y to return to the year");
+        Console.WriteLine(Resources.ReturnToYearSelection);
     }
 
-    Console.WriteLine("Press Q to Quit");
-    Console.WriteLine("Press any other Key to Return");
-    Console.Write("Input: ");
+    Console.WriteLine(Resources.Quit);
+    Console.Write(Resources.Input);
     var s = Console.ReadLine();
     return s;
 }

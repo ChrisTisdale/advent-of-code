@@ -1,19 +1,21 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <RootNamespace>Startup</RootNamespace>
-        <OutputType>Exe</OutputType>
+        <RootNamespace>AdventOfCode2021</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0"/>
-        <PackageReference Include="NaturalSort.Extension" Version="4.0.0"/>
-        <PackageReference Include="Scrutor" Version="4.2.0"/>
+        <EmbeddedResource Include="**\*.txt"/>
+        <EmbeddedResource Remove="bin\**"/>
+        <EmbeddedResource Remove="obj\**"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\2021-csharp\advent-code-2021.csproj"/>
-        <ProjectReference Include="..\2022-csharp\advent-code-2022.csproj"/>
+        <ProjectReference Include="..\common-csharp\common.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="LanguageExt.Core" Version="4.4.0"/>
     </ItemGroup>
 
     <ItemGroup>

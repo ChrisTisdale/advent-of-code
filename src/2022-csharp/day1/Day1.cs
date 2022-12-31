@@ -2,24 +2,26 @@
 
 public class Day1 : Base2022AdventOfCodeDay<decimal>
 {
-    public override async ValueTask<decimal> ExecutePart1(string fileName)
+    public override async ValueTask<decimal> ExecutePart1(Stream fileName)
     {
         var result = await FindBest(fileName, 1);
         return result;
     }
 
-    public override async ValueTask<decimal> ExecutePart2(string fileName)
+    public override async ValueTask<decimal> ExecutePart2(Stream fileName)
     {
         var result = await FindBest(fileName, 3);
         return result;
     }
 
-    private static async ValueTask<decimal> FindBest(string filename, int takeCount)
+    private static async ValueTask<decimal> FindBest(Stream filename, int takeCount)
     {
         var cur = 0m;
         var values = new List<decimal>();
-        await foreach (var readLine in File.ReadLinesAsync(filename))
+        using var sr = new StreamReader(filename);
+        while (!sr.EndOfStream)
         {
+            var readLine = await sr.ReadLineAsync();
             if (string.IsNullOrWhiteSpace(readLine))
             {
                 values.Add(cur);

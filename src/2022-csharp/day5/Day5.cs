@@ -2,28 +2,28 @@
 
 public class Day5 : Base2022AdventOfCodeDay<string>
 {
-    public override async ValueTask<string> ExecutePart1(string fileName)
+    public override async ValueTask<string> ExecutePart1(Stream fileName)
     {
         var result = await GetStacks(fileName, false);
         return string.Join("", result.Select(x => x.Pop()));
     }
 
-    public override async ValueTask<string> ExecutePart2(string fileName)
+    public override async ValueTask<string> ExecutePart2(Stream fileName)
     {
         var result = await GetStacks(fileName, true);
         return string.Join("", result.Select(x => x.Pop()));
     }
 
-    private static ValueTask<IEnumerable<Stack<char>>> GetStacks(string fileName, bool moveMultiple)
+    private static async ValueTask<IEnumerable<Stack<char>>> GetStacks(Stream fileName, bool moveMultiple)
     {
-        var readLines = File.ReadLines(fileName).ToArray();
+        var readLines = (await ReadFile(fileName)).ToArray();
         var index = Array.FindIndex(readLines, string.IsNullOrEmpty);
         var lines = readLines[index - 1].Split(' ').Where(x => !string.IsNullOrWhiteSpace(x)).Select(int.Parse).ToList();
         var count = lines.Max();
         var sources = Enumerable.Range(0, count).Select(_ => new Stack<char>()).ToArray();
         ReadFile(index, sources, readLines);
         ProcessMoves(moveMultiple, index, readLines, sources);
-        return new ValueTask<IEnumerable<Stack<char>>>(sources);
+        return sources;
     }
 
     private static void ReadFile(int index, Stack<char>[] sources, string[] readLines)

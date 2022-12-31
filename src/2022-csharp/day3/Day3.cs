@@ -4,23 +4,23 @@ using System.Text;
 
 public class Day3 : Base2022AdventOfCodeDay<decimal>
 {
-    public override async ValueTask<decimal> ExecutePart1(string fileName)
+    public override async ValueTask<decimal> ExecutePart1(Stream fileName)
     {
         var result = await FindScorePart1(fileName);
         return result;
     }
 
-    public override async ValueTask<decimal> ExecutePart2(string fileName)
+    public override async ValueTask<decimal> ExecutePart2(Stream fileName)
     {
         var result = await FindScorePart2(fileName);
         return result;
     }
 
-    private static ValueTask<decimal> FindScorePart1(string filename)
+    private static async ValueTask<decimal> FindScorePart1(Stream filename)
     {
         var score = 0m;
-        var readLines = File.ReadLines(filename).ToArray();
-        for (var i = 0; i < readLines.Length; ++i)
+        var readLines = await ReadFile(filename);
+        for (var i = 0; i < readLines.Count; ++i)
         {
             var sack = Encoding.ASCII.GetBytes(readLines[i]);
             var half = sack.Length / 2;
@@ -29,15 +29,14 @@ public class Day3 : Base2022AdventOfCodeDay<decimal>
             score += FindCommon(first, second).Select(GetPriority).Sum();
         }
 
-        return new ValueTask<decimal>(score);
+        return score;
     }
 
-    private static ValueTask<decimal> FindScorePart2(string filename)
+    private static async ValueTask<decimal> FindScorePart2(Stream filename)
     {
         var score = 0m;
-        var readLines = File.ReadLines(filename).ToArray();
-        var i = 0;
-        for (; i <= readLines.Length - 3; i += 3)
+        var readLines = await ReadFile(filename);
+        for (var i = 0; i <= readLines.Count - 3; i += 3)
         {
             var first = Encoding.ASCII.GetBytes(readLines[i]);
             var second = Encoding.ASCII.GetBytes(readLines[i + 1]);
@@ -46,7 +45,7 @@ public class Day3 : Base2022AdventOfCodeDay<decimal>
             score += FindCommon(common, third).Select(GetPriority).Sum();
         }
 
-        return new ValueTask<decimal>(score);
+        return score;
     }
 
     private static IEnumerable<byte> FindCommon(IEnumerable<byte> first, IEnumerable<byte> second)
