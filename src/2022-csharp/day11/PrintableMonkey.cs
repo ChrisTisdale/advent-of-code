@@ -6,24 +6,24 @@ internal record PrintableMonkey(int Id, IReadOnlyList<long> Items, NewCalculator
 {
     protected virtual bool PrintMembers(StringBuilder builder)
     {
-        const string sperator = ", ";
+        const string separator = ", ";
         const string equals = " = ";
-        const string arraryStart = "[ ";
-        const string arraryEnd = " ]";
-        builder.Append(nameof(Id)).Append(equals).Append(Id).Append(sperator);
+        const string arrayStart = "[ ";
+        const string arrayEnd = " ]";
+        builder.Append(nameof(Id)).Append(equals).Append(Id).Append(separator);
         builder.Append(nameof(Items))
             .Append(equals)
-            .Append(arraryStart)
-            .Append(string.Join(", ", Items))
-            .Append(arraryEnd)
-            .Append(sperator);
+            .Append(arrayStart)
+            .Append(string.Join(separator, Items))
+            .Append(arrayEnd)
+            .Append(separator);
 
-        builder.Append(nameof(Calculator)).Append(equals).Append(Calculator).Append(sperator);
+        builder.Append(nameof(Calculator)).Append(equals).Append(Calculator).Append(separator);
         builder.Append(nameof(Evaluators))
             .Append(equals)
-            .Append(arraryStart)
+            .Append(arrayStart)
             .Append(string.Join(", ", Evaluators.Select(x => x.ToString())))
-            .Append(arraryEnd);
+            .Append(arrayEnd);
 
         return true;
     }
