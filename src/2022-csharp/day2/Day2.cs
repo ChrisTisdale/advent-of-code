@@ -43,7 +43,7 @@ public class Day2 : Base2022AdventOfCodeDay<decimal>
             "A" or "X" or "A Y" or "B X" or "C Z" => Game.Rock,
             "B" or "Y" or "B Y" or "A Z" or "C X" => Game.Paper,
             "C" or "Z" or "C Y" or "A X" or "B Z" => Game.Scissors,
-            _ => throw new ArgumentOutOfRangeException(nameof(value), $"The value of {value} is not valid")
+            _ => throw new ArgumentOutOfRangeException(nameof(value), $@"The value of {value} is not valid")
         };
     }
 

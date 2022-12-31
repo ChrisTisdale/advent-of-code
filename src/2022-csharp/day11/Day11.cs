@@ -39,8 +39,8 @@ public class Day11 : Base2022AdventOfCodeDay<long>
         {
             if (printRounds && i % 1000 == 0)
             {
-                Console.WriteLine("---------------------------");
-                Console.WriteLine($"Start of Round {i + 1}:");
+                Console.WriteLine(@"---------------------------");
+                Console.WriteLine($@"Start of Round {i + 1}:");
             }
 
             await EvaluateRound(monkeys, inspectedCount, damagesPerRound, factor, printRounds && i % 1000 == 0);
@@ -80,7 +80,7 @@ public class Day11 : Base2022AdventOfCodeDay<long>
 
         foreach (var monkey in monkeys)
         {
-            Console.WriteLine($"Monkey-{monkey.Id} inspected: {inspectCounter[monkey.Id]}");
+            Console.WriteLine($@"Monkey-{monkey.Id} inspected: {inspectCounter[monkey.Id]}");
         }
 
         return ValueTask.CompletedTask;
