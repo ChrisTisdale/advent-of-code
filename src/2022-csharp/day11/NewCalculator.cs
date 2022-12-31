@@ -19,13 +19,7 @@ internal record NewCalculator(string Left, string Right, Operator Operator)
         }
     }
 
-    public long GetNew(long old, long factor)
-    {
-        return GetNew(old) % factor;
-    }
+    public long GetNew(long old, long factor) => GetNew(old) % factor;
 
-    private static long GetValue(string value, long old)
-    {
-        return value.ToLower() == "old" ? old : long.Parse(value);
-    }
+    private static long GetValue(string value, long old) => value.ToLower() == "old" ? old : long.Parse(value);
 }

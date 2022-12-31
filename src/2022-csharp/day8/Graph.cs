@@ -2,10 +2,6 @@
 
 internal class Graph
 {
-    public IReadOnlyList<TreeNode> Nodes { get; }
-    
-    public IReadOnlyDictionary<TreeNode, IReadOnlyDictionary<Direction, EdgeNode>> EdgeNodes { get; }
-
     public Graph(
         IReadOnlyList<TreeNode> nodes,
         IReadOnlyDictionary<TreeNode, IReadOnlyDictionary<Direction, EdgeNode>> edgeNodes)
@@ -13,4 +9,8 @@ internal class Graph
         Nodes = nodes;
         EdgeNodes = edgeNodes;
     }
+
+    public IReadOnlyList<TreeNode> Nodes { get; }
+
+    public IReadOnlyDictionary<TreeNode, IReadOnlyDictionary<Direction, EdgeNode>> EdgeNodes { get; }
 }

@@ -2,21 +2,20 @@
 
 using System.Numerics;
 using System.Text;
-using Common;
 
 internal record Graph<TValue, TPoint> where TPoint : INumber<TPoint>
 {
     public Graph(
         IReadOnlyCollection<Node<TValue, TPoint>> nodes,
-        IReadOnlyDictionary<Node<TValue, TPoint>,
-            IReadOnlyList<Node<TValue, TPoint>>> edges)
+        IReadOnlyDictionary<Node<TValue, TPoint>, IReadOnlyList<Node<TValue, TPoint>>> edges,
+        bool anyAStarts)
     {
         Nodes = nodes;
         Edges = edges;
 
         Start = nodes.First(n => n.Start);
         End = nodes.First(n => n.End);
-        PossibleStarts = nodes.Where(n => Equals(n.Data, Start.Data)).ToList();
+        PossibleStarts = anyAStarts ? nodes.Where(n => Equals(n.Data, Start.Data)).ToList() : new[] { Start };
     }
 
     public Node<TValue, TPoint> Start { get; }

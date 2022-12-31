@@ -18,7 +18,7 @@ internal record PrintableMonkey(int Id, IReadOnlyList<long> Items, NewCalculator
             .Append(arraryEnd)
             .Append(sperator);
 
-        builder.Append(nameof(Calculator)).Append(equals).Append(Calculator.ToString()).Append(sperator);
+        builder.Append(nameof(Calculator)).Append(equals).Append(Calculator).Append(sperator);
         builder.Append(nameof(Evaluators))
             .Append(equals)
             .Append(arraryStart)

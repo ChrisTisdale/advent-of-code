@@ -1,19 +1,20 @@
 ﻿namespace AdventOfCode2022.day1;
 
-public class Day1 : Base2022<decimal>
+public class Day1 : Base2022AdventOfCodeDay<decimal>
 {
-    public override ValueTask<decimal> ExecutePart1(string fileName)
+    public override async ValueTask<decimal> ExecutePart1(string fileName)
     {
-        return ExecutePart2(fileName);
+        var result = await FindBest(fileName, 1);
+        return result;
     }
 
     public override async ValueTask<decimal> ExecutePart2(string fileName)
     {
-        var result = await FindBest(fileName);
+        var result = await FindBest(fileName, 3);
         return result;
     }
 
-    private static async ValueTask<decimal> FindBest(string filename)
+    private static async ValueTask<decimal> FindBest(string filename, int takeCount)
     {
         var cur = 0m;
         var values = new List<decimal>();
@@ -35,6 +36,6 @@ public class Day1 : Base2022<decimal>
             values.Add(cur);
         }
 
-        return values.OrderDescending().Take(3).Sum();
+        return values.OrderDescending().Take(takeCount).Sum();
     }
 }

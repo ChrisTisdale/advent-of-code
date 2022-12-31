@@ -1,24 +1,16 @@
 ﻿namespace AdventOfCode2022.day13;
 
 using System.Text.RegularExpressions;
-using Common;
 
-public class Day13 : Base2022<int>
+public class Day13 : Base2022AdventOfCodeDay<int>
 {
-    private static readonly Regex Regex = new Regex($"({Regex.Escape(",")}|{Regex.Escape("[")}|{Regex.Escape("]")})");
+    private static readonly Regex Regex = new($"({Regex.Escape(",")}|{Regex.Escape("[")}|{Regex.Escape("]")})");
 
-    public override ValueTask<int> ExecutePart1(string fileName)
-    {
-        // TODO add part 1
-        return ExecutePart2(fileName);
-    }
+    public override async ValueTask<int> ExecutePart1(string fileName) => await HandleFilePart1(fileName);
 
-    public override async ValueTask<int> ExecutePart2(string fileName)
-    {
-        return await HandleFile(fileName);
-    }
+    public override async ValueTask<int> ExecutePart2(string fileName) => await HandleFile(fileName);
 
-    private async Task<int> HandleFile(string file)
+    private static async Task<int> HandleFile(string file)
     {
         var result = await GetPackets(file);
         var starter = new ListPacket(new[] { new ListPacket(new[] { new ValuePacket(2) }) });
@@ -45,30 +37,46 @@ public class Day13 : Base2022<int>
         return startIndex * endIndex;
     }
 
-    private async ValueTask<IReadOnlyList<PacketChecker>> GetPackets(string file)
+    private static async Task<int> HandleFilePart1(string file)
+    {
+        var result = await GetPackets(file);
+        var count = 0;
+        var comparer = new PacketComparer();
+        for (var i = 0; i < result.Count; ++i)
+        {
+            var checker = result[i];
+            if (comparer.Compare(checker.Left, checker.Right) < 0)
+            {
+                count += i + 1;
+            }
+        }
+
+        return count;
+    }
+
+    private static async ValueTask<IReadOnlyList<PacketChecker>> GetPackets(string file)
     {
         var lines = await File.ReadAllLinesAsync(file);
-        var comparisions = new List<PacketChecker>();
+        var comparisons = new List<PacketChecker>();
         for (var i = 0; i < lines.Length; i += 3)
         {
             var left = ParseLine(lines[i]);
             var right = ParseLine(lines[i + 1]);
             var packetChecker = new PacketChecker(left, right);
-            //Console.WriteLine(packetChecker);
-            comparisions.Add(packetChecker);
+            comparisons.Add(packetChecker);
         }
 
-        return comparisions;
+        return comparisons;
     }
 
-    private ListPacket ParseLine(string line)
+    private static ListPacket ParseLine(string line)
     {
         var values = Regex.Split(line).Where(x => !string.IsNullOrEmpty(x)).ToArray();
         var count = 1; // skip first is must always be [
         return ParseValues(values, ref count);
     }
 
-    ListPacket ParseValues(IReadOnlyList<string> values, ref int i)
+    private static ListPacket ParseValues(IReadOnlyList<string> values, ref int i)
     {
         var data = new List<IPacket>();
         for (; i < values.Count; ++i)
@@ -92,42 +100,5 @@ public class Day13 : Base2022<int>
         }
 
         return new ListPacket(data);
-    }
-}
-
-class PacketComparer : IComparer<IPacket>
-{
-    public int Compare(IPacket? x, IPacket? y)
-    {
-        return InCorrectOrder(x ?? throw new ArgumentNullException(nameof(x)),
-            y ?? throw new ArgumentNullException(nameof(y)));
-    }
-
-    private static int InCorrectOrder(IPacket left, IPacket right)
-    {
-        switch (left)
-        {
-            case ValuePacket valLeft when right is ValuePacket valRight:
-                return valLeft.Value.CompareTo(valRight.Value);
-            case ListPacket listLeft when right is ListPacket listRight:
-            {
-                for (var i = 0; i < Math.Min(listLeft.Values.Count, listRight.Values.Count); ++i)
-                {
-                    var leftValue = listLeft.Values[i];
-                    var rightValue = listRight.Values[i];
-                    var res = InCorrectOrder(leftValue, rightValue);
-                    if (res != 0)
-                    {
-                        return res;
-                    }
-                }
-
-                return listLeft.Values.Count.CompareTo(listRight.Values.Count);
-            }
-            default:
-                return left is ValuePacket
-                    ? InCorrectOrder(new ListPacket(new[] { left }), right)
-                    : InCorrectOrder(left, new ListPacket(new[] { right }));
-        }
     }
 }

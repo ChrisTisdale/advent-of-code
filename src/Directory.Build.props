@@ -4,7 +4,7 @@
         <LangVersion>latest</LangVersion>
         <NeutralLanguage>en</NeutralLanguage>
         <Nullable>enable</Nullable>
-        <Company />
+        <Company/>
         <Copyright>Copyright © 2022</Copyright>
         <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
         <RepositoryUrl>https://github.com/ChrisTisdale/advent-of-code</RepositoryUrl>
@@ -16,7 +16,7 @@
     <ItemGroup>
         <None Include="$(SolutionDir)\LICENSE">
             <Pack>True</Pack>
-            <PackagePath />
+            <PackagePath/>
         </None>
     </ItemGroup>
 </Project>

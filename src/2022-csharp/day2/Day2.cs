@@ -1,6 +1,6 @@
 ﻿namespace AdventOfCode2022.day2;
 
-public class Day2 : Base2022<decimal>
+public class Day2 : Base2022AdventOfCodeDay<decimal>
 {
     public override async ValueTask<decimal> ExecutePart1(string fileName)
     {
@@ -38,17 +38,14 @@ public class Day2 : Base2022<decimal>
     {
         return value.ToUpper() switch
         {
-            "A" or "X" or "A Y" or "B X" or "C Z"=> Game.Rock,
+            "A" or "X" or "A Y" or "B X" or "C Z" => Game.Rock,
             "B" or "Y" or "B Y" or "A Z" or "C X" => Game.Paper,
             "C" or "Z" or "C Y" or "A X" or "B Z" => Game.Scissors,
             _ => throw new ArgumentOutOfRangeException(nameof(value), $"The value of {value} is not valid")
         };
     }
 
-    private static decimal CalculateScore(Game opponent, Game yours)
-    {
-        return (decimal)yours + GetGameScore(opponent, yours);
-    }
+    private static decimal CalculateScore(Game opponent, Game yours) => (decimal)yours + GetGameScore(opponent, yours);
 
     private static decimal GetGameScore(Game opponent, Game yours)
     {

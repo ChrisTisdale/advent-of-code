@@ -1,34 +1,33 @@
-﻿namespace AdventOfCode2022;
+﻿namespace Common;
 
-using Common;
-
-public abstract class Base2022<T> : IAdventOfCodeDay
+public abstract class BaseAdventOfCodeDay<T> : IAdventOfCodeDay
 {
-    public DateOnly Year => new(2022, 12, 1);
+    private readonly IReadOnlyDictionary<Part, string[]> _files;
 
-    private readonly string[] _files;
-
-    protected Base2022() : this(Constants.DefaultFiles)
+    protected BaseAdventOfCodeDay()
+        : this(Constants.DefaultFiles)
     {
     }
 
-    protected Base2022(string[] files)
+    protected BaseAdventOfCodeDay(IReadOnlyDictionary<Part, string[]> files)
     {
         _files = files;
     }
 
-    public async ValueTask ExecutePart1()
+    public abstract DateOnly Year { get; }
+
+    public virtual async ValueTask ExecutePart1()
     {
-        foreach (var file in _files)
+        foreach (var file in _files[Part.Part1])
         {
             var results = await ExecutePart1(GetFileLocation(file));
             Console.WriteLine($"{file} Has the answer: {results}");
         }
     }
 
-    public async ValueTask ExecutePart2()
+    public virtual async ValueTask ExecutePart2()
     {
-        foreach (var file in _files)
+        foreach (var file in _files[Part.Part2])
         {
             var results = await ExecutePart2(GetFileLocation(file));
             Console.WriteLine($"{file} Has the answer: {results}");

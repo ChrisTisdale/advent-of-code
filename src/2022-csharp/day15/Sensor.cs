@@ -13,9 +13,9 @@ public class Sensor
         _closestBeacon = closestBeacon;
     }
 
-    public int Distance() => Point<int>.ManhattanDistance(in _location, in _closestBeacon);
-
     public Point<int> Location => _location;
 
     public Point<int> ClosestBeacon => _closestBeacon;
+
+    public int Distance() => Point<int>.ManhattanDistance(in _location, in _closestBeacon);
 }

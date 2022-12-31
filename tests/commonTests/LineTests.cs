@@ -1,19 +1,10 @@
 ﻿namespace CommonTests;
 
 using System.Diagnostics;
-using System.Numerics;
 using Common;
 
 public class LineTests
 {
-    public static IEnumerable<object[]> DecimalInLineTestData => new[]
-    {
-        new object[] { 1M, 1M, 1M, 4M, 1M, 2M, true },
-        new object[] { 1M, 1M, 4M, 1M, 2M, 1M, true },
-        new object[] { 1M, 1M, 4M, 1M, 2M, 2M, false },
-        new object[] { 1M, 1M, 1M, 4M, 2M, 2M, false },
-    };
-
     [Theory]
     [InlineData(0, 0, 1, 0, 2)]
     [InlineData(0, 0, 0, 1, 2)]

@@ -2,18 +2,11 @@
 
 using Common;
 
-public class Day12 : Base2022<int>
+public class Day12 : Base2022AdventOfCodeDay<int>
 {
-    public override ValueTask<int> ExecutePart1(string fileName)
-    {
-        // TODO add part 1
-        return ExecutePart2(fileName);
-    }
+    public override async ValueTask<int> ExecutePart1(string fileName) => await HandleFile(fileName, false);
 
-    public override async ValueTask<int> ExecutePart2(string fileName)
-    {
-        return await HandleFile(fileName);
-    }
+    public override async ValueTask<int> ExecutePart2(string fileName) => await HandleFile(fileName, true);
 
     private static Node<char, int> GetNode(char value, int row, int col)
     {
@@ -29,7 +22,7 @@ public class Day12 : Base2022<int>
             new Point<int>(row, col));
     }
 
-    private static async ValueTask<Graph<char, int>> BuildGraph(string fileName)
+    private static async ValueTask<Graph<char, int>> BuildGraph(string fileName, bool anyA)
     {
         var nodes = new List<Node<char, int>>();
         var edges = new Dictionary<Node<char, int>, IReadOnlyList<Node<char, int>>>();
@@ -67,7 +60,7 @@ public class Day12 : Base2022<int>
             }
         }
 
-        return new Graph<char, int>(nodes, edges);
+        return new Graph<char, int>(nodes, edges, anyA);
     }
 
     private static long GetCost(Node<char, int> item1, Node<char, int> item2)
@@ -86,7 +79,6 @@ public class Day12 : Base2022<int>
         var visited = new Dictionary<Node<char, int>, int> { { start, 0 } };
         while (priorityQueue.TryDequeue(out var next, out var count))
         {
-            //Console.WriteLine($"Looking at node: {next}.  With cost: {data.Count}");
             if (next == graph.End)
             {
                 return ValueTask.FromResult(count);
@@ -108,9 +100,9 @@ public class Day12 : Base2022<int>
         return ValueTask.FromResult(0);
     }
 
-    private static async Task<int> HandleFile(string file)
+    private static async Task<int> HandleFile(string file, bool anyA)
     {
-        var result = await BuildGraph(file);
+        var result = await BuildGraph(file, anyA);
         var path = await FindMinPath(result);
         return path;
     }

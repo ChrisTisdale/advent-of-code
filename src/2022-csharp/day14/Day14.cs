@@ -2,19 +2,13 @@
 
 using Common;
 
-public class Day14 : Base2022<int>
+public class Day14 : Base2022AdventOfCodeDay<int>
 {
     private static readonly Point<int> SandDrop = new(500, 0);
 
-    public override async ValueTask<int> ExecutePart1(string fileName)
-    {
-        return await HandleSandDrop(fileName);
-    }
+    public override async ValueTask<int> ExecutePart1(string fileName) => await HandleSandDrop(fileName);
 
-    public override async ValueTask<int> ExecutePart2(string fileName)
-    {
-        return await HandleSandDrop(fileName, true);
-    }
+    public override async ValueTask<int> ExecutePart2(string fileName) => await HandleSandDrop(fileName, true);
 
     private static async Task<int> HandleSandDrop(string file, bool stopAtTop = false)
     {

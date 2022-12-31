@@ -37,7 +37,7 @@ async ValueTask<bool> ProcessYear()
     Console.Clear();
     for (var i = 0; i < runnableDaysKeys.Length; i++)
     {
-        Console.WriteLine($"Press {i+1} for {runnableDaysKeys[i]}");
+        Console.WriteLine($"Press {i + 1} for {runnableDaysKeys[i]}");
     }
 
     Console.WriteLine("Press Q to Quit");
@@ -66,7 +66,7 @@ async ValueTask<bool> ProcessDay(DateOnly dateOnly)
             .ToArray();
     for (var i = 0; i < adventOfCodeDays.Length; i++)
     {
-        Console.WriteLine($"Press {i+1} for {adventOfCodeDays[i].GetType().Name}");
+        Console.WriteLine($"Press {i + 1} for {adventOfCodeDays[i].GetType().Name}");
     }
 
     if (runnableDaysKeys.Length > 1)

@@ -27,10 +27,35 @@ public readonly record struct Line<T> : IEnumerable<Point<T>> where T : INumber<
 
     private T YDistance => T.Abs(One.Y - Two.Y);
 
-    public T ManhattanDistance()
+    public IEnumerator<Point<T>> GetEnumerator()
     {
-        return Point<T>.ManhattanDistance(One, Two);
+        if (One.X == Two.X)
+        {
+            var end = One.Y > Two.Y ? One.Y : Two.Y;
+            for (var i = One.Y > Two.Y ? Two.Y : One.Y; i <= end; i += Increment)
+            {
+                var res = One with { Y = i };
+                yield return res;
+            }
+        }
+        else if (One.Y == Two.Y)
+        {
+            var end = One.X > Two.X ? One.X : Two.X;
+            for (var i = One.X > Two.X ? Two.X : One.X; i <= end; i += Increment)
+            {
+                var res = One with { X = i };
+                yield return res;
+            }
+        }
+        else
+        {
+            throw new NotImplementedException();
+        }
     }
+
+    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+
+    public T ManhattanDistance() => Point<T>.ManhattanDistance(One, Two);
 
     public bool IsInLine(Point<T> point)
     {
@@ -72,34 +97,6 @@ public readonly record struct Line<T> : IEnumerable<Point<T>> where T : INumber<
         two = Two;
         increment = Increment;
     }
-
-    public IEnumerator<Point<T>> GetEnumerator()
-    {
-        if (One.X == Two.X)
-        {
-            var end = One.Y > Two.Y ? One.Y : Two.Y;
-            for (var i = One.Y > Two.Y ? Two.Y : One.Y; i <= end; i += Increment)
-            {
-                var res = One with { Y = i };
-                yield return res;
-            }
-        }
-        else if (One.Y == Two.Y)
-        {
-            var end = One.X > Two.X ? One.X : Two.X;
-            for (var i = One.X > Two.X ? Two.X : One.X; i <= end; i += Increment)
-            {
-                var res = One with { X = i };
-                yield return res;
-            }
-        }
-        else
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
     private void CheckForValidLine()
     {

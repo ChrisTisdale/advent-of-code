@@ -1,11 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <RootNamespace>AdventOfCode2022Tests</RootNamespace>
-  </PropertyGroup>
+    <PropertyGroup>
+        <RootNamespace>AdventOfCode2022Tests</RootNamespace>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\2022-csharp\advent-code-2022.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\src\2022-csharp\advent-code-2022.csproj" />
+    </ItemGroup>
 
 </Project>

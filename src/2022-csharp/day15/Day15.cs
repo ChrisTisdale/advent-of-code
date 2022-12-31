@@ -2,12 +2,12 @@
 
 using Common;
 
-public class Day15 : Base2022<long>
+public class Day15 : Base2022AdventOfCodeDay<long>
 {
     public override async ValueTask<long> ExecutePart1(string fileName)
     {
         var (sensors, points) = await GetSensors(fileName);
-        var expectedY = Path.GetFileName(fileName) == Constants.DefaultFiles[0] ? 10 : 2000000;
+        var expectedY = Path.GetFileName(fileName) == Constants.DefaultFiles[Part.Part1][0] ? 10 : 2000000;
         var set = new HashSet<Point<int>>(10000000);
         foreach (var sensor in sensors)
         {

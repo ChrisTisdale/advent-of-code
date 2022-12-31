@@ -1,14 +1,12 @@
 ﻿namespace AdventOfCode2022.day10;
 
-public class Day10 : Base2022<int>
+public class Day10 : Base2022AdventOfCodeDay<int>
 {
-    public override ValueTask<int> ExecutePart1(string fileName)
-    {
-        // TODO Add part 1
-        return ExecutePart2(fileName);
-    }
+    public override async ValueTask<int> ExecutePart1(string fileName) => await ProcessSignals(fileName);
 
-    public override async ValueTask<int> ExecutePart2(string fileName)
+    public override async ValueTask<int> ExecutePart2(string fileName) => await ProcessSignals(fileName);
+
+    private static async ValueTask<int> ProcessSignals(string fileName)
     {
         var cycles = new[] { 20, 60, 100, 140, 180, 220 };
         var result = await GetSignalStrengths(await ProcessFile(fileName), cycles);

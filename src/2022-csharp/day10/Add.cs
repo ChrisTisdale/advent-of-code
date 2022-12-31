@@ -4,10 +4,7 @@ internal record Add(int Value) : ICommand
 {
     public int ClockCycles => 2;
 
-    public int Execute(int currentValue)
-    {
-        return Value + currentValue;
-    }
+    public int Execute(int currentValue) => Value + currentValue;
 
     public static Add Parse(string[] inputs)
     {

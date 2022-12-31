@@ -2,20 +2,37 @@
 
 using System.Text;
 
-public class Day3 : Base2022<decimal>
+public class Day3 : Base2022AdventOfCodeDay<decimal>
 {
-    public override ValueTask<decimal> ExecutePart1(string fileName)
+    public override async ValueTask<decimal> ExecutePart1(string fileName)
     {
-        return ExecutePart2(fileName);
+        var result = await FindScorePart1(fileName);
+        return result;
     }
 
     public override async ValueTask<decimal> ExecutePart2(string fileName)
     {
-        var result = await FindScore(fileName);
+        var result = await FindScorePart2(fileName);
         return result;
     }
 
-    private static ValueTask<decimal> FindScore(string filename)
+    private static ValueTask<decimal> FindScorePart1(string filename)
+    {
+        var score = 0m;
+        var readLines = File.ReadLines(filename).ToArray();
+        for (var i = 0; i < readLines.Length; ++i)
+        {
+            var sack = Encoding.ASCII.GetBytes(readLines[i]);
+            var half = sack.Length / 2;
+            var first = sack[..half];
+            var second = sack[half..];
+            score += FindCommon(first, second).Select(GetPriority).Sum();
+        }
+
+        return new ValueTask<decimal>(score);
+    }
+
+    private static ValueTask<decimal> FindScorePart2(string filename)
     {
         var score = 0m;
         var readLines = File.ReadLines(filename).ToArray();
@@ -46,8 +63,5 @@ public class Day3 : Base2022<decimal>
         }
     }
 
-    private static int GetPriority(byte c)
-    {
-        return c > 90 ? c - 96 : c - 38;
-    }
+    private static int GetPriority(byte c) => c > 90 ? c - 96 : c - 38;
 }

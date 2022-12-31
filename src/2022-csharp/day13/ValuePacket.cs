@@ -2,8 +2,5 @@
 
 internal record ValuePacket(int Value) : IPacket
 {
-    public override string ToString()
-    {
-        return Value.ToString();
-    }
+    public override string ToString() => Value.ToString();
 }

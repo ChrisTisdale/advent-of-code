@@ -2,20 +2,14 @@
 
 using System.Text.RegularExpressions;
 
-public class Day11 : Base2022<long>
+public class Day11 : Base2022AdventOfCodeDay<long>
 {
-    private static readonly Regex Regex = new Regex(
+    private static readonly Regex Regex = new(
         $"({Regex.Escape("+")}|{Regex.Escape("*")}|{Regex.Escape("-")}|{Regex.Escape("/")})");
 
-    public override async ValueTask<long> ExecutePart1(string fileName)
-    {
-        return await HandleRound(fileName, true, 20);
-    }
+    public override async ValueTask<long> ExecutePart1(string fileName) => await HandleRound(fileName, true, 20);
 
-    public override async ValueTask<long> ExecutePart2(string fileName)
-    {
-        return await HandleRound(fileName, false, 10000);
-    }
+    public override async ValueTask<long> ExecutePart2(string fileName) => await HandleRound(fileName, false, 10000);
 
     private static async ValueTask<IReadOnlyList<Monkey>> ProcessFile(string fileName)
     {
@@ -33,7 +27,8 @@ public class Day11 : Base2022<long>
         return monkeys;
     }
 
-    private static async ValueTask<IReadOnlyDictionary<int, long>> EvaluateRounds(IReadOnlyList<Monkey> monkeys,
+    private static async ValueTask<IReadOnlyDictionary<int, long>> EvaluateRounds(
+        IReadOnlyList<Monkey> monkeys,
         int roundCount,
         bool damagesPerRound,
         bool printRounds = false)
@@ -45,7 +40,7 @@ public class Day11 : Base2022<long>
             if (printRounds && i % 1000 == 0)
             {
                 Console.WriteLine("---------------------------");
-                Console.WriteLine($"Start of Round {(i + 1)}:");
+                Console.WriteLine($"Start of Round {i + 1}:");
             }
 
             await EvaluateRound(monkeys, inspectedCount, damagesPerRound, factor, printRounds && i % 1000 == 0);
@@ -54,7 +49,8 @@ public class Day11 : Base2022<long>
         return inspectedCount;
     }
 
-    private static ValueTask EvaluateRound(IReadOnlyList<Monkey> monkeys,
+    private static ValueTask EvaluateRound(
+        IReadOnlyList<Monkey> monkeys,
         IDictionary<int, long> inspectCounter,
         bool damagesPerRound,
         long factor,
@@ -68,7 +64,7 @@ public class Day11 : Base2022<long>
                 value = monkey.Calculator.GetNew(value, factor);
                 if (damagesPerRound)
                 {
-                    value = value / 3;
+                    value /= 3;
                 }
 
                 var evaluator = monkey.Evaluators.First(x => x.IsMeet(value));

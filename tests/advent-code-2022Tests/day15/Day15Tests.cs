@@ -11,6 +11,13 @@ public class Day15Tests
         _target = new Day15();
     }
 
+    [Fact]
+    public void YearTest()
+    {
+        var date = _target.Year;
+        date.Should().Be(Constants.ExpectedYear);
+    }
+
     [Fact(Timeout = 1000)]
     public async Task Sample_Part_1_Matches()
     {
