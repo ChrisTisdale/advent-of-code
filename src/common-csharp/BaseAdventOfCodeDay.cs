@@ -11,7 +11,7 @@ public abstract class BaseAdventOfCodeDay<T> : IAdventOfCodeDay
 
     protected BaseAdventOfCodeDay(IReadOnlyDictionary<Part, string[]> files)
     {
-        _files = files;
+        _files = files ?? throw new ArgumentNullException(nameof(files));
     }
 
     public abstract DateOnly Year { get; }
