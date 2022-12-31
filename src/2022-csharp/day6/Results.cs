@@ -17,9 +17,11 @@ public record Results(IReadOnlyList<int> MarkerLocations)
     protected virtual bool PrintMembers(StringBuilder builder)
     {
         const string separator = ", ";
+        const string equals = " = ";
         const string arrayStart = "[ ";
         const string arrayEnd = " ]";
         builder.Append(nameof(MarkerLocations))
+            .Append(equals)
             .Append(arrayStart)
             .Append(string.Join(separator, MarkerLocations))
             .Append(arrayEnd);
