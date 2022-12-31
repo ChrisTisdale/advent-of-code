@@ -2,7 +2,7 @@
 
 using System.Text;
 
-public class Day16 : Base2022<long>
+public class Day16 : Base2022AdventOfCodeDay<long>
 {
     public override async ValueTask<long> ExecutePart1(string fileName)
     {
