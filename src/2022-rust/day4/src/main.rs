@@ -11,15 +11,6 @@ fn main() {
             s.parse::<i32>().unwrap()
         }).collect::<Vec<i32>>();
 
-    let file = fs::read_to_string("assets/day4/measurements.txt")
-        .unwrap();
-    let lines = file
-        .lines();
-    let mut max_value: i32 = 0;
-    for (i, _value) in lines.enumerate() {
-
-    }
-
     for (i, _value) in data.iter().enumerate() {
         if i > data.len() - 4 {
             break;
