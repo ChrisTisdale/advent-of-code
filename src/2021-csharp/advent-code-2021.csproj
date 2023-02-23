@@ -5,17 +5,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <EmbeddedResource Include="**\*.txt"/>
-        <EmbeddedResource Remove="bin\**"/>
-        <EmbeddedResource Remove="obj\**"/>
+        <EmbeddedResource Include="**\*.txt" />
+        <EmbeddedResource Remove="bin\**" />
+        <EmbeddedResource Remove="obj\**" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\common-csharp\common.csproj"/>
+        <ProjectReference Include="..\common-csharp\common.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="LanguageExt.Core" Version="4.4.0"/>
+        <PackageReference Include="LanguageExt.Core" Version="4.4.2" />
     </ItemGroup>
 
     <ItemGroup>
