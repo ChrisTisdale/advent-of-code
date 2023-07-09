@@ -7,21 +7,21 @@
 
 using namespace day1;
 
-int solution::runPart1(std::string file) {
-  auto elfs = readFile(file);
+long long solution::run_part1(const std::string& file) {
+  const auto elfs = read_file(file);
   long long max = 0;
-  for (auto e : elfs) {
+  for (const auto& e : elfs) {
     max = std::max(e->total(), max);
   }
 
   return max;
 }
 
-int solution::runPart2(std::string file) {
-  auto elfs = readFile(file);
+long long solution::run_part2(const std::string& file) {
+  auto elfs = read_file(file);
   std::sort(elfs.begin(), elfs.end(),
-            [](auto l, auto r) { return l->total() > r->total(); });
-  int sum = 0;
+            [](const auto l, const auto r) { return l->total() > r->total(); });
+  long long sum = 0;
   for (int i = 0; i < std::min(3, static_cast<int>(elfs.size())); ++i) {
     sum += elfs[i]->total();
   }
@@ -29,11 +29,11 @@ int solution::runPart2(std::string file) {
   return sum;
 }
 
-std::vector<std::shared_ptr<elf>> solution::readFile(std::string file) {
+std::vector<std::shared_ptr<elf>> solution::read_file(const std::string& file) {
   std::string line;
   std::vector<std::shared_ptr<elf>> elfs;
   std::ifstream f(file);
-  std::shared_ptr<elf> current = std::make_shared<elf>();
+  auto current = std::make_shared<elf>();
   while (std::getline(f, line)) {
     if (line.empty()) {
       if (!current->calories.empty()) {

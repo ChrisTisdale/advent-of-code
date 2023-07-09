@@ -5,23 +5,23 @@
 namespace day2 {
 enum played { rock = 1, paper, scissors };
 
-struct round {
+struct game_round {
   char opponent;
   char you;
 
-  round(char opponent, char you) : opponent(opponent), you(you) {}
+  game_round(const char opponent, const char you) : opponent(opponent), you(you) {}
 };
 
 class solution {
  public:
-  static int runPart1(std::string file);
-  static int runPart2(std::string file);
+  static int run_part1(const std::string& file);
+  static int run_part2(const std::string& file);
 
  private:
-  static std::vector<round> readFile(std::string file);
-  static played convert_opponent(char opponent);
-  static played convert_you(char you);
-  static played get_strategy(played opponent, char you);
-  static int score(played opponent, played you);
+  static std::vector<game_round> read_file(const std::string& file);
+  static played convert_opponent(const char opponent);
+  static played convert_you(const char you);
+  static played get_strategy(const played opponent, const char you);
+  static int score(const played opponent, const played you);
 };
 }  // namespace day2

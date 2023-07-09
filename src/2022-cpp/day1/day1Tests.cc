@@ -2,20 +2,20 @@
 
 #include "day1.h"
 
-using namespace day1;
-
+namespace day1::tests {
 TEST(day1Tests, round1_sample_results) {
-  GTEST_ASSERT_EQ(24000, solution::runPart1("sample.txt"));
+  GTEST_ASSERT_EQ(24000, solution::run_part1("sample.txt"));
 }
 
 TEST(day1Tests, round2_sample_results) {
-  GTEST_ASSERT_EQ(45000, solution::runPart2("sample.txt"));
+  GTEST_ASSERT_EQ(45000, solution::run_part2("sample.txt"));
 }
 
 TEST(day1Tests, round1_measurements_results) {
-  GTEST_ASSERT_EQ(69912, solution::runPart1("measurements.txt"));
+  GTEST_ASSERT_EQ(69912, solution::run_part1("measurements.txt"));
 }
 
 TEST(day1Tests, round2_measurements_results) {
-  GTEST_ASSERT_EQ(208180, solution::runPart2("measurements.txt"));
+  GTEST_ASSERT_EQ(208180, solution::run_part2("measurements.txt"));
 }
+}  // namespace day1::tests
