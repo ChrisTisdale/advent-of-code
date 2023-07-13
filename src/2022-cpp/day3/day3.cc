@@ -1,15 +1,15 @@
+#include "day3.h"
+
 #include <fstream>
 #include <sstream>
 #include <unordered_set>
-
-#include "day3.h"
 
 using namespace day3;
 
 int solution::run_part1(const std::string& file) {
   auto sacks = read_file(file);
   int count = 0;
-  for (const auto &sack : sacks) {
+  for (const auto& sack : sacks) {
     std::unordered_set<char> values;
     std::unordered_set<char> looked;
     const std::string& data = sack.data;
@@ -31,7 +31,7 @@ int solution::run_part1(const std::string& file) {
 int solution::run_part2(const std::string& file) {
   auto sacks = read_file(file);
   int count = 0;
-  for (std::size_t i = 0; i < sacks.size() - 2; i+=3) {
+  for (std::size_t i = 0; i < sacks.size() - 2; i += 3) {
     std::unordered_set<char> values;
     std::unordered_set<char> current;
     std::string& data = sacks[i].data;
@@ -39,14 +39,14 @@ int solution::run_part2(const std::string& file) {
       values.insert(j);
     }
 
-    data = sacks[i+1].data;
+    data = sacks[i + 1].data;
     for (char v : data) {
       if (values.contains(v)) {
         current.insert(v);
       }
     }
 
-    data = sacks[i+2].data;
+    data = sacks[i + 2].data;
     values.clear();
     for (char v : data) {
       if (current.contains(v)) {

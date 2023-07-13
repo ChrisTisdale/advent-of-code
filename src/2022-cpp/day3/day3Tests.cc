@@ -18,4 +18,4 @@ TEST(day3Tests, round1_measurements_results) {
 TEST(day3Tests, round2_measurements_results) {
   GTEST_ASSERT_EQ(2604, solution::run_part2("measurements.txt"));
 }
-}  // namespace day2::tests
+}  // namespace day3::tests
