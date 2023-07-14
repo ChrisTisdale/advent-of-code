@@ -9,7 +9,8 @@ struct game_round {
   char opponent;
   char you;
 
-  game_round(const char opponent, const char you) : opponent(opponent), you(you) {}
+  game_round(const char opponent, const char you)
+      : opponent(opponent), you(you) {}
 };
 
 class solution {
@@ -19,9 +20,9 @@ class solution {
 
  private:
   static std::vector<game_round> read_file(const std::string& file);
-  static played convert_opponent(const char opponent);
-  static played convert_you(const char you);
-  static played get_strategy(const played opponent, const char you);
-  static int score(const played opponent, const played you);
+  static played convert_opponent(char opponent);
+  static played convert_you(char you);
+  static played get_strategy(played opponent, char you);
+  static int score(played opponent, played you);
 };
 }  // namespace day2
