@@ -33,6 +33,7 @@ endif()
 
 macro(package_add_test TESTNAME)
     if(PACKAGE_TESTS)
+        enable_testing()
         # create an executable in which the tests will be stored
         add_executable(${TESTNAME} ${ARGN})
         # link the Google test infrastructure, mocking library, and a default main function to

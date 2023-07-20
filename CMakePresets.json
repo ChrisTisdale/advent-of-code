@@ -102,6 +102,30 @@
           "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}"
         }
       }
+    },
+    {
+      "name": "mac-debug",
+      "displayName": "Mac Debug",
+      "description": "Using compilers: C = /usr/bin/clang, CXX = /usr/bin/clang++",
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "cacheVariables": {
+        "PACKAGE_TESTS": "ON",
+        "CMAKE_C_COMPILER": "/usr/bin/clang",
+        "CMAKE_CXX_COMPILER": "/usr/bin/clang++",
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "mac-release",
+      "displayName": "Mac Release",
+      "description": "Using compilers: C = /usr/bin/clang, CXX = /usr/bin/clang++",
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
+      "cacheVariables": {
+        "PACKAGE_TESTS": "OFF",
+        "CMAKE_C_COMPILER": "/usr/bin/clang",
+        "CMAKE_CXX_COMPILER": "/usr/bin/clang++",
+        "CMAKE_BUILD_TYPE": "Release"
+      }
     }
   ]
 }
