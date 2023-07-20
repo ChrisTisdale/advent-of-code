@@ -1,5 +1,6 @@
 #include "day7.h"
 
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <sstream>
