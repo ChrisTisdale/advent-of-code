@@ -2,6 +2,7 @@
 #include <memory>
 #include <numeric>
 #include <string>
+#include <vector>
 
 namespace day7 {
 struct osfile {
@@ -39,7 +40,7 @@ struct folder {
 
  private:
   void get_directories(std::vector<std::shared_ptr<folder>>& list) {
-    for (auto f : folders) {
+    for (const auto f : folders) {
       list.push_back(f);
       f->get_directories(list);
     }
