@@ -5,27 +5,27 @@
 #include <vector>
 
 namespace day7 {
-struct osfile {
+struct os_file {
   std::string name;
   long long size;
 
-  explicit osfile(std::string name, long long size)
+  explicit os_file(std::string name, long long size)
       : name(std::move(name)), size(size) {}
 };
 
 struct folder {
-  std::vector<osfile> files;
+  std::vector<os_file> files;
   std::vector<std::shared_ptr<folder>> folders;
   std::shared_ptr<folder> parent;
   std::string name;
 
-  long long size() const {
+  [[nodiscard]] long long size() const {
     long long size = 0;
     for (const auto& file : files) {
       size += file.size;
     }
 
-    for (const auto folder : folders) {
+    for (const auto& folder : folders) {
       size += folder->size();
     }
 
@@ -40,7 +40,7 @@ struct folder {
 
  private:
   void get_directories(std::vector<std::shared_ptr<folder>>& list) {
-    for (const auto f : folders) {
+    for (const auto& f : folders) {
       list.push_back(f);
       f->get_directories(list);
     }
@@ -54,7 +54,7 @@ class solution {
 
  private:
   static std::shared_ptr<folder> read_file(const std::string& file);
-  static long long sum_directories_under(const std::shared_ptr<folder> root,
-                                         long long check_size);
+  static long long int sum_directories_under(
+      const std::shared_ptr<folder>& root);
 };
 }  // namespace day7

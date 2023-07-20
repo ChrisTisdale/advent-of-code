@@ -13,7 +13,7 @@ static const long long CHECK_SIZE = 100000;
 
 long long solution::run_part1(const std::string& file) {
   auto root = read_file(file);
-  return sum_directories_under(root, CHECK_SIZE);
+  return sum_directories_under(root);
 }
 
 long long solution::run_part2(const std::string& file) {
@@ -23,7 +23,7 @@ long long solution::run_part2(const std::string& file) {
   auto directories = root->get_directories();
   std::sort(directories.begin(), directories.end(),
             [](const auto& l, const auto& r) { return l->size() < r->size(); });
-  for (auto d : directories) {
+  for (const auto& d : directories) {
     auto size = d->size();
     if (size >= need_space) {
       return size;
@@ -70,16 +70,16 @@ std::shared_ptr<folder> solution::read_file(const std::string& file) {
   return root;
 }
 
-long long day7::solution::sum_directories_under(
-    const std::shared_ptr<folder> root, long long check_size) {
+long long int day7::solution::sum_directories_under(
+    const std::shared_ptr<folder>& root) {
   long long sum = 0;
   auto size = root->size();
-  if (size <= check_size) {
+  if (size <= CHECK_SIZE) {
     sum += size;
   }
 
-  for (auto f : root->folders) {
-    sum += sum_directories_under(f, check_size);
+  for (const auto& f : root->folders) {
+    sum += sum_directories_under(f);
   }
 
   return sum;
