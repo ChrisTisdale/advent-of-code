@@ -1,6 +1,8 @@
 #pragma once
 
 #include <istream>
+#include <tuple>
+#include <vector>
 
 namespace day9 {
 struct point {
