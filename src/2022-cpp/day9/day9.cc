@@ -1,6 +1,6 @@
 #include "day9.h"
 
-#include <algorithm>
+#include <memory>
 #include <set>
 #include <sstream>
 
@@ -33,7 +33,8 @@ std::vector<input> solution::read_file(std::istream& file) {
 
 long long solution::find_unique_spaces(const std::vector<input>& data,
                                        const std::size_t middle_count) {
-  point middle[middle_count];
+  const long count = static_cast<long>(middle_count);
+  std::unique_ptr<point[]> middle(new point[count]);
   point head;
   point tail;
   std::set<point> found;
@@ -54,12 +55,12 @@ long long solution::find_unique_spaces(const std::vector<input>& data,
           break;
       }
 
-      for (std::size_t j = 0; j < middle_count; ++j) {
+      for (long j = 0; j < count; ++j) {
         update_current_location(j == 0 ? head : middle[j - 1], middle[j]);
       }
 
-      update_current_location(
-          middle_count == 0 ? head : middle[middle_count - 1], tail);
+      update_current_location(middle_count == 0 ? head : middle[count - 1],
+                              tail);
       found.insert(tail);
     }
   }
