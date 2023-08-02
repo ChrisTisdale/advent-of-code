@@ -1,6 +1,6 @@
 #include "day10.h"
 
-#include <memory>
+#include <cstring>
 #include <sstream>
 
 using namespace day10;
