@@ -32,14 +32,14 @@ public class Day13Tests
         part1Result.Should().Be(140);
     }
 
-    [Fact(Skip = "Test is too long")]
+    [Fact(Timeout = 5000)]
     public async Task Measurements_Part_1_Matches()
     {
         var part1Result = await _target.ExecutePart1(_target.GetFileStream("measurements.txt"));
         part1Result.Should().Be(5806);
     }
 
-    [Fact(Skip = "Test is too long")]
+    [Fact(Timeout = 5000)]
     public async Task Measurements_Part_2_Matches()
     {
         var part1Result = await _target.ExecutePart2(_target.GetFileStream("measurements.txt"));

@@ -4,7 +4,7 @@ use std::{fs, str::FromStr};
 struct Round {
     pub from: usize,
     pub to: usize,
-    pub count: usize
+    pub count: usize,
 }
 
 #[derive(Debug, PartialEq, Eq)]
@@ -18,7 +18,7 @@ impl FromStr for Round {
         Ok(Round {
             from: data[3].parse::<usize>().expect("AOC won't lie") - 1,
             to: data[5].parse::<usize>().expect("AOC won't lie") - 1,
-            count: data[1].parse().expect("AOC won't lie")
+            count: data[1].parse().expect("AOC won't lie"),
         })
     }
 }
@@ -28,7 +28,9 @@ fn main() {
 
     let data = match fs::read_to_string("assets/day5/measurements.txt") {
         Ok(it) => it,
-        Err(_err) => { panic!("aoc lies") },
+        Err(_err) => {
+            panic!("aoc lies")
+        }
     };
 
     let mut chars: Vec<Vec<char>> = Vec::new();
@@ -50,7 +52,11 @@ fn main() {
         count += 1;
     }
 
-    let rounds = data.lines().skip(count + 2).map(|s| s.parse::<Round>().unwrap()).collect();
+    let rounds = data
+        .lines()
+        .skip(count + 2)
+        .map(|s| s.parse::<Round>().unwrap())
+        .collect();
     println!("Round 1: {}", round1(&rounds, chars.clone()));
     println!("Round 2: {}", round2(&rounds, chars.clone()));
 }
