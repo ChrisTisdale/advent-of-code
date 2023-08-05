@@ -88,5 +88,6 @@
         "queue": "cpp",
         "__nullptr": "cpp",
         "__string": "cpp"
-    }
+    },
+    "dotnet.defaultSolution": "advent-code.sln"
 }

@@ -34,7 +34,7 @@ public class Day11 : Base2022AdventOfCodeDay<long>
         bool printRounds = false)
     {
         var inspectedCount = monkeys.ToDictionary(m => m.Id, _ => 0L);
-        var factor = monkeys.Aggregate(1L, (f, m) => f * m.Evaluators.First().Divisor);
+        var factor = damagesPerRound ? long.MaxValue : monkeys.Aggregate(1L, (f, m) => f * m.Evaluators.First().Divisor);
         for (var i = 0; i < roundCount; ++i)
         {
             if (printRounds && i % 1000 == 0)
