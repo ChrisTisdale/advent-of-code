@@ -1,6 +1,7 @@
 #include "day11.h"
 
 #include <algorithm>
+#include <cstring>
 #include <numeric>
 #include <sstream>
 
