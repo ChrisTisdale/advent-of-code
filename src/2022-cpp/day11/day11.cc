@@ -1,7 +1,6 @@
 #include "day11.h"
 
 #include <algorithm>
-#include <cstring>
 #include <numeric>
 #include <sstream>
 
@@ -113,8 +112,8 @@ std::vector<monkey> solution::read_file(std::istream& file) {
 
 long long solution::run_game(std::vector<monkey>& result, bool damage,
                              int loop_count) {
-  long long inspected[result.size()];
-  std::memset(inspected, 0, sizeof(inspected));
+  std::vector<long long> inspected(result.size());
+  std::generate(inspected.begin(), inspected.end(), [] { return 0; });
   long long factor = damage ? 1 : get_factor(result);
   for (int i = 0; i < loop_count; ++i) {
     size_t index = 0;
@@ -133,7 +132,7 @@ long long solution::run_game(std::vector<monkey>& result, bool damage,
     }
   }
 
-  std::sort(inspected, inspected + result.size(),
+  std::sort(inspected.begin(), inspected.end(),
             [](const auto l, const auto r) { return l > r; });
   long long first = inspected[0];
   long long second = inspected[1];
