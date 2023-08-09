@@ -3,7 +3,7 @@
     path::{Path, PathBuf},
 };
 
-const COPY_DIR: &'static str = "assets";
+const COPY_DIR: &str = "assets";
 
 /// A helper function for recursively copying a directory.
 fn copy_dir<P, Q>(from: P, to: Q)

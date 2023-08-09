@@ -9,9 +9,7 @@ fn main() {
     {
         let result = d
             .chars()
-            .map(|s| s.to_digit(10))
-            .filter(|d| d.is_some())
-            .map(|d| d.unwrap())
+            .filter_map(|s| s.to_digit(10))
             .collect::<Vec<u32>>();
         cols.push(result);
     }
@@ -61,5 +59,5 @@ fn main() {
         }
     }
 
-    println!("Sizes to remove: {}", max);
+    println!("Sizes to remove: {max}");
 }

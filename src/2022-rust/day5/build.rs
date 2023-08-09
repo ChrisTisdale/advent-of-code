@@ -3,7 +3,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
-const COPY_DIR: &'static str = "assets";
+const COPY_DIR: &str = "assets";
 
 /// A helper function for recursively copying a directory.
 fn copy_dir<P, Q>(from: P, to: Q)
@@ -41,13 +41,13 @@ fn get_output_path() -> PathBuf {
         .parent()
         .unwrap()
         .join(COPY_DIR);
-    return PathBuf::from(path);
+    path
 }
 
 fn get_source_path() -> PathBuf {
     let manifest_dir_string = env::var("CARGO_MANIFEST_DIR").unwrap();
     let path = Path::new(&manifest_dir_string).join(COPY_DIR);
-    return PathBuf::from(path);
+    path
 }
 
 fn main() {
@@ -56,5 +56,5 @@ fn main() {
     if !target_dir.exists() {
         fs::create_dir(&target_dir).unwrap();
     }
-    copy_dir(source, target_dir)
+    copy_dir(source, target_dir);
 }

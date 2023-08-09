@@ -18,9 +18,9 @@ fn main() {
         let pre_total: i32 = data[i..(i + 3)].iter().sum();
         let cur_total: i32 = data[(i + 1)..(i + 4)].iter().sum();
         if pre_total < cur_total {
-            count = count + 1;
+            count += 1;
         }
     }
 
-    println!("{}", count)
+    println!("{count}");
 }

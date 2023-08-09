@@ -24,7 +24,7 @@ fn main() {
         .unwrap()
         .lines()
         .filter(|s| !s.is_empty())
-        .map(|s| s.split(" ").collect::<Vec<&str>>())
+        .map(|s| s.split(' ').collect::<Vec<&str>>())
     {
         if d[0] == "$" {
             if d[1] == "cd" {
@@ -35,9 +35,7 @@ fn main() {
                 }
 
                 current_dir.push_str(d[2]);
-                if map.contains_key(current_dir.as_str()) {
-                    panic!("We have a duplicate: {}", current_dir);
-                }
+                assert!(!map.contains_key(current_dir.as_str()), "We have a duplicate: {current_dir}");
 
                 map.insert(
                     current_dir.to_string(),
@@ -71,14 +69,13 @@ fn main() {
 
     let root = map.get("/").expect("aoc is not a liar");
     let mut min_size = cal_folder_size(root, &map);
-    let free_space = 70000000 - min_size;
-    let need_free = 30000000 - free_space;
+    let free_space = 70_000_000 - min_size;
+    let need_free = 30_000_000 - free_space;
 
     println!(
-        "Root size: {}, need: {}, free space: {}",
-        min_size, need_free, free_space
+        "Root size: {min_size}, need: {need_free}, free space: {free_space}"
     );
-    for d in root.directories.iter() {
+    for d in &root.directories {
         let f = map.get(d).expect("aoc isn't a liar");
         let size = find_min_size(&mut min_size, f, &map, &need_free, d);
         match size {
@@ -95,7 +92,7 @@ fn main() {
         }
     }
 
-    println!("Sizes to remove: {}", min_size);
+    println!("Sizes to remove: {min_size}");
 }
 
 fn find_min_size(
@@ -103,20 +100,20 @@ fn find_min_size(
     folder: &Folder,
     map: &HashMap<String, Folder>,
     needed: &usize,
-    name: &String,
+    name: &str,
 ) -> Option<SizeResult> {
     let cal = cal_folder_size(folder, map);
     if folder.directories.is_empty() && cal < *cur && cal >= *needed {
         *cur = cal;
         return Some(SizeResult {
-            name: name.clone(),
+            name: name.to_owned(),
             size: cal,
         });
     }
 
     let mut result = None;
 
-    for d in folder.directories.iter() {
+    for d in &folder.directories {
         let f = map.get(d.as_str()).expect("aoc isn't a lair");
         let res = find_min_size(cur, f, map, needed, d);
         if res.is_none() {
@@ -126,15 +123,15 @@ fn find_min_size(
         result = Option::from(match result {
             None => res.unwrap(),
             Some(d) => get_change(&d, &res.unwrap()),
-        })
+        });
     }
 
-    return match result {
+    match result {
         None => {
             if cal < *cur && cal >= *needed {
                 *cur = cal;
                 Some(SizeResult {
-                    name: name.clone(),
+                    name: name.to_owned(),
                     size: cal,
                 })
             } else {
@@ -142,7 +139,7 @@ fn find_min_size(
             }
         }
         Some(_) => result,
-    };
+    }
 }
 
 fn get_change(cur: &SizeResult, new: &SizeResult) -> SizeResult {
@@ -153,10 +150,10 @@ fn get_change(cur: &SizeResult, new: &SizeResult) -> SizeResult {
         };
     }
 
-    return SizeResult {
+    SizeResult {
         name: cur.name.clone(),
         size: cur.size,
-    };
+    }
 }
 
 fn find_parent(name: &String, map: &HashMap<String, Folder>) -> String {
@@ -168,18 +165,18 @@ fn find_parent(name: &String, map: &HashMap<String, Folder>) -> String {
         return s.clone();
     }
 
-    return String::new();
+    String::new()
 }
 
 fn cal_folder_size(folder: &Folder, map: &HashMap<String, Folder>) -> usize {
     let mut size: usize = 0;
-    for f in folder.directories.iter() {
+    for f in &folder.directories {
         size += cal_folder_size(map.get(f.as_str()).expect("aoc won't lie"), map);
     }
 
-    for f in folder.files.iter() {
+    for f in &folder.files {
         size += f.size;
     }
 
-    return size;
+    size
 }

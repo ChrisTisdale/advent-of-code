@@ -10,7 +10,7 @@ fn main() {
         let mut m = HashMap::new();
         let mut l = VecDeque::new();
         let mut count: i32 = 0;
-        println!("Checking: {}", d);
+        println!("Checking: {d}");
         for c in d.chars().enumerate() {
             count += 1;
             if m.contains_key(&c.1) {
@@ -29,6 +29,6 @@ fn main() {
             }
         }
 
-        println!("{}", count);
+        println!("{count}");
     }
 }
