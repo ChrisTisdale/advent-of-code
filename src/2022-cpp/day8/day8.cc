@@ -79,20 +79,24 @@ bool solution::is_visible(
     return true;
   }
 
-  auto count = 0xf;
   for (const auto& dvk : edges) {
     auto m = &edges;
+    bool hidden = false;
     while (m->contains(dvk.first)) {
       if (m->at(dvk.first).end.height >= current.height) {
-        count &= ~(1 << dvk.first);
+        hidden = true;
         break;
       }
 
       m = &graph.at(m->at(dvk.first).end);
     }
+
+    if (!hidden) {
+      return true;
+    }
   }
 
-  return count > 0;
+  return false;
 }
 
 long long solution::calculate_scenic(
