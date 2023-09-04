@@ -33,35 +33,33 @@ std::vector<input> solution::read_file(std::istream& file) {
 
 long long solution::find_unique_spaces(const std::vector<input>& data,
                                        const std::size_t middle_count) {
-  const long count = static_cast<long>(middle_count);
-  std::unique_ptr<point[]> middle(new point[count]);
-  point head;
-  point tail;
+  const long count = static_cast<long>(middle_count + 2);
+  std::vector<point> middle(count, point());
+  auto head = &middle[0];
+  auto tail = &middle[middle.size() - 1];
   std::set<point> found;
   for (auto move : data) {
     for (std::size_t i = 0; i < move.count; ++i) {
       switch (move.direction) {
         case 'U':
-          head.y += 1;
+          head->y += 1;
           break;
         case 'D':
-          head.y -= 1;
+          head->y -= 1;
           break;
         case 'L':
-          head.x -= 1;
+          head->x -= 1;
           break;
         default:
-          head.x += 1;
+          head->x += 1;
           break;
       }
 
-      for (long j = 0; j < count; ++j) {
-        update_current_location(j == 0 ? head : middle[j - 1], middle[j]);
+      for (long j = 1; j < count; ++j) {
+        update_current_location(middle[j - 1], middle[j]);
       }
 
-      update_current_location(middle_count == 0 ? head : middle[count - 1],
-                              tail);
-      found.insert(tail);
+      found.insert(*tail);
     }
   }
 

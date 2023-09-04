@@ -17,13 +17,13 @@ public class Day9 : Base2022AdventOfCodeDay<int>
 
     public override async ValueTask<int> ExecutePart1(Stream fileName)
     {
-        var result = await GetUniqueSpaces(ProcessFile(fileName), false);
+        var result = await GetUniqueSpaces(ProcessFile(fileName), 0);
         return result;
     }
 
     public override async ValueTask<int> ExecutePart2(Stream fileName)
     {
-        var result = await GetUniqueSpaces(ProcessFile(fileName), true);
+        var result = await GetUniqueSpaces(ProcessFile(fileName), 8);
         return result;
     }
 
@@ -43,35 +43,29 @@ public class Day9 : Base2022AdventOfCodeDay<int>
         }
     }
 
-    private static async ValueTask<int> GetUniqueSpaces(IAsyncEnumerable<Input> inputs, bool hasMiddle)
+    private static async ValueTask<int> GetUniqueSpaces(IAsyncEnumerable<Input> inputs, int middleCount)
     {
-        var head = new Point<int>(0, 0);
-        var middlePoints = new Point<int>[8];
-        var tail = new Point<int>(0, 0);
-        var set = new HashSet<Point<int>> { tail };
+        var middlePoints = new Point<int>[middleCount + 2];
+        var set = new HashSet<Point<int>> { middlePoints.Last() };
         await foreach (var input in inputs)
         {
             for (var i = 0; i < input.Moves; ++i)
             {
-                head = input.Direction switch
+                middlePoints[0] = input.Direction switch
                 {
-                    'U' => head with { Y = head.Y + 1 },
-                    'D' => head with { Y = head.Y - 1 },
-                    'L' => head with { X = head.X - 1 },
-                    'R' => head with { X = head.X + 1 },
-                    _ => throw new ArgumentException()
+                    'U' => middlePoints[0] with { Y = middlePoints[0].Y + 1 },
+                    'D' => middlePoints[0] with { Y = middlePoints[0].Y - 1 },
+                    'L' => middlePoints[0] with { X = middlePoints[0].X - 1 },
+                    'R' => middlePoints[0] with { X = middlePoints[0].X + 1 },
+                    _ => throw new ArgumentException(nameof(input.Direction))
                 };
 
-                if (hasMiddle)
+                for (var j = 1; j < middlePoints.Length; ++j)
                 {
-                    for (var j = 0; j < middlePoints.Length; ++j)
-                    {
-                        middlePoints[j] = GetTailLocation(j == 0 ? head : middlePoints[j - 1], middlePoints[j]);
-                    }
+                    middlePoints[j] = GetTailLocation(middlePoints[j - 1], middlePoints[j]);
                 }
 
-                tail = GetTailLocation(hasMiddle ? middlePoints[^1] : head, tail);
-                set.Add(tail);
+                set.Add(middlePoints[^1]);
             }
         }
 
