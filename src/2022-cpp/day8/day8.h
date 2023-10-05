@@ -4,7 +4,7 @@
 #include <vector>
 
 namespace day8 {
-enum direction { Up = 0, Down, Left, Right };
+enum class direction { Up = 0, Down, Left, Right };
 
 struct tree {
   char height;
@@ -17,7 +17,7 @@ struct tree {
   bool operator<(const tree& rhs) const {
     return std::tie(height, row, col) < std::tie(rhs.height, rhs.row, rhs.col);
   }
-
+ 
   bool operator>(const tree& rhs) const { return rhs < *this; }
 
   bool operator<=(const tree& rhs) const { return !(rhs < *this); }

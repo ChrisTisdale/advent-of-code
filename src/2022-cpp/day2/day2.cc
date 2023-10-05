@@ -51,12 +51,12 @@ played solution::convert_opponent(const char opponent) {
   switch (opponent) {
     case 'A':
     case 'a':
-      return rock;
+      return played::rock;
     case 'B':
     case 'b':
-      return paper;
+      return played::paper;
     default:
-      return scissors;
+      return played::scissors;
   }
 }
 
@@ -64,12 +64,12 @@ played solution::convert_you(const char you) {
   switch (you) {
     case 'X':
     case 'x':
-      return rock;
+      return played::rock;
     case 'Y':
     case 'y':
-      return paper;
+      return played::paper;
     default:
-      return scissors;
+      return played::scissors;
   }
 }
 
@@ -78,32 +78,33 @@ played solution::get_strategy(const played opponent, const char you) {
     case 'X':
     case 'x':
       switch (opponent) {
-        case rock:
-          return scissors;
-        case scissors:
-          return paper;
+        case played::rock:
+          return played::scissors;
+        case played::scissors:
+          return played::paper;
         default:
-          return rock;
+          return played::rock;
       }
     case 'Y':
     case 'y':
       return opponent;
     default:
       switch (opponent) {
-        case rock:
-          return paper;
-        case scissors:
-          return rock;
+        case played::rock:
+          return played::paper;
+        case played::scissors:
+          return played::rock;
         default:
-          return scissors;
+          return played::scissors;
       }
   }
 }
 
 int solution::score(const played opponent, const played you) {
-  if (opponent == you) return 3 + static_cast<int>(you);
-  if (opponent == paper && you == rock) return you;
-  if (opponent == rock && you == scissors) return you;
-  if (opponent == scissors && you == paper) return you;
-  return 6 + static_cast<int>(you);
+  const auto your_value = static_cast<int>(you);
+  if (opponent == you) return 3 + your_value;
+  if (opponent == played::paper && you == played::rock) return your_value;
+  if (opponent == played::rock && you == played::scissors) return your_value;
+  if (opponent == played::scissors && you == played::paper) return your_value;
+  return 6 + your_value;
 }

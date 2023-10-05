@@ -19,7 +19,7 @@ long long solution::run_part1(std::istream& file) {
 
 long long solution::run_part2(std::istream& file) {
   auto sigs = read_file(file);
-  std::vector<std::shared_ptr<packet>> values;
+  packet_list values;
   for (const auto& s : sigs) {
     values.push_back(std::move(s->left));
     values.push_back(std::move(s->right));
@@ -54,9 +54,9 @@ long long solution::run_part2(std::istream& file) {
   return d1_loc * d2_loc;
 }
 
-std::vector<std::unique_ptr<signals>> solution::read_file(std::istream& file) {
+signals_list solution::read_file(std::istream& file) {
   std::string temp;
-  std::vector<std::unique_ptr<signals>> points;
+  signals_list points;
   int i = 0;
   std::unique_ptr<signals> current = std::make_unique<signals>();
   while (std::getline(file, temp)) {

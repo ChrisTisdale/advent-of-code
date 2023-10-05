@@ -5,7 +5,7 @@
 #include <vector>
 
 namespace day13 {
-enum packet_type { list, value };
+enum class packet_type { list, value };
 class packet {
  private:
   packet_type type;
@@ -18,19 +18,18 @@ class packet {
   explicit packet(packet_type type) : type(type) {}
 };
 
+using packet_list = std::vector<std::shared_ptr<packet>>;
+
 class list_packet : public packet {
  private:
-  std::vector<std::shared_ptr<packet>> packets;
+  packet_list packets;
 
  public:
-  std::vector<std::shared_ptr<packet>>::iterator begin() {
+  packet_list::iterator begin() { return packets.begin(); }
+  [[nodiscard]] packet_list::const_iterator begin() const {
     return packets.begin();
   }
-  [[nodiscard]] std::vector<std::shared_ptr<packet>>::const_iterator begin()
-      const {
-    return packets.begin();
-  }
-  std::vector<std::shared_ptr<packet>>::iterator end() { return packets.end(); }
+  packet_list::iterator end() { return packets.end(); }
   [[nodiscard]] std::vector<std::shared_ptr<packet>>::const_iterator end()
       const {
     return packets.end();
@@ -68,13 +67,15 @@ struct signals {
   std::unique_ptr<list_packet> right;
 };
 
+using signals_list = std::vector<std::unique_ptr<signals>>;
+
 class solution {
  public:
   static long long run_part1(std::istream& file);
   static long long run_part2(std::istream& file);
 
  private:
-  static std::vector<std::unique_ptr<signals>> read_file(std::istream& file);
+  static signals_list read_file(std::istream& file);
   static std::unique_ptr<list_packet> parse_packet(const std::string& input,
                                                    int& i);
   static int comparer(const packet* left, const packet* right);

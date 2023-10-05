@@ -47,22 +47,27 @@ std::map<tree, std::map<direction, edge>> solution::read_file(
       tree t(lines[row][col], row, col);
       std::map<direction, edge> edges;
       if (row > 0) {
-        edges.emplace(Up, edge(Up, t, tree(lines[row - 1][col], row - 1, col)));
+        edges.emplace(
+            direction::Up,
+            edge(direction::Up, t, tree(lines[row - 1][col], row - 1, col)));
       }
 
       if (col > 0) {
-        edges.emplace(Left,
-                      edge(Left, t, tree(lines[row][col - 1], row, col - 1)));
+        edges.emplace(
+            direction::Left,
+            edge(direction::Left, t, tree(lines[row][col - 1], row, col - 1)));
       }
 
       if (row + 1 < lines.size()) {
-        edges.emplace(Down,
-                      edge(Down, t, tree(lines[row + 1][col], row + 1, col)));
+        edges.emplace(
+            direction::Down,
+            edge(direction::Down, t, tree(lines[row + 1][col], row + 1, col)));
       }
 
       if (col + 1 < lines[row].size()) {
-        edges.emplace(Right,
-                      edge(Right, t, tree(lines[row][col + 1], row, col + 1)));
+        edges.emplace(
+            direction::Right,
+            edge(direction::Right, t, tree(lines[row][col + 1], row, col + 1)));
       }
 
       graph.emplace(t, edges);
@@ -110,7 +115,8 @@ long long solution::calculate_scenic(
   for (const auto& dvk : edges) {
     auto m = &edges;
     while (m->contains(dvk.first)) {
-      counts[dvk.first] = counts[dvk.first] + 1;
+      auto index = static_cast<size_t>(dvk.first);
+      counts[index] = counts[index] + 1;
       if (m->at(dvk.first).end.height >= current.height) {
         break;
       }

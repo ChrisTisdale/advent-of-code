@@ -6,7 +6,7 @@
 #include <vector>
 
 namespace day11 {
-enum operations { add, multiply, subtract, divide };
+enum class operations { add, multiply, subtract, divide };
 
 class operation {
  public:
@@ -20,11 +20,11 @@ class operation {
 
   [[nodiscard]] long long get_result(long long value) {
     switch (type) {
-      case add:
+      case operations::add:
         return input < 0 ? value + value : input + value;
-      case multiply:
+      case operations::multiply:
         return input < 0 ? value * value : input * value;
-      case subtract:
+      case operations::subtract:
         return input < 0 ? 0 : input - value;
       default:
         return input < 0 ? 1 : input / value;

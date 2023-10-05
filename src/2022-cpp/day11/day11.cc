@@ -19,13 +19,13 @@ long long solution::run_part2(std::istream& file) {
 long long solution::get_input(operations type, std::string& line) {
   size_t index;
   switch (type) {
-    case add:
+    case operations::add:
       index = line.find('+');
       break;
-    case multiply:
+    case operations::multiply:
       index = line.find('*');
       break;
-    case subtract:
+    case operations::subtract:
       index = line.find('-');
       break;
     default:
@@ -61,10 +61,10 @@ size_t solution::get_true_value(std::string& line) {
 }
 
 operations solution::get_operation_type(std::string& line) {
-  if (line.contains('+')) return add;
-  if (line.contains('*')) return multiply;
-  if (line.contains('-')) return subtract;
-  return divide;
+  if (line.contains('+')) return operations::add;
+  if (line.contains('*')) return operations::multiply;
+  if (line.contains('-')) return operations::subtract;
+  return operations::divide;
 }
 
 monkey solution::build_monkey(std::istream& file,

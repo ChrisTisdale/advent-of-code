@@ -3,7 +3,7 @@
 #include <vector>
 
 namespace day2 {
-enum played { rock = 1, paper, scissors };
+enum class played { rock = 1, paper, scissors };
 
 struct game_round {
   char opponent;
