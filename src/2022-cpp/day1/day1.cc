@@ -2,18 +2,19 @@
 
 #include <algorithm>
 #include <fstream>
+#include <numeric>
 #include <sstream>
 
 using namespace day1;
 
 long long solution::run_part1(const std::string& file) {
   const auto elfs = read_file(file);
-  long long max = 0;
-  for (const auto& e : elfs) {
-    max = std::max(e->total(), max);
-  }
 
-  return max;
+  const auto max_elf = std::max_element(
+      elfs.begin(), elfs.end(),
+      [](const auto l, const auto r) { return l->total() < r->total(); });
+  if (max_elf == elfs.end()) return 0;
+  return (*max_elf)->total();
 }
 
 long long solution::run_part2(const std::string& file) {
@@ -21,9 +22,9 @@ long long solution::run_part2(const std::string& file) {
   std::sort(elfs.begin(), elfs.end(),
             [](const auto l, const auto r) { return l->total() > r->total(); });
   long long sum = 0;
-  for (int i = 0; i < std::min(3, static_cast<int>(elfs.size())); ++i) {
-    sum += elfs[i]->total();
-  }
+  sum = std::accumulate(
+      elfs.begin(), elfs.begin() + std::min(3, static_cast<int>(elfs.size())),
+      sum, [](const auto s, const auto l) { return l->total() + s; });
 
   return sum;
 }

@@ -74,9 +74,5 @@ std::vector<rucksack> solution::read_file(const std::string& file) {
 }
 
 int solution::get_value(char character) {
-  if (character > 'Z') {
-    return 1 + (character - 'a');
-  } else {
-    return 27 + (character - 'A');
-  }
+  return character > 'Z' ? 1 + (character - 'a') : 27 + (character - 'A');
 }
