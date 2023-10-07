@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-using namespace day13;
+using namespace aoc2022::day13;
 
 long long solution::run_part1(std::istream& file) {
   auto sigs = read_file(file);

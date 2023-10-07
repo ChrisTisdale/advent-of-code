@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-namespace day11 {
+namespace aoc2022::day11 {
 enum class operations { add, multiply, subtract, divide };
 
 class operation {
@@ -90,4 +90,4 @@ class solution {
   static size_t get_true_value(std::string& line);
   static operations get_operation_type(std::string& line);
 };
-}  // namespace day11
+}  // namespace aoc2022::day11

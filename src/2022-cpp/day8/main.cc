@@ -2,7 +2,7 @@
 
 #include "day8.h"
 
-using namespace day8;
+using namespace aoc2022::day8;
 
 int main(const int argc, char *argv[]) {
   if (argc != 2) {

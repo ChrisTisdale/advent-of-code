@@ -5,7 +5,7 @@
 #include <iostream>
 #include <numeric>
 
-using namespace day8;
+using namespace aoc2022::day8;
 
 long long solution::run_part1(const std::string& file) {
   auto graph = read_file(file);

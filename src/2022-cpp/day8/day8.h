@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 
-namespace day8 {
+namespace aoc2022::day8 {
 enum class direction { Up = 0, Down, Left, Right };
 
 struct tree {
@@ -71,4 +71,4 @@ class solution {
       const tree& current, const std::map<direction, edge>& edges,
       const std::map<tree, std::map<direction, edge>>& graph);
 };
-}  // namespace day8
+}  // namespace aoc2022::day8

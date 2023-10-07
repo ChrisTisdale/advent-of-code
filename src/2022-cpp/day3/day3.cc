@@ -4,7 +4,7 @@
 #include <sstream>
 #include <unordered_set>
 
-using namespace day3;
+using namespace aoc2022::day3;
 
 int solution::run_part1(const std::string& file) {
   auto sacks = read_file(file);

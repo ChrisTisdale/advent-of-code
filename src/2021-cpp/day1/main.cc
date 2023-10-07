@@ -1,8 +1,9 @@
+#include <fstream>
 #include <iostream>
 
 #include "day1.h"
 
-using namespace aoc2022::day1;
+using namespace aoc2021::day1;
 
 int main(const int argc, char *argv[]) {
   if (argc != 2) {
@@ -10,9 +11,11 @@ int main(const int argc, char *argv[]) {
     return -1;
   }
 
-  auto res = solution::run_part1(std::string(argv[1]));
+  std::fstream file(argv[1]);
+  auto res = solution::run_part1(file);
   std::cout << "Part 1 Results:" << res << "\n";
-  res = solution::run_part2(std::string(argv[1]));
+  file.seekg(0);
+  res = solution::run_part2(file);
   std::cout << "Part 2 Results:" << res << "\n";
   return 0;
 }

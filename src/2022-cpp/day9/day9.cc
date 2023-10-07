@@ -4,7 +4,7 @@
 #include <set>
 #include <sstream>
 
-using namespace day9;
+using namespace aoc2022::day9;
 
 long long solution::run_part1(std::istream& file) {
   auto inputs = read_file(file);

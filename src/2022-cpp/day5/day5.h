@@ -3,7 +3,7 @@
 #include <string>
 #include <utility>
 
-namespace day5 {
+namespace aoc2022::day5 {
 struct player {
   std::deque<char> crane;
 };
@@ -33,4 +33,4 @@ class solution {
  private:
   static game read_file(const std::string& file);
 };
-}  // namespace day5
+}  // namespace aoc2022::day5

@@ -3,7 +3,7 @@
 #include <cstring>
 #include <sstream>
 
-using namespace day10;
+using namespace aoc2022::day10;
 
 long long solution::run_part1(std::istream& file) {
   std::string line;

@@ -4,7 +4,7 @@
 #include <sstream>
 #include <stack>
 
-using namespace day5;
+using namespace aoc2022::day5;
 
 std::string solution::run_part1(const std::string& file) {
   auto game = read_file(file);

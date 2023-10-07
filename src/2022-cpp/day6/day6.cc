@@ -4,7 +4,7 @@
 #include <stack>
 #include <unordered_set>
 
-using namespace day6;
+using namespace aoc2022::day6;
 
 int solution::run_part1(const std::string& file) {
   return find_marker(file, 4);

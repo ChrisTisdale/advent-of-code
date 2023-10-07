@@ -54,3 +54,4 @@ if (PACKAGE_TESTS)
 endif ()
 
 add_subdirectory("src/2022-cpp")
+add_subdirectory("src/2021-cpp")

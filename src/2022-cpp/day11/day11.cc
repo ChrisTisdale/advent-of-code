@@ -4,7 +4,7 @@
 #include <numeric>
 #include <sstream>
 
-using namespace day11;
+using namespace aoc2022::day11;
 
 long long solution::run_part1(std::istream& file) {
   auto result = read_file(file);

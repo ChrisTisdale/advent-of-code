@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-namespace day2 {
+namespace aoc2022::day2 {
 enum class played { rock = 1, paper, scissors };
 
 struct game_round {
@@ -25,4 +25,4 @@ class solution {
   static played get_strategy(played opponent, char you);
   static int score(played opponent, played you);
 };
-}  // namespace day2
+}  // namespace aoc2022::day2

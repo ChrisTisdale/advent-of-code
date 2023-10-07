@@ -7,14 +7,14 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/samplePart2.txt ${CMAKE_CURRENT_BINAR
 add_executable(2022day9 ${day9_files} ${day9_main})
 
 add_custom_target(
-        runDay9
+        run2022Day9
         COMMAND 2022day9 measurements.txt
         DEPENDS 2022day9
 )
 
 list(APPEND TEST_FILES "day9Tests.cc")
 package_add_test(
-        day9_tests
+        day9_20221_tests
         ${TEST_FILES}
         ${day9_files}
 )

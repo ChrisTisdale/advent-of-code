@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-namespace day4 {
+namespace aoc2022::day4 {
 struct assignment {
   int start;
   int stop;
@@ -25,4 +25,4 @@ class solution {
  private:
   static std::vector<section> read_file(const std::string& file);
 };
-}  // namespace day4
+}  // namespace aoc2022::day4

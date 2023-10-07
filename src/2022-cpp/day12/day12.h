@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-namespace day12 {
+namespace aoc2022::day12 {
 struct point {
   char value;
   int x;
@@ -66,4 +66,4 @@ class solution {
   static void add_points(const hill& h, const point& p, graph_queue& queue,
                          int offset);
 };
-}  // namespace day12
+}  // namespace aoc2022::day12

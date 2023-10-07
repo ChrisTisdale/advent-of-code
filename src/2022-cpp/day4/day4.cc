@@ -4,7 +4,7 @@
 #include <sstream>
 #include <unordered_set>
 
-using namespace day4;
+using namespace aoc2022::day4;
 
 int solution::run_part1(const std::string& file) {
   auto sections = read_file(file);

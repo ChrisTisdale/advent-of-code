@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-namespace day7 {
+namespace aoc2022::day7 {
 struct os_file {
   std::string name;
   long long size;
@@ -57,4 +57,4 @@ class solution {
   static long long int sum_directories_under(
       const std::shared_ptr<folder>& root);
 };
-}  // namespace day7
+}  // namespace aoc2022::day7

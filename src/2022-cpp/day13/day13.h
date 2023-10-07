@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-namespace day13 {
+namespace aoc2022::day13 {
 enum class packet_type { list, value };
 class packet {
  private:
@@ -80,4 +80,4 @@ class solution {
                                                    int& i);
   static int comparer(const packet* left, const packet* right);
 };
-}  // namespace day13
+}  // namespace aoc2022::day13

@@ -5,7 +5,7 @@
 #include <numeric>
 #include <sstream>
 
-using namespace day1;
+using namespace aoc2022::day1;
 
 long long solution::run_part1(const std::string& file) {
   const auto elfs = read_file(file);

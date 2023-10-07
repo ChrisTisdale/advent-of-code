@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-namespace day1 {
+namespace aoc2022::day1 {
 struct elf {
   std::vector<int> calories;
 
@@ -21,4 +21,4 @@ class solution {
  private:
   static std::vector<std::shared_ptr<elf>> read_file(const std::string& file);
 };
-}  // namespace day1
+}  // namespace aoc2022::day1

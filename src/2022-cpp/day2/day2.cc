@@ -3,7 +3,7 @@
 #include <fstream>
 #include <sstream>
 
-using namespace day2;
+using namespace aoc2022::day2;
 
 int solution::run_part1(const std::string& file) {
   const auto game = read_file(file);

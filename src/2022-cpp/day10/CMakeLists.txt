@@ -5,20 +5,20 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/measurements.txt ${CMAKE_CURRENT_BINA
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/sample.txt ${CMAKE_CURRENT_BINARY_DIR}/sample.txt COPYONLY)
 add_executable(2022day10 ${day10_files} ${day10_main})
 add_custom_target(
-        runDay10Test
+        run2022Day10Test
         COMMAND 2022day10 sample.txt
         DEPENDS 2022day10
 )
 
 add_custom_target(
-        runDay10
+        run2022Day10
         COMMAND 2022day10 measurements.txt
         DEPENDS 2022day10
 )
 
 list(APPEND TEST_FILES "day10Tests.cc")
 package_add_test(
-        day10_tests
+        day10_20221_tests
         ${TEST_FILES}
         ${day10_files}
 )

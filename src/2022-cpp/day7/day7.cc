@@ -5,7 +5,7 @@
 #include <iostream>
 #include <sstream>
 
-using namespace day7;
+using namespace aoc2022::day7;
 
 static const long long DISK_SIZE = 70000000;
 static const long long SPACE_REQUIRED = 30000000;
@@ -70,7 +70,7 @@ std::shared_ptr<folder> solution::read_file(const std::string& file) {
   return root;
 }
 
-long long int day7::solution::sum_directories_under(
+long long int solution::sum_directories_under(
     const std::shared_ptr<folder>& root) {
   long long sum = 0;
   auto size = root->size();

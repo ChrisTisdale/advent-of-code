@@ -4,7 +4,7 @@
 #include <tuple>
 #include <vector>
 
-namespace day9 {
+namespace aoc2022::day9 {
 struct point {
   long long x;
   long long y;
@@ -46,4 +46,4 @@ class solution {
                                       std::size_t middle_count);
   static void update_current_location(const point& parent, point& current);
 };
-}  // namespace day9
+}  // namespace aoc2022::day9

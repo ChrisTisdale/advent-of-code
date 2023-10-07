@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 
-namespace day3 {
+namespace aoc2022::day3 {
 struct rucksack {
   std::string data;
 
@@ -18,4 +18,4 @@ class solution {
   static std::vector<rucksack> read_file(const std::string& file);
   static int get_value(char character);
 };
-}  // namespace day3
+}  // namespace aoc2022::day3

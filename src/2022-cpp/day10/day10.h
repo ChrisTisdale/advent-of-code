@@ -2,7 +2,7 @@
 #include <istream>
 #include <string>
 
-namespace day10 {
+namespace aoc2022::day10 {
 class solution {
  public:
   static long long run_part1(std::istream& file);
@@ -10,4 +10,4 @@ class solution {
 
  private:
 };
-}  // namespace day10
+}  // namespace aoc2022::day10

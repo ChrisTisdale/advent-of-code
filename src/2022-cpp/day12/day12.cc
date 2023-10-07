@@ -2,7 +2,7 @@
 
 #include <sstream>
 
-using namespace day12;
+using namespace aoc2022::day12;
 
 long long solution::run_part1(std::istream& file) {
   auto map = read_file(file);
