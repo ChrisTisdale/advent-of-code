@@ -34,27 +34,28 @@ while (true)
 
 async ValueTask<bool> ProcessYear()
 {
-    Console.Clear();
-    for (var i = 0; i < runnableDaysKeys.Length; i++)
+    while (true)
     {
-        Console.WriteLine(Resources.YearSelectionFmt, i + 1, runnableDaysKeys[i]);
+        Console.Clear();
+        for (var i = 0; i < runnableDaysKeys.Length; i++)
+        {
+            Console.WriteLine(Resources.YearSelectionFmt, i + 1, runnableDaysKeys[i]);
+        }
+
+        Console.WriteLine(Resources.Quit);
+        Console.Write(Resources.Input);
+        var read = Console.ReadLine();
+
+        if (int.TryParse(read, out var index) && index <= runnableDaysKeys.Length)
+        {
+            return await ProcessDay(runnableDaysKeys[index - 1]);
+        }
+
+        if (read is "q" or "Q")
+        {
+            return false;
+        }
     }
-
-    Console.WriteLine(Resources.Quit);
-    Console.Write(Resources.Input);
-    var read = Console.ReadLine();
-
-    if (int.TryParse(read, out var index) && index <= runnableDaysKeys.Length)
-    {
-        return await ProcessDay(runnableDaysKeys[index - 1]);
-    }
-
-    if (read is "q" or "Q")
-    {
-        return false;
-    }
-
-    return await ProcessYear();
 }
 
 async ValueTask<bool> ProcessDay(DateOnly dateOnly)
@@ -82,17 +83,12 @@ async ValueTask<bool> ProcessDay(DateOnly dateOnly)
         return await ProcessPart(adventOfCodeDays[index - 1]);
     }
 
-    if (read is "y" or "Y" && runnableDaysKeys.Length > 1)
+    return read switch
     {
-        return await ProcessYear();
-    }
-
-    if (read is "q" or "Q")
-    {
-        return false;
-    }
-
-    return await ProcessDay(dateOnly);
+        "y" or "Y" when runnableDaysKeys.Length > 1 => await ProcessYear(),
+        "q" or "Q" => false,
+        _ => await ProcessDay(dateOnly)
+    };
 }
 
 async ValueTask<bool> ProcessPart(IAdventOfCodeDay codeDay)
@@ -126,8 +122,17 @@ async ValueTask<bool> RunPart1(IAdventOfCodeDay codeDay)
     return await Test(codeDay, runnableDaysKeys, RunPart1);
 }
 
-async Task<bool> Test(IAdventOfCodeDay adventOfCodeDay, IReadOnlyCollection<DateOnly> dates, Func<IAdventOfCodeDay, ValueTask<bool>> action)
+async Task<bool> Test(
+    IAdventOfCodeDay adventOfCodeDay,
+    IReadOnlyCollection<DateOnly> dates,
+    Func<IAdventOfCodeDay, ValueTask<bool>> action,
+    bool clear = false)
 {
+    if (clear)
+    {
+        Console.Clear();
+    }
+
     var key = GetExecutionKey();
     return key switch
     {
@@ -136,7 +141,7 @@ async Task<bool> Test(IAdventOfCodeDay adventOfCodeDay, IReadOnlyCollection<Date
         "y" or "Y" when dates.Count > 1 => await ProcessYear(),
         "q" or "Q" => false,
         "p" or "P" => await ProcessPart(adventOfCodeDay),
-        _ => await Test(adventOfCodeDay, dates, action)
+        _ => await Test(adventOfCodeDay, dates, action, true)
     };
 }
 
