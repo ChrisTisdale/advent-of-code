@@ -1,6 +1,5 @@
 {
   "name" : "advent-of-code",
   "version-string" : "1.0.0",
-  "builtin-baseline" : "3b7578831da081ba164be30da8d9382a64841059",
   "dependencies" : [ "gtest" ]
 }
