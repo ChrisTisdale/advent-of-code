@@ -135,6 +135,7 @@ async Task<bool> Test(IAdventOfCodeDay adventOfCodeDay, IReadOnlyCollection<Date
         "d" or "D" => await ProcessDay(adventOfCodeDay.Year),
         "y" or "Y" when dates.Count > 1 => await ProcessYear(),
         "q" or "Q" => false,
+        "p" or "P" => await ProcessPart(adventOfCodeDay),
         _ => await Test(adventOfCodeDay, dates, action)
     };
 }
