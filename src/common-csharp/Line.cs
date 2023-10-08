@@ -47,6 +47,18 @@ public readonly record struct Line<T> : IEnumerable<Point<T>> where T : INumber<
                 yield return res;
             }
         }
+        else if (T.Abs(One.Y - Two.Y) == T.Abs(One.X - Two.X) &&
+                 T.Abs(One.X - Two.X) % Increment == T.Zero)
+        {
+            var incrementX = One.X < Two.X;
+            var incrementY = One.Y < Two.Y;
+            for (var i = T.Zero; i <= T.Abs(One.X - Two.X); i += Increment)
+            {
+                yield return new Point<T>(
+                    incrementX ? One.X + i : One.X - i,
+                    incrementY ? One.Y + i : One.Y - i);
+            }
+        }
         else
         {
             throw new NotImplementedException();
@@ -80,7 +92,7 @@ public readonly record struct Line<T> : IEnumerable<Point<T>> where T : INumber<
                        : point.X >= One.X && point.X <= Two.X);
         }
 
-        throw new NotImplementedException();
+        return GetPoints().Contains(point);
     }
 
     public IEnumerable<Point<T>> GetPoints() => this;

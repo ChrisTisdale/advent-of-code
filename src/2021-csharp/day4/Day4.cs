@@ -1,7 +1,5 @@
 ﻿namespace AdventOfCode2021.day4;
 
-using System.Runtime.InteropServices;
-
 public sealed class Day4 : Base2021AdventOfCodeDay<int>
 {
     public override async ValueTask<int> ExecutePart1(Stream fileName)
