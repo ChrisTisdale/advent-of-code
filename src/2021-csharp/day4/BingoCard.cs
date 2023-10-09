@@ -21,10 +21,6 @@ public class BingoCard
 
     private BingoNumber[][] Card { get; }
 
-    public ReadOnlySpan<BingoNumber> this[int row] => Card[row];
-
-    public BingoNumber GetNumber(int row, int col) => Card[row][col];
-
     public void Daub(ReadOnlySpan<int> ballCall)
     {
         for (var row = 0; row < CardSize; ++row)

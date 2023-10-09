@@ -19,5 +19,5 @@ internal class Monkey
     public Evaluator[] Evaluators { get; }
 
     public override string ToString() =>
-        new PrintableMonkey(Id, Items.ToArray(), Calculator, Evaluators).ToString();
+        new PrintableMonkey(Id, Items.ToArray(), Calculator, Evaluators).ToString()!;
 }

@@ -67,7 +67,7 @@ public class Day2 : Base2021AdventOfCodeDay<int>
                     aim += d.Units;
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(operations), d.Direction, null);
             }
         }
 
