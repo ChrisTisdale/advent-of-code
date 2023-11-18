@@ -1,7 +1,6 @@
 namespace AdventOfCode2023Tests.day1;
 
 using AdventOfCode2023.day1;
-using FluentAssertions;
 
 public class Day12023Tests
 {
