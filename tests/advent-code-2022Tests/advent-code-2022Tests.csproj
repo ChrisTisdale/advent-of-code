@@ -9,10 +9,4 @@
         <ProjectReference Include="..\..\src\2022-csharp\advent-code-2022.csproj"/>
     </ItemGroup>
 
-    <ItemGroup>
-        <Content Include="..\..\.dockerignore">
-            <Link>.dockerignore</Link>
-        </Content>
-    </ItemGroup>
-
 </Project>
