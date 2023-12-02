@@ -92,8 +92,8 @@ public class Day12023 : BaseAdventOfCodeDay<long>
                 continue;
             }
 
-            var span = line.AsSpan(i, currentText.Length);
-            if (!string.Equals(currentText, span.ToString()))
+            var searchText = line.AsSpan(i, currentText.Length);
+            if (!searchText.Equals(currentText.AsSpan(), StringComparison.Ordinal))
             {
                 continue;
             }
