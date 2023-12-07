@@ -24,7 +24,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
       - name: Install dependencies
         run: dotnet restore advent-code.sln
       - name: Build
