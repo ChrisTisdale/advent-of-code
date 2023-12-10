@@ -2,8 +2,6 @@ namespace AdventOfCode2023.day6;
 
 using Common;
 
-public readonly record struct Race(TimeSpan RaceTime, long Distance);
-
 public class Day62023 : BaseAdventOfCodeDay<long>
 {
     public override DateOnly Year => new(2023, 12, 6);
