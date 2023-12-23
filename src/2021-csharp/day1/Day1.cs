@@ -2,17 +2,11 @@
 
 public class Day1 : Base2021AdventOfCodeDay<int>
 {
-    public override async ValueTask<int> ExecutePart1(Stream fileName, CancellationToken token = default)
-    {
-        var result = await FindIncreasingCount(fileName, 1, token);
-        return result;
-    }
+    public override async ValueTask<int> ExecutePart1(Stream fileName, CancellationToken token = default) =>
+        await FindIncreasingCount(fileName, 1, token);
 
-    public override async ValueTask<int> ExecutePart2(Stream fileName, CancellationToken token = default)
-    {
-        var result = await FindIncreasingCount(fileName, 3, token);
-        return result;
-    }
+    public override async ValueTask<int> ExecutePart2(Stream fileName, CancellationToken token = default) =>
+        await FindIncreasingCount(fileName, 3, token);
 
     private static async ValueTask<int> FindIncreasingCount(Stream stream, int windowSize, CancellationToken token)
     {

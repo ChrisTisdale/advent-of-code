@@ -16,15 +16,11 @@ public class Day9 : Base2022AdventOfCodeDay<int>
     {
     }
 
-    public override async ValueTask<int> ExecutePart1(Stream fileName, CancellationToken token = default)
-    {
-        return await GetUniqueSpaces(ProcessFile(fileName, token), 0, token);
-    }
+    public override async ValueTask<int> ExecutePart1(Stream fileName, CancellationToken token = default) =>
+        await GetUniqueSpaces(fileName, 0, token);
 
-    public override async ValueTask<int> ExecutePart2(Stream fileName, CancellationToken token = default)
-    {
-        return await GetUniqueSpaces(ProcessFile(fileName, token), 8, token);
-    }
+    public override async ValueTask<int> ExecutePart2(Stream fileName, CancellationToken token = default) =>
+        await GetUniqueSpaces(fileName, 8, token);
 
     private static async IAsyncEnumerable<Input> ProcessFile(Stream fileName, [EnumeratorCancellation] CancellationToken token = default)
     {
@@ -42,11 +38,11 @@ public class Day9 : Base2022AdventOfCodeDay<int>
         }
     }
 
-    private static async ValueTask<int> GetUniqueSpaces(IAsyncEnumerable<Input> inputs, int middleCount, CancellationToken token)
+    private static async ValueTask<int> GetUniqueSpaces(Stream fileName, int middleCount, CancellationToken token)
     {
         var middlePoints = new Point<int>[middleCount + 2];
         var set = new HashSet<Point<int>> { middlePoints.Last() };
-        await foreach (var input in inputs.WithCancellation(token))
+        await foreach (var input in ProcessFile(fileName, token))
         {
             for (var i = 0; i < input.Moves; ++i)
             {
