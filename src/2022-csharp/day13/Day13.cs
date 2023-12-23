@@ -56,7 +56,7 @@ public class Day13 : Base2022AdventOfCodeDay<int>
 
     private static async ValueTask<IReadOnlyList<PacketChecker>> GetPackets(Stream file)
     {
-        var lines = await ReadFile(file);
+        var lines = await ReadAllLinesAsync(file);
         var comparisons = new List<PacketChecker>();
         for (var i = 0; i < lines.Count; i += 3)
         {

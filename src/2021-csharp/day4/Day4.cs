@@ -58,7 +58,7 @@ public sealed class Day4 : Base2021AdventOfCodeDay<int>
 
     private async ValueTask<BingoGame> GetInput(Stream file)
     {
-        var input = (await ReadFile(file)).ToArray();
+        var input = (await ReadAllLinesAsync(file)).ToArray();
         var ballCall = input[0].Split(',').Select(int.Parse).ToArray();
         var cards = new List<BingoCard>();
         for (var i = 2; i <= input.Length - BingoCard.CardSize; i += BingoCard.CardSize + 1)

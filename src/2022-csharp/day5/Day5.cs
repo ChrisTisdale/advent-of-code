@@ -16,7 +16,7 @@ public class Day5 : Base2022AdventOfCodeDay<string>
 
     private static async ValueTask<IEnumerable<Stack<char>>> GetStacks(Stream fileName, bool moveMultiple)
     {
-        var readLines = (await ReadFile(fileName)).ToArray();
+        var readLines = (await ReadAllLinesAsync(fileName)).ToArray();
         var index = Array.FindIndex(readLines, string.IsNullOrEmpty);
         var lines = readLines[index - 1].Split(' ').Where(x => !string.IsNullOrWhiteSpace(x)).Select(int.Parse).ToList();
         var count = lines.Max();

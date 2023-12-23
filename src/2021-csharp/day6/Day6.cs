@@ -62,7 +62,7 @@ public class Day6 : Base2021AdventOfCodeDay<long>
 
     private static async ValueTask<IReadOnlyList<long>> ReadFish(Stream stream)
     {
-        var input = await ReadFile(stream);
-        return input.Count < 1 ? new List<long>() : input[0].Split(',').Select(long.Parse).ToList();
+        var input = await EnumerateLinesAsync(stream).FirstOrDefaultAsync().ConfigureAwait(false);
+        return string.IsNullOrEmpty(input) ? Array.Empty<long>() : input.Split(',').Select(long.Parse).ToList();
     }
 }

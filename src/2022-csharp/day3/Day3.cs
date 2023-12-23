@@ -19,10 +19,9 @@ public class Day3 : Base2022AdventOfCodeDay<decimal>
     private static async ValueTask<decimal> FindScorePart1(Stream filename)
     {
         var score = 0m;
-        var readLines = await ReadFile(filename);
-        for (var i = 0; i < readLines.Count; ++i)
+        await foreach (var line in EnumerateLinesAsync(filename))
         {
-            var sack = Encoding.ASCII.GetBytes(readLines[i]);
+            var sack = Encoding.ASCII.GetBytes(line);
             var half = sack.Length / 2;
             var first = sack[..half];
             var second = sack[half..];
@@ -35,7 +34,7 @@ public class Day3 : Base2022AdventOfCodeDay<decimal>
     private static async ValueTask<decimal> FindScorePart2(Stream filename)
     {
         var score = 0m;
-        var readLines = await ReadFile(filename);
+        var readLines = await ReadAllLinesAsync(filename);
         for (var i = 0; i <= readLines.Count - 3; i += 3)
         {
             var first = Encoding.ASCII.GetBytes(readLines[i]);

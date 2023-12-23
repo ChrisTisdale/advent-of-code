@@ -16,7 +16,7 @@ public class Day1 : Base2021AdventOfCodeDay<int>
 
     private static async ValueTask<int> FindIncreasingCount(Stream stream, int windowSize)
     {
-        var lines = (await ReadFile(stream)).Select(int.Parse).ToArray();
+        var lines = await EnumerateLinesAsync(stream).Select(int.Parse).ToArrayAsync();
         var count = 0;
         for (var i = 0; i < lines.Length - windowSize; ++i)
         {

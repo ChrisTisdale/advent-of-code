@@ -24,7 +24,7 @@ public class Day8 : Base2022AdventOfCodeDay<int>
 
     private static async ValueTask<Graph> BuildGraph(Stream fileName)
     {
-        var lines = await ReadFile(fileName);
+        var lines = await ReadAllLinesAsync(fileName);
         var nodes = new List<TreeNode>();
         var edgeNodes = new Dictionary<TreeNode, IReadOnlyDictionary<Direction, EdgeNode>>();
         for (var row = 0; row < lines.Count; ++row)

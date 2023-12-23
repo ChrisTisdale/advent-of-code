@@ -36,13 +36,12 @@ public sealed class Day5 : Base2021AdventOfCodeDay<int>
         return dic.Values.Count(x => x > 1);
     }
 
-    private static async ValueTask<IReadOnlyList<Line<int>>> ParseLines(Stream file)
-    {
-        var input = await ReadFile(file);
-        return input.Select(x => x.Split(" -> "))
+    private static async ValueTask<IReadOnlyList<Line<int>>> ParseLines(Stream file) =>
+        await EnumerateLinesAsync(file)
+            .Select(x => x.Split(" -> "))
             .Select(points => new Line<int>(ParsePoint(points[0]), ParsePoint(points[1])))
-            .ToList();
-    }
+            .ToListAsync()
+            .ConfigureAwait(false);
 
     private static Point<int> ParsePoint(string input)
     {

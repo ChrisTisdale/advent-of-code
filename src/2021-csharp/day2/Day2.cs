@@ -17,10 +17,11 @@ public class Day2 : Base2021AdventOfCodeDay<int>
     }
 
     private static async ValueTask<IReadOnlyCollection<Dive>> ReadDiveOperations(Stream stream) =>
-        (await ReadFile(stream))
-        .Select(x => x.Split(' '))
-        .Select(x => new Dive(ToDirection(x[0]), int.Parse(x[1]))).
-        ToArray();
+        await EnumerateLinesAsync(stream)
+            .Select(x => x.Split(' '))
+            .Select(x => new Dive(ToDirection(x[0]), int.Parse(x[1])))
+            .ToArrayAsync()
+            .ConfigureAwait(false);
 
     private static ValueTask<int> ProcessPart1(IEnumerable<Dive> operations)
     {

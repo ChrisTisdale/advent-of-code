@@ -26,7 +26,7 @@ public class Day12 : Base2022AdventOfCodeDay<int>
     {
         var nodes = new List<Node<char, int>>();
         var edges = new Dictionary<Node<char, int>, IReadOnlyList<Node<char, int>>>();
-        var lines = await ReadFile(fileName);
+        var lines = await ReadAllLinesAsync(fileName);
         for (var row = 0; row < lines.Count; ++row)
         {
             for (var col = 0; col < lines[row].Length; ++col)

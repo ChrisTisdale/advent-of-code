@@ -16,7 +16,7 @@ public sealed class Day3 : Base2021AdventOfCodeDay<int>
 
     private async ValueTask<Input> ParsePart1Inputs(Stream fileName)
     {
-        var allLines = await ReadFile(fileName);
+        var allLines = await ReadAllLinesAsync(fileName);
         if (allLines.Count == 0)
         {
             return new Input(0, 0);
@@ -44,7 +44,7 @@ public sealed class Day3 : Base2021AdventOfCodeDay<int>
 
     private async ValueTask<Input> ParsePart2Inputs(Stream fileName)
     {
-        var allLines = await ReadFile(fileName);
+        var allLines = await ReadAllLinesAsync(fileName);
         if (allLines.Count == 0)
         {
             return new Input(0, 0);

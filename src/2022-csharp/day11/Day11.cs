@@ -14,7 +14,7 @@ public class Day11 : Base2022AdventOfCodeDay<long>
     private static async ValueTask<IReadOnlyList<Monkey>> ProcessFile(Stream fileName)
     {
         var monkeys = new List<Monkey>();
-        var linesAsync = (await ReadFile(fileName)).ToArray();
+        var linesAsync = (await ReadAllLinesAsync(fileName)).ToArray();
         for (var i = 0; i < linesAsync.Length; i += 7)
         {
             var id = int.Parse(linesAsync[i].Split(' ')[1].TrimEnd(':'));

@@ -16,7 +16,7 @@ public class Day6 : Base2022AdventOfCodeDay<Results>
 
     private static async ValueTask<Results> FindMarkers(Stream fileName, int distinctCount)
     {
-        var readLines = (await ReadFile(fileName)).Where(x => !string.IsNullOrEmpty(x)).ToArray();
+        var readLines = await EnumerateLinesAsync(fileName).Where(x => !string.IsNullOrEmpty(x)).ToArrayAsync();
         var results = new int[readLines.Length];
         for (var index = 0; index < readLines.Length; index++)
         {

@@ -47,7 +47,7 @@ public abstract class BaseAdventOfCodeDay<T> : IAdventOfCodeDay
         return type.Assembly.GetManifestResourceStream($"{ns}.{file}") ?? throw new InvalidOperationException();
     }
 
-    protected static async ValueTask<IReadOnlyList<string>> ReadFile(Stream stream)
+    protected static async ValueTask<IReadOnlyList<string>> ReadAllLinesAsync(Stream stream)
     {
         var lines = new List<string>();
         using var sr = new StreamReader(stream);
@@ -58,5 +58,14 @@ public abstract class BaseAdventOfCodeDay<T> : IAdventOfCodeDay
         }
 
         return lines;
+    }
+
+    protected static async IAsyncEnumerable<string> EnumerateLinesAsync(Stream stream)
+    {
+        using var sr = new StreamReader(stream);
+        while (!sr.EndOfStream)
+        {
+            yield return await sr.ReadLineAsync() ?? string.Empty;
+        }
     }
 }
