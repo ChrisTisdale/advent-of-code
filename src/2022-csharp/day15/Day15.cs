@@ -4,20 +4,20 @@ using Common;
 
 public class Day15 : Base2022AdventOfCodeDay<long>
 {
-    public override async ValueTask ExecutePart1()
+    public override async ValueTask ExecutePart1(CancellationToken token = default)
     {
         foreach (var fileName in Constants.DefaultFiles[Part.Part1])
         {
             await using var fileStream = GetFileStream(fileName);
-            var results = await ExecutePart1(fileName, fileStream);
+            var results = await ExecutePart1(fileName, fileStream, token);
             Console.WriteLine($@"{fileName} Has the answer: {results}");
         }
     }
 
-    public async ValueTask<long> ExecutePart1(string fileName, Stream stream)
+    public async ValueTask<long> ExecutePart1(string fileName, Stream stream, CancellationToken token = default)
     {
         var expectedY = fileName == Constants.DefaultFiles[Part.Part1][0] ? 10 : 2000000;
-        var (sensors, points) = await GetSensors(stream);
+        var (sensors, points) = await GetSensors(stream, token);
         var set = new HashSet<Point<int>>(10000000);
         foreach (var sensor in sensors)
         {
@@ -30,12 +30,12 @@ public class Day15 : Base2022AdventOfCodeDay<long>
         return set.Count;
     }
 
-    public override ValueTask<long> ExecutePart1(Stream fileName) => throw new NotImplementedException();
+    public override ValueTask<long> ExecutePart1(Stream fileName, CancellationToken token = default) => throw new NotImplementedException();
 
-    public override async ValueTask<long> ExecutePart2(Stream fileName)
+    public override async ValueTask<long> ExecutePart2(Stream fileName, CancellationToken token = default)
     {
         const long xMultiple = 4000000;
-        var (sensors, points) = await GetSensors(fileName);
+        var (sensors, points) = await GetSensors(fileName, token);
         var location = GetLocation(sensors, points);
         checked
         {
@@ -43,14 +43,14 @@ public class Day15 : Base2022AdventOfCodeDay<long>
         }
     }
 
-    private static async ValueTask<(IReadOnlyList<Sensor>, HashSet<Point<int>>)> GetSensors(Stream fileName)
+    private static async ValueTask<(IReadOnlyList<Sensor>, HashSet<Point<int>>)> GetSensors(Stream fileName, CancellationToken token)
     {
         var sensors = new List<Sensor>();
         var points = new HashSet<Point<int>>();
         using var sr = new StreamReader(fileName);
         while (!sr.EndOfStream)
         {
-            var line = await sr.ReadLineAsync();
+            var line = await sr.ReadLineAsync(token);
             if (line == null)
             {
                 continue;

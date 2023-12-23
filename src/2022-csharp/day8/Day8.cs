@@ -2,29 +2,29 @@
 
 public class Day8 : Base2022AdventOfCodeDay<int>
 {
-    public override async ValueTask<int> ExecutePart1(Stream fileName)
+    public override async ValueTask<int> ExecutePart1(Stream fileName, CancellationToken token = default)
     {
-        var score = await GetTreeScore(fileName);
+        var score = await GetTreeScore(fileName, token);
         return score.VisibleTrees;
     }
 
-    public override async ValueTask<int> ExecutePart2(Stream fileName)
+    public override async ValueTask<int> ExecutePart2(Stream fileName, CancellationToken token = default)
     {
-        var score = await GetTreeScore(fileName);
+        var score = await GetTreeScore(fileName, token);
         return score.BestScore;
     }
 
-    private static async ValueTask<TreeScore> GetTreeScore(Stream fileName)
+    private static async ValueTask<TreeScore> GetTreeScore(Stream fileName, CancellationToken token)
     {
-        var result = await BuildGraph(fileName);
+        var result = await BuildGraph(fileName, token);
         var visibleTrees = await CalculateVisibleTrees(result);
         var bestScore = await CalculateBetScenicScore(result);
         return new TreeScore(visibleTrees, bestScore);
     }
 
-    private static async ValueTask<Graph> BuildGraph(Stream fileName)
+    private static async ValueTask<Graph> BuildGraph(Stream fileName, CancellationToken token)
     {
-        var lines = await ReadAllLinesAsync(fileName);
+        var lines = await ReadAllLinesAsync(fileName, token);
         var nodes = new List<TreeNode>();
         var edgeNodes = new Dictionary<TreeNode, IReadOnlyDictionary<Direction, EdgeNode>>();
         for (var row = 0; row < lines.Count; ++row)

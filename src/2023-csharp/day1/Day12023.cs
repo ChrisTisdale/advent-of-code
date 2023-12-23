@@ -30,17 +30,17 @@ public class Day12023 : BaseAdventOfCodeDay<long>
 
     public override DateOnly Year => new(2023, 12, 1);
 
-    public override ValueTask<long> ExecutePart1(Stream stream) => GetSnowCalibration(stream, false);
+    public override ValueTask<long> ExecutePart1(Stream stream, CancellationToken token = default) => GetSnowCalibration(stream, false, token);
 
-    public override ValueTask<long> ExecutePart2(Stream stream) => GetSnowCalibration(stream, true);
+    public override ValueTask<long> ExecutePart2(Stream stream, CancellationToken token = default) => GetSnowCalibration(stream, true, token);
 
-    private static async ValueTask<long> GetSnowCalibration(Stream stream, bool canHaveText)
+    private static async ValueTask<long> GetSnowCalibration(Stream stream, bool canHaveText, CancellationToken token)
     {
         long count = 0;
         using var sr = new StreamReader(stream);
         while (!sr.EndOfStream)
         {
-            var line = await sr.ReadLineAsync();
+            var line = await sr.ReadLineAsync(token);
             if (string.IsNullOrEmpty(line))
             {
                 continue;

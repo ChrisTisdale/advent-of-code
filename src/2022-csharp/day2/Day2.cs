@@ -2,25 +2,19 @@
 
 public class Day2 : Base2022AdventOfCodeDay<decimal>
 {
-    public override async ValueTask<decimal> ExecutePart1(Stream fileName)
-    {
-        var result = await FindScore(fileName, true);
-        return result;
-    }
+    public override async ValueTask<decimal> ExecutePart1(Stream fileName, CancellationToken token = default) =>
+        await FindScore(fileName, true, token);
 
-    public override async ValueTask<decimal> ExecutePart2(Stream fileName)
-    {
-        var result = await FindScore(fileName, false);
-        return result;
-    }
+    public override async ValueTask<decimal> ExecutePart2(Stream fileName, CancellationToken token = default) =>
+        await FindScore(fileName, false, token);
 
-    private static async ValueTask<decimal> FindScore(Stream filename, bool round1)
+    private static async ValueTask<decimal> FindScore(Stream filename, bool round1, CancellationToken token)
     {
         var score = 0m;
         using var sr = new StreamReader(filename);
         while (!sr.EndOfStream)
         {
-            var readLine = await sr.ReadLineAsync();
+            var readLine = await sr.ReadLineAsync(token);
             if (string.IsNullOrWhiteSpace(readLine))
             {
                 continue;

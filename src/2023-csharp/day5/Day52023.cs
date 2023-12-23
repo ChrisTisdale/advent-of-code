@@ -4,17 +4,28 @@ using Common;
 
 public class Day52023 : BaseAdventOfCodeDay<long>
 {
+    private static readonly IReadOnlyDictionary<string, MappingType> MappingLookup = new Dictionary<string, MappingType>
+    {
+        { "humidity-to-location map:", MappingType.HumidityToLocation },
+        { "temperature-to-humidity map:", MappingType.TempToHumidity },
+        { "light-to-temperature map:", MappingType.LightToTemp },
+        { "water-to-light map:", MappingType.WaterToLight },
+        { "fertilizer-to-water map:", MappingType.FertilizerToWater },
+        { "soil-to-fertilizer map:", MappingType.SoilToFertilizer },
+        { "seed-to-soil map:", MappingType.SeedToSoil }
+    };
+
     public override DateOnly Year => new(2023, 12, 5);
 
-    public override async ValueTask<long> ExecutePart1(Stream stream)
+    public override async ValueTask<long> ExecutePart1(Stream stream, CancellationToken token = default)
     {
-        var almanac = await ParseInput(stream);
+        var almanac = await ParseInput(stream, token);
         return almanac.Seeds.Min(seed => FindLocation(almanac, seed));
     }
 
-    public override async ValueTask<long> ExecutePart2(Stream stream)
+    public override async ValueTask<long> ExecutePart2(Stream stream, CancellationToken token = default)
     {
-        var almanac = await ParseInput(stream);
+        var almanac = await ParseInput(stream, token);
         var ranges = new List<SeedRange>();
         for (var s = 0; s < almanac.Seeds.Count - 1; s += 2)
         {
@@ -68,10 +79,10 @@ public class Day52023 : BaseAdventOfCodeDay<long>
         return GetMappedReversed(MappingType.SeedToSoil, almanac, soil);
     }
 
-    private static async ValueTask<Almanac> ParseInput(Stream stream)
+    private static async ValueTask<Almanac> ParseInput(Stream stream, CancellationToken token)
     {
         using var sr = new StreamReader(stream);
-        var line = await sr.ReadLineAsync();
+        var line = await sr.ReadLineAsync(token);
         if (string.IsNullOrEmpty(line))
         {
             throw new InvalidOperationException();
@@ -87,39 +98,15 @@ public class Day52023 : BaseAdventOfCodeDay<long>
         var currentMapping = default(MappingType);
         while (!sr.EndOfStream)
         {
-            line = await sr.ReadLineAsync();
+            line = await sr.ReadLineAsync(token);
             if (string.IsNullOrEmpty(line))
             {
                 continue;
             }
 
-            if (line.StartsWith("seed-to-soil map"))
+            if (MappingLookup.TryGetValue(line, out var mapping))
             {
-                UpdateInput(ref currentMapping, ref currentList, lookup, MappingType.SeedToSoil);
-            }
-            else if (line.StartsWith("soil-to-fertilizer map"))
-            {
-                UpdateInput(ref currentMapping, ref currentList, lookup, MappingType.SoilToFertilizer);
-            }
-            else if (line.StartsWith("fertilizer-to-water map"))
-            {
-                UpdateInput(ref currentMapping, ref currentList, lookup, MappingType.FertilizerToWater);
-            }
-            else if (line.StartsWith("water-to-light map"))
-            {
-                UpdateInput(ref currentMapping, ref currentList, lookup, MappingType.WaterToLight);
-            }
-            else if (line.StartsWith("light-to-temperature map"))
-            {
-                UpdateInput(ref currentMapping, ref currentList, lookup, MappingType.LightToTemp);
-            }
-            else if (line.StartsWith("temperature-to-humidity map"))
-            {
-                UpdateInput(ref currentMapping, ref currentList, lookup, MappingType.TempToHumidity);
-            }
-            else if (line.StartsWith("humidity-to-location map"))
-            {
-                UpdateInput(ref currentMapping, ref currentList, lookup, MappingType.HumidityToLocation);
+                UpdateInput(ref currentMapping, ref currentList, lookup, mapping);
             }
             else
             {

@@ -1,5 +1,6 @@
 ﻿namespace AdventOfCode2022.day9;
 
+using System.Runtime.CompilerServices;
 using Common;
 
 public class Day9 : Base2022AdventOfCodeDay<int>
@@ -15,24 +16,22 @@ public class Day9 : Base2022AdventOfCodeDay<int>
     {
     }
 
-    public override async ValueTask<int> ExecutePart1(Stream fileName)
+    public override async ValueTask<int> ExecutePart1(Stream fileName, CancellationToken token = default)
     {
-        var result = await GetUniqueSpaces(ProcessFile(fileName), 0);
-        return result;
+        return await GetUniqueSpaces(ProcessFile(fileName, token), 0, token);
     }
 
-    public override async ValueTask<int> ExecutePart2(Stream fileName)
+    public override async ValueTask<int> ExecutePart2(Stream fileName, CancellationToken token = default)
     {
-        var result = await GetUniqueSpaces(ProcessFile(fileName), 8);
-        return result;
+        return await GetUniqueSpaces(ProcessFile(fileName, token), 8, token);
     }
 
-    private static async IAsyncEnumerable<Input> ProcessFile(Stream fileName)
+    private static async IAsyncEnumerable<Input> ProcessFile(Stream fileName, [EnumeratorCancellation] CancellationToken token = default)
     {
         using var sr = new StreamReader(fileName);
         while (!sr.EndOfStream)
         {
-            var line = await sr.ReadLineAsync();
+            var line = await sr.ReadLineAsync(token);
             if (line == null)
             {
                 continue;
@@ -43,11 +42,11 @@ public class Day9 : Base2022AdventOfCodeDay<int>
         }
     }
 
-    private static async ValueTask<int> GetUniqueSpaces(IAsyncEnumerable<Input> inputs, int middleCount)
+    private static async ValueTask<int> GetUniqueSpaces(IAsyncEnumerable<Input> inputs, int middleCount, CancellationToken token)
     {
         var middlePoints = new Point<int>[middleCount + 2];
         var set = new HashSet<Point<int>> { middlePoints.Last() };
-        await foreach (var input in inputs)
+        await foreach (var input in inputs.WithCancellation(token))
         {
             for (var i = 0; i < input.Moves; ++i)
             {

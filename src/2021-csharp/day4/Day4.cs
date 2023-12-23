@@ -2,15 +2,15 @@
 
 public sealed class Day4 : Base2021AdventOfCodeDay<int>
 {
-    public override async ValueTask<int> ExecutePart1(Stream fileName)
+    public override async ValueTask<int> ExecutePart1(Stream fileName, CancellationToken token = default)
     {
-        var bingoGame = await GetInput(fileName);
+        var bingoGame = await GetInput(fileName, token);
         return GetPart1Win(bingoGame);
     }
 
-    public override async ValueTask<int> ExecutePart2(Stream fileName)
+    public override async ValueTask<int> ExecutePart2(Stream fileName, CancellationToken token = default)
     {
-        var bingoGame = await GetInput(fileName);
+        var bingoGame = await GetInput(fileName, token);
         return GetPart2Win(bingoGame);
     }
 
@@ -56,9 +56,9 @@ public sealed class Day4 : Base2021AdventOfCodeDay<int>
         return 0;
     }
 
-    private async ValueTask<BingoGame> GetInput(Stream file)
+    private async ValueTask<BingoGame> GetInput(Stream file, CancellationToken token)
     {
-        var input = (await ReadAllLinesAsync(file)).ToArray();
+        var input = (await ReadAllLinesAsync(file, token)).ToArray();
         var ballCall = input[0].Split(',').Select(int.Parse).ToArray();
         var cards = new List<BingoCard>();
         for (var i = 2; i <= input.Length - BingoCard.CardSize; i += BingoCard.CardSize + 1)

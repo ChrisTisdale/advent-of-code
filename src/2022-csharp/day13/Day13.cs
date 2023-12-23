@@ -6,13 +6,14 @@ public class Day13 : Base2022AdventOfCodeDay<int>
 {
     private static readonly Regex Regex = new($"({Regex.Escape(",")}|{Regex.Escape("[")}|{Regex.Escape("]")})");
 
-    public override async ValueTask<int> ExecutePart1(Stream fileName) => await HandleFilePart1(fileName);
+    public override async ValueTask<int> ExecutePart1(Stream fileName, CancellationToken token = default) =>
+        await HandleFilePart1(fileName, token);
 
-    public override async ValueTask<int> ExecutePart2(Stream fileName) => await HandleFile(fileName);
+    public override async ValueTask<int> ExecutePart2(Stream fileName, CancellationToken token = default) => await HandleFile(fileName, token);
 
-    private static async Task<int> HandleFile(Stream file)
+    private static async Task<int> HandleFile(Stream file, CancellationToken token)
     {
-        var result = await GetPackets(file);
+        var result = await GetPackets(file, token);
         var starter = new ListPacket(new[] { new ListPacket(new[] { new ValuePacket(2) }) });
         var ender = new ListPacket(new[] { new ListPacket(new[] { new ValuePacket(6) }) });
         var sortedList =
@@ -37,9 +38,9 @@ public class Day13 : Base2022AdventOfCodeDay<int>
         return startIndex * endIndex;
     }
 
-    private static async Task<int> HandleFilePart1(Stream file)
+    private static async Task<int> HandleFilePart1(Stream file, CancellationToken token)
     {
-        var result = await GetPackets(file);
+        var result = await GetPackets(file, token);
         var count = 0;
         var comparer = new PacketComparer();
         for (var i = 0; i < result.Count; ++i)
@@ -54,9 +55,9 @@ public class Day13 : Base2022AdventOfCodeDay<int>
         return count;
     }
 
-    private static async ValueTask<IReadOnlyList<PacketChecker>> GetPackets(Stream file)
+    private static async ValueTask<IReadOnlyList<PacketChecker>> GetPackets(Stream file, CancellationToken token)
     {
-        var lines = await ReadAllLinesAsync(file);
+        var lines = await ReadAllLinesAsync(file, token);
         var comparisons = new List<PacketChecker>();
         for (var i = 0; i < lines.Count; i += 3)
         {

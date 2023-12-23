@@ -7,14 +7,16 @@ public class Day11 : Base2022AdventOfCodeDay<long>
     private static readonly Regex Regex = new(
         $"({Regex.Escape("+")}|{Regex.Escape("*")}|{Regex.Escape("-")}|{Regex.Escape("/")})");
 
-    public override async ValueTask<long> ExecutePart1(Stream fileName) => await HandleRound(fileName, true, 20);
+    public override async ValueTask<long> ExecutePart1(Stream fileName, CancellationToken token = default) =>
+        await HandleRound(fileName, true, 20, token: token);
 
-    public override async ValueTask<long> ExecutePart2(Stream fileName) => await HandleRound(fileName, false, 10000);
+    public override async ValueTask<long> ExecutePart2(Stream fileName, CancellationToken token = default) =>
+        await HandleRound(fileName, false, 10000, token: token);
 
-    private static async ValueTask<IReadOnlyList<Monkey>> ProcessFile(Stream fileName)
+    private static async ValueTask<IReadOnlyList<Monkey>> ProcessFile(Stream fileName, CancellationToken token)
     {
         var monkeys = new List<Monkey>();
-        var linesAsync = (await ReadAllLinesAsync(fileName)).ToArray();
+        var linesAsync = (await ReadAllLinesAsync(fileName, token)).ToArray();
         for (var i = 0; i < linesAsync.Length; i += 7)
         {
             var id = int.Parse(linesAsync[i].Split(' ')[1].TrimEnd(':'));
@@ -118,9 +120,14 @@ public class Day11 : Base2022AdventOfCodeDay<long>
         return new Evaluator(expected, checker, id);
     }
 
-    private static async Task<long> HandleRound(Stream fileName, bool round1, int roundCount, bool print = false)
+    private static async Task<long> HandleRound(
+        Stream fileName,
+        bool round1,
+        int roundCount,
+        bool print = false,
+        CancellationToken token = default)
     {
-        var result = await ProcessFile(fileName);
+        var result = await ProcessFile(fileName, token);
         var inspected = await EvaluateRounds(result, roundCount, round1, print);
         var highestTwo = inspected.Values.OrderDescending().Take(2).ToArray();
         return highestTwo[0] * highestTwo[1];

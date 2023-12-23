@@ -2,25 +2,25 @@
 
 public class Day2 : Base2021AdventOfCodeDay<int>
 {
-    public override async ValueTask<int> ExecutePart1(Stream fileName)
+    public override async ValueTask<int> ExecutePart1(Stream fileName, CancellationToken token = default)
     {
-        var operations = await ReadDiveOperations(fileName);
+        var operations = await ReadDiveOperations(fileName, token);
         var result = await ProcessPart1(operations);
         return result;
     }
 
-    public override async ValueTask<int> ExecutePart2(Stream fileName)
+    public override async ValueTask<int> ExecutePart2(Stream fileName, CancellationToken token = default)
     {
-        var operations = await ReadDiveOperations(fileName);
+        var operations = await ReadDiveOperations(fileName, token);
         var result = await ProcessPart2(operations);
         return result;
     }
 
-    private static async ValueTask<IReadOnlyCollection<Dive>> ReadDiveOperations(Stream stream) =>
-        await EnumerateLinesAsync(stream)
+    private static async ValueTask<IReadOnlyCollection<Dive>> ReadDiveOperations(Stream stream, CancellationToken token) =>
+        await EnumerateLinesAsync(stream, token)
             .Select(x => x.Split(' '))
             .Select(x => new Dive(ToDirection(x[0]), int.Parse(x[1])))
-            .ToArrayAsync()
+            .ToArrayAsync(token)
             .ConfigureAwait(false);
 
     private static ValueTask<int> ProcessPart1(IEnumerable<Dive> operations)

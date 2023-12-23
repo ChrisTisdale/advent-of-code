@@ -6,15 +6,15 @@ public class Day32023 : BaseAdventOfCodeDay<long>
 {
     public override DateOnly Year => new(2023, 12, 3);
 
-    public override async ValueTask<long> ExecutePart1(Stream stream)
+    public override async ValueTask<long> ExecutePart1(Stream stream, CancellationToken token = default)
     {
-        var data = await ReadInput(stream);
+        var data = await ReadAllLinesAsync(stream, token);
         return ProcessPart1(data);
     }
 
-    public override async ValueTask<long> ExecutePart2(Stream stream)
+    public override async ValueTask<long> ExecutePart2(Stream stream, CancellationToken token = default)
     {
-        var data = await ReadInput(stream);
+        var data = await ReadAllLinesAsync(stream, token);
         return ProcessPart2(data);
     }
 
@@ -112,24 +112,6 @@ public class Day32023 : BaseAdventOfCodeDay<long>
         }
 
         return found;
-    }
-
-    private static async ValueTask<IReadOnlyList<string>> ReadInput(Stream stream)
-    {
-        using var sr = new StreamReader(stream);
-        var data = new List<string>();
-        while (!sr.EndOfStream)
-        {
-            var line = await sr.ReadLineAsync();
-            if (string.IsNullOrEmpty(line))
-            {
-                continue;
-            }
-
-            data.Add(line);
-        }
-
-        return data;
     }
 
     private static long ProcessPart1(IReadOnlyList<string> input)

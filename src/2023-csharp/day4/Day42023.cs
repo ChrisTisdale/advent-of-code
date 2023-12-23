@@ -6,17 +6,17 @@ public class Day42023 : BaseAdventOfCodeDay<long>
 {
     public override DateOnly Year => new(2023, 12, 4);
 
-    public override async ValueTask<long> ExecutePart1(Stream stream)
+    public override async ValueTask<long> ExecutePart1(Stream stream, CancellationToken token = default)
     {
-        var input = await ReadInput(stream);
+        var input = await ReadInput(stream, token);
         return input.Sum(
             card => card.NumbersObtained.Where(n => card.WinningNumbers.Contains(n))
                 .Aggregate(0L, (current, _) => current == 0 ? 1 : current * 2));
     }
 
-    public override async ValueTask<long> ExecutePart2(Stream stream)
+    public override async ValueTask<long> ExecutePart2(Stream stream, CancellationToken token = default)
     {
-        var input = await ReadInput(stream);
+        var input = await ReadInput(stream, token);
         var cardCount = input.ToDictionary(x => x.Id - 1, _ => 1L);
         for (var i = 0; i < input.Count; ++i)
         {
@@ -37,13 +37,13 @@ public class Day42023 : BaseAdventOfCodeDay<long>
         return cardCount.Values.Sum();
     }
 
-    private static async ValueTask<IReadOnlyList<Card>> ReadInput(Stream stream)
+    private static async ValueTask<IReadOnlyList<Card>> ReadInput(Stream stream, CancellationToken token)
     {
         var data = new List<Card>();
         using var sr = new StreamReader(stream);
         while (!sr.EndOfStream)
         {
-            var line = await sr.ReadLineAsync();
+            var line = await sr.ReadLineAsync(token);
             if (string.IsNullOrEmpty(line))
             {
                 continue;

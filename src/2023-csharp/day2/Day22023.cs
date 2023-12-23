@@ -13,16 +13,16 @@ public class Day22023 : BaseAdventOfCodeDay<long>
 
     public override DateOnly Year => new(2023, 12, 2);
 
-    public override async ValueTask<long> ExecutePart1(Stream stream)
+    public override async ValueTask<long> ExecutePart1(Stream stream, CancellationToken token = default)
     {
-        var games = await ParseFile(stream);
+        var games = await ParseFile(stream, token);
         return games.Where(g => g.Rounds.All(r => r.Sizes.All(s => CubSizes[s.Key] >= s.Value)))
             .Sum(x => x.Id);
     }
 
-    public override async ValueTask<long> ExecutePart2(Stream stream)
+    public override async ValueTask<long> ExecutePart2(Stream stream, CancellationToken token = default)
     {
-        var games = await ParseFile(stream);
+        var games = await ParseFile(stream, token);
         var count = 0L;
         foreach (var game in games)
         {
@@ -53,13 +53,13 @@ public class Day22023 : BaseAdventOfCodeDay<long>
         return count;
     }
 
-    private static async ValueTask<List<Game>> ParseFile(Stream stream)
+    private static async ValueTask<List<Game>> ParseFile(Stream stream, CancellationToken token)
     {
         using var sr = new StreamReader(stream);
         var games = new List<Game>();
         while (!sr.EndOfStream)
         {
-            var line = await sr.ReadLineAsync();
+            var line = await sr.ReadLineAsync(token);
             if (string.IsNullOrEmpty(line))
             {
                 continue;

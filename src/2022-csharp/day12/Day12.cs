@@ -4,9 +4,11 @@ using Common;
 
 public class Day12 : Base2022AdventOfCodeDay<int>
 {
-    public override async ValueTask<int> ExecutePart1(Stream fileName) => await HandleFile(fileName, false);
+    public override async ValueTask<int> ExecutePart1(Stream fileName, CancellationToken token = default) =>
+        await HandleFile(fileName, false, token);
 
-    public override async ValueTask<int> ExecutePart2(Stream fileName) => await HandleFile(fileName, true);
+    public override async ValueTask<int> ExecutePart2(Stream fileName, CancellationToken token = default) =>
+        await HandleFile(fileName, true, token);
 
     private static Node<char, int> GetNode(char value, int row, int col)
     {
@@ -22,11 +24,11 @@ public class Day12 : Base2022AdventOfCodeDay<int>
             new Point<int>(row, col));
     }
 
-    private static async ValueTask<Graph<char, int>> BuildGraph(Stream fileName, bool anyA)
+    private static async ValueTask<Graph<char, int>> BuildGraph(Stream fileName, bool anyA, CancellationToken token)
     {
         var nodes = new List<Node<char, int>>();
         var edges = new Dictionary<Node<char, int>, IReadOnlyList<Node<char, int>>>();
-        var lines = await ReadAllLinesAsync(fileName);
+        var lines = await ReadAllLinesAsync(fileName, token);
         for (var row = 0; row < lines.Count; ++row)
         {
             for (var col = 0; col < lines[row].Length; ++col)
@@ -84,12 +86,11 @@ public class Day12 : Base2022AdventOfCodeDay<int>
                 return ValueTask.FromResult(count);
             }
 
-            if (visited.ContainsKey(next))
+            if (!visited.TryAdd(next, count))
             {
                 continue;
             }
 
-            visited.Add(next, count);
             edges = graph.Edges[next];
             priorityQueue.EnqueueRange(
                 edges
@@ -100,9 +101,9 @@ public class Day12 : Base2022AdventOfCodeDay<int>
         return ValueTask.FromResult(0);
     }
 
-    private static async Task<int> HandleFile(Stream file, bool anyA)
+    private static async Task<int> HandleFile(Stream file, bool anyA, CancellationToken token)
     {
-        var result = await BuildGraph(file, anyA);
+        var result = await BuildGraph(file, anyA, token);
         var path = await FindMinPath(result);
         return path;
     }

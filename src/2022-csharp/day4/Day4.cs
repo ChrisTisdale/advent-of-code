@@ -2,25 +2,19 @@
 
 public class Day4 : Base2022AdventOfCodeDay<int>
 {
-    public override async ValueTask<int> ExecutePart1(Stream fileName)
-    {
-        var result = await FindSubsets(fileName, false);
-        return result;
-    }
+    public override async ValueTask<int> ExecutePart1(Stream fileName, CancellationToken token = default) =>
+        await FindSubsets(fileName, false, token);
 
-    public override async ValueTask<int> ExecutePart2(Stream fileName)
-    {
-        var result = await FindSubsets(fileName, true);
-        return result;
-    }
+    public override async ValueTask<int> ExecutePart2(Stream fileName, CancellationToken token = default) =>
+        await FindSubsets(fileName, true, token);
 
-    private static async ValueTask<int> FindSubsets(Stream filename, bool anyOverlap)
+    private static async ValueTask<int> FindSubsets(Stream filename, bool anyOverlap, CancellationToken token)
     {
         var count = 0;
         using var sr = new StreamReader(filename);
         while (!sr.EndOfStream)
         {
-            var line = await sr.ReadLineAsync();
+            var line = await sr.ReadLineAsync(token);
             if (string.IsNullOrEmpty(line))
             {
                 continue;

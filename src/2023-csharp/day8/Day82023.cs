@@ -12,15 +12,15 @@ public class Day82023() : BaseAdventOfCodeDay<long>(Parts)
 
     public override DateOnly Year => new(2023, 12, 8);
 
-    public override async ValueTask<long> ExecutePart1(Stream stream)
+    public override async ValueTask<long> ExecutePart1(Stream stream, CancellationToken token = default)
     {
-        var tree = await ParseInput(stream);
+        var tree = await ParseInput(stream, token);
         return CalculateSteps(tree, "AAA", false);
     }
 
-    public override async ValueTask<long> ExecutePart2(Stream stream)
+    public override async ValueTask<long> ExecutePart2(Stream stream, CancellationToken token = default)
     {
-        var tree = await ParseInput(stream);
+        var tree = await ParseInput(stream, token);
         var steps = tree.Leaves
             .Where(x => x.Key.EndsWith('A'))
             .Select(x => x.Key)
@@ -52,15 +52,15 @@ public class Day82023() : BaseAdventOfCodeDay<long>(Parts)
         return count;
     }
 
-    private static async ValueTask<Tree> ParseInput(Stream stream)
+    private static async ValueTask<Tree> ParseInput(Stream stream, CancellationToken token)
     {
         var sr = new StreamReader(stream);
-        var line = await sr.ReadLineAsync();
+        var line = await sr.ReadLineAsync(token);
         var moves = line!.Select(x => x == 'R' ? Move.Right : Move.Left).ToArray();
         var leaves = new Dictionary<string, Leaf>();
         while (!sr.EndOfStream)
         {
-            line = await sr.ReadLineAsync();
+            line = await sr.ReadLineAsync(token);
             if (string.IsNullOrEmpty(line))
             {
                 continue;

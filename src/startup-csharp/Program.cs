@@ -3,6 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using NaturalSort.Extension;
 using Startup.Properties;
 
+using var source = new CancellationTokenSource();
+// ReSharper disable once AccessToDisposedClosure
+Console.CancelKeyPress += (_, _) => source.Cancel(true);
 var serviceCollection = new ServiceCollection();
 serviceCollection.Scan(
     x => x.FromApplicationDependencies()
@@ -10,29 +13,28 @@ serviceCollection.Scan(
         .AsImplementedInterfaces());
 
 var provider = serviceCollection.BuildServiceProvider();
-
 var runnableDays = provider.GetServices<IAdventOfCodeDay>().GroupBy(x => x.Year).ToDictionary(x => x.Key, x => x.ToList());
-
 var runnableDaysKeys = runnableDays.Keys.Order().ToArray();
+
 while (true)
 {
     if (runnableDaysKeys.Length > 1)
     {
-        if (!await ProcessYear())
+        if (!await ProcessYear(source.Token))
         {
             return;
         }
     }
     else
     {
-        if (!await ProcessDay(runnableDaysKeys.First()))
+        if (!await ProcessDay(runnableDaysKeys.First(), source.Token))
         {
             return;
         }
     }
 }
 
-async ValueTask<bool> ProcessYear()
+async ValueTask<bool> ProcessYear(CancellationToken token)
 {
     while (true)
     {
@@ -48,7 +50,7 @@ async ValueTask<bool> ProcessYear()
 
         if (int.TryParse(read, out var index) && index <= runnableDaysKeys.Length)
         {
-            return await ProcessDay(runnableDaysKeys[index - 1]);
+            return await ProcessDay(runnableDaysKeys[index - 1], token);
         }
 
         if (read is "q" or "Q")
@@ -58,7 +60,7 @@ async ValueTask<bool> ProcessYear()
     }
 }
 
-async ValueTask<bool> ProcessDay(DateOnly dateOnly)
+async ValueTask<bool> ProcessDay(DateOnly dateOnly, CancellationToken token)
 {
     Console.Clear();
     var adventOfCodeDays =
@@ -80,18 +82,18 @@ async ValueTask<bool> ProcessDay(DateOnly dateOnly)
     var read = Console.ReadLine();
     if (int.TryParse(read, out var index) && index <= adventOfCodeDays.Length)
     {
-        return await ProcessPart(adventOfCodeDays[index - 1]);
+        return await ProcessPart(adventOfCodeDays[index - 1], token);
     }
 
     return read switch
     {
-        "y" or "Y" when runnableDaysKeys.Length > 1 => await ProcessYear(),
+        "y" or "Y" when runnableDaysKeys.Length > 1 => await ProcessYear(token),
         "q" or "Q" => false,
-        _ => await ProcessDay(dateOnly)
+        _ => await ProcessDay(dateOnly, token)
     };
 }
 
-async ValueTask<bool> ProcessPart(IAdventOfCodeDay codeDay)
+async ValueTask<bool> ProcessPart(IAdventOfCodeDay codeDay, CancellationToken token)
 {
     Console.Clear();
     Console.WriteLine(Resources.ExecutePart1);
@@ -106,27 +108,28 @@ async ValueTask<bool> ProcessPart(IAdventOfCodeDay codeDay)
     Console.Write(Resources.Input);
     return Console.ReadLine() switch
     {
-        "1" => await RunPart1(codeDay),
-        "2" => await RunPart2(codeDay),
-        "d" or "D" => await ProcessDay(codeDay.Year),
-        "y" or "Y" when runnableDaysKeys.Length > 1 => await ProcessYear(),
+        "1" => await RunPart1(codeDay, token),
+        "2" => await RunPart2(codeDay, token),
+        "d" or "D" => await ProcessDay(codeDay.Year, token),
+        "y" or "Y" when runnableDaysKeys.Length > 1 => await ProcessYear(token),
         "q" or "Q" => false,
-        _ => await ProcessPart(codeDay)
+        _ => await ProcessPart(codeDay, token)
     };
 }
 
-async ValueTask<bool> RunPart1(IAdventOfCodeDay codeDay)
+async ValueTask<bool> RunPart1(IAdventOfCodeDay codeDay, CancellationToken token)
 {
     Console.Clear();
-    await codeDay.ExecutePart1();
-    return await Test(codeDay, runnableDaysKeys, RunPart1);
+    await codeDay.ExecutePart1(token);
+    return await Test(codeDay, runnableDaysKeys, RunPart1, token: token);
 }
 
 async Task<bool> Test(
     IAdventOfCodeDay adventOfCodeDay,
     IReadOnlyCollection<DateOnly> dates,
-    Func<IAdventOfCodeDay, ValueTask<bool>> action,
-    bool clear = false)
+    Func<IAdventOfCodeDay, CancellationToken, ValueTask<bool>> action,
+    bool clear = false,
+    CancellationToken token = default)
 {
     if (clear)
     {
@@ -136,20 +139,20 @@ async Task<bool> Test(
     var key = GetExecutionKey();
     return key switch
     {
-        "r" or "R" => await action(adventOfCodeDay),
-        "d" or "D" => await ProcessDay(adventOfCodeDay.Year),
-        "y" or "Y" when dates.Count > 1 => await ProcessYear(),
+        "r" or "R" => await action(adventOfCodeDay, token),
+        "d" or "D" => await ProcessDay(adventOfCodeDay.Year, token),
+        "y" or "Y" when dates.Count > 1 => await ProcessYear(token),
         "q" or "Q" => false,
-        "p" or "P" => await ProcessPart(adventOfCodeDay),
-        _ => await Test(adventOfCodeDay, dates, action, true)
+        "p" or "P" => await ProcessPart(adventOfCodeDay, token),
+        _ => await Test(adventOfCodeDay, dates, action, true, token)
     };
 }
 
-async ValueTask<bool> RunPart2(IAdventOfCodeDay codeDay)
+async ValueTask<bool> RunPart2(IAdventOfCodeDay codeDay, CancellationToken token)
 {
     Console.Clear();
-    await codeDay.ExecutePart2();
-    return await Test(codeDay, runnableDaysKeys, RunPart2);
+    await codeDay.ExecutePart2(token);
+    return await Test(codeDay, runnableDaysKeys, RunPart2, token: token);
 }
 
 string? GetExecutionKey()

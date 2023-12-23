@@ -4,15 +4,15 @@ using Common;
 
 public sealed class Day5 : Base2021AdventOfCodeDay<int>
 {
-    public override async ValueTask<int> ExecutePart1(Stream fileName)
+    public override async ValueTask<int> ExecutePart1(Stream fileName, CancellationToken token = default)
     {
-        var lines = await ParseLines(fileName);
+        var lines = await ParseLines(fileName, token);
         return CountDuplicates(lines, x => x.One.Y == x.Two.Y || x.One.X == x.Two.X);
     }
 
-    public override async ValueTask<int> ExecutePart2(Stream fileName)
+    public override async ValueTask<int> ExecutePart2(Stream fileName, CancellationToken token = default)
     {
-        var lines = await ParseLines(fileName);
+        var lines = await ParseLines(fileName, token);
         return CountDuplicates(
             lines,
             x => x.One.Y == x.Two.Y || x.One.X == x.Two.X || Math.Abs(x.One.X - x.Two.X) == Math.Abs(x.Two.Y - x.One.Y));
@@ -36,11 +36,11 @@ public sealed class Day5 : Base2021AdventOfCodeDay<int>
         return dic.Values.Count(x => x > 1);
     }
 
-    private static async ValueTask<IReadOnlyList<Line<int>>> ParseLines(Stream file) =>
-        await EnumerateLinesAsync(file)
+    private static async ValueTask<IReadOnlyList<Line<int>>> ParseLines(Stream file, CancellationToken token) =>
+        await EnumerateLinesAsync(file, token)
             .Select(x => x.Split(" -> "))
             .Select(points => new Line<int>(ParsePoint(points[0]), ParsePoint(points[1])))
-            .ToListAsync()
+            .ToListAsync(token)
             .ConfigureAwait(false);
 
     private static Point<int> ParsePoint(string input)

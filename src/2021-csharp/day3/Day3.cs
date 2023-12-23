@@ -2,21 +2,21 @@
 
 public sealed class Day3 : Base2021AdventOfCodeDay<int>
 {
-    public override async ValueTask<int> ExecutePart1(Stream fileName)
+    public override async ValueTask<int> ExecutePart1(Stream fileName, CancellationToken token = default)
     {
-        var input = await ParsePart1Inputs(fileName);
+        var input = await ParsePart1Inputs(fileName, token);
         return input.Epsilon * input.Gamma;
     }
 
-    public override async ValueTask<int> ExecutePart2(Stream fileName)
+    public override async ValueTask<int> ExecutePart2(Stream fileName, CancellationToken token = default)
     {
-        var input = await ParsePart2Inputs(fileName);
+        var input = await ParsePart2Inputs(fileName, token);
         return input.Epsilon * input.Gamma;
     }
 
-    private async ValueTask<Input> ParsePart1Inputs(Stream fileName)
+    private static async ValueTask<Input> ParsePart1Inputs(Stream fileName, CancellationToken token)
     {
-        var allLines = await ReadAllLinesAsync(fileName);
+        var allLines = await ReadAllLinesAsync(fileName, token);
         if (allLines.Count == 0)
         {
             return new Input(0, 0);
@@ -42,9 +42,9 @@ public sealed class Day3 : Base2021AdventOfCodeDay<int>
         return new Input(gamma, epsilon);
     }
 
-    private async ValueTask<Input> ParsePart2Inputs(Stream fileName)
+    private static async ValueTask<Input> ParsePart2Inputs(Stream fileName, CancellationToken token)
     {
-        var allLines = await ReadAllLinesAsync(fileName);
+        var allLines = await ReadAllLinesAsync(fileName, token);
         if (allLines.Count == 0)
         {
             return new Input(0, 0);

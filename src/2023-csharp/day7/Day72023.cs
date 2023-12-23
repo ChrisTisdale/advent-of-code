@@ -6,9 +6,9 @@ public class Day72023 : BaseAdventOfCodeDay<long>
 {
     public override DateOnly Year => new(2023, 12, 7);
 
-    public override async ValueTask<long> ExecutePart1(Stream stream)
+    public override async ValueTask<long> ExecutePart1(Stream stream, CancellationToken token = default)
     {
-        var hands = await ParseInput(stream, false);
+        var hands = await ParseInput(stream, false, token);
         hands.Sort(new HandComparer());
         var count = 0L;
         for (var i = 0L; i < hands.Count; ++i)
@@ -19,9 +19,9 @@ public class Day72023 : BaseAdventOfCodeDay<long>
         return count;
     }
 
-    public override async ValueTask<long> ExecutePart2(Stream stream)
+    public override async ValueTask<long> ExecutePart2(Stream stream, CancellationToken token = default)
     {
-        var hands = await ParseInput(stream, true);
+        var hands = await ParseInput(stream, true, token);
         hands.Sort(new HandComparer());
         var count = 0L;
         for (var i = 0L; i < hands.Count; ++i)
@@ -32,13 +32,13 @@ public class Day72023 : BaseAdventOfCodeDay<long>
         return count;
     }
 
-    private static async ValueTask<List<Hand>> ParseInput(Stream stream, bool withJoker)
+    private static async ValueTask<List<Hand>> ParseInput(Stream stream, bool withJoker, CancellationToken token)
     {
         var hands = new List<Hand>();
         using var sr = new StreamReader(stream);
         while (!sr.EndOfStream)
         {
-            var line = await sr.ReadLineAsync();
+            var line = await sr.ReadLineAsync(token);
             if (string.IsNullOrEmpty(line))
             {
                 continue;

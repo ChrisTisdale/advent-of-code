@@ -2,16 +2,16 @@
 
 public class Day7 : Base2022AdventOfCodeDay<long>
 {
-    public override async ValueTask<long> ExecutePart1(Stream fileName)
+    public override async ValueTask<long> ExecutePart1(Stream fileName, CancellationToken token = default)
     {
-        var (directories, _) = await GetDirectories(fileName);
+        var (directories, _) = await GetDirectories(fileName, token);
         var result = await GetSumOfDirectoriesAtMostSize(directories, 100000);
         return result;
     }
 
-    public override async ValueTask<long> ExecutePart2(Stream fileName)
+    public override async ValueTask<long> ExecutePart2(Stream fileName, CancellationToken token = default)
     {
-        var (directories, root) = await GetDirectories(fileName);
+        var (directories, root) = await GetDirectories(fileName, token);
         var result = await FindBestDeletionSize(directories, root, 70000000, 30000000);
         return result;
     }
@@ -32,7 +32,9 @@ public class Day7 : Base2022AdventOfCodeDay<long>
     private static ValueTask<long> GetSumOfDirectoriesAtMostSize(IEnumerable<DirectoryInfo> directories, long size) =>
         ValueTask.FromResult(directories.Where(x => x.Size <= size).Sum(x => x.Size));
 
-    private static async ValueTask<(IReadOnlyList<DirectoryInfo> directories, DirectoryInfo root)> GetDirectories(Stream filename)
+    private static async ValueTask<(IReadOnlyList<DirectoryInfo> directories, DirectoryInfo root)> GetDirectories(
+        Stream filename,
+        CancellationToken token)
     {
         var folders = new Dictionary<string, DirectoryInfo>();
 
@@ -40,7 +42,7 @@ public class Day7 : Base2022AdventOfCodeDay<long>
         using var sr = new StreamReader(filename);
         while (!sr.EndOfStream)
         {
-            var line = await sr.ReadLineAsync();
+            var line = await sr.ReadLineAsync(token);
             if (line is null)
             {
                 continue;

@@ -2,21 +2,21 @@
 
 public class Day5 : Base2022AdventOfCodeDay<string>
 {
-    public override async ValueTask<string> ExecutePart1(Stream fileName)
+    public override async ValueTask<string> ExecutePart1(Stream fileName, CancellationToken token = default)
     {
-        var result = await GetStacks(fileName, false);
+        var result = await GetStacks(fileName, false, token);
         return string.Join("", result.Select(x => x.Pop()));
     }
 
-    public override async ValueTask<string> ExecutePart2(Stream fileName)
+    public override async ValueTask<string> ExecutePart2(Stream fileName, CancellationToken token = default)
     {
-        var result = await GetStacks(fileName, true);
+        var result = await GetStacks(fileName, true, token);
         return string.Join("", result.Select(x => x.Pop()));
     }
 
-    private static async ValueTask<IEnumerable<Stack<char>>> GetStacks(Stream fileName, bool moveMultiple)
+    private static async ValueTask<IEnumerable<Stack<char>>> GetStacks(Stream fileName, bool moveMultiple, CancellationToken token)
     {
-        var readLines = (await ReadAllLinesAsync(fileName)).ToArray();
+        var readLines = (await ReadAllLinesAsync(fileName, token)).ToArray();
         var index = Array.FindIndex(readLines, string.IsNullOrEmpty);
         var lines = readLines[index - 1].Split(' ').Where(x => !string.IsNullOrWhiteSpace(x)).Select(int.Parse).ToList();
         var count = lines.Max();
@@ -26,11 +26,11 @@ public class Day5 : Base2022AdventOfCodeDay<string>
         return sources;
     }
 
-    private static void ReadFile(int index, Stack<char>[] sources, string[] readLines)
+    private static void ReadFile(int index, IReadOnlyList<Stack<char>> sources, IReadOnlyList<string> readLines)
     {
         for (var i = index - 2; i >= 0; --i)
         {
-            for (var j = 0; j < sources.Length; ++j)
+            for (var j = 0; j < sources.Count; ++j)
             {
                 var charLoc = readLines[index - 1].IndexOf((j + 1).ToString(), StringComparison.Ordinal);
                 var character = readLines[i][charLoc];
@@ -44,9 +44,9 @@ public class Day5 : Base2022AdventOfCodeDay<string>
         }
     }
 
-    private static void ProcessMoves(bool moveMultiple, int index, string[] readLines, Stack<char>[] sources)
+    private static void ProcessMoves(bool moveMultiple, int index, IReadOnlyList<string> readLines, IReadOnlyList<Stack<char>> sources)
     {
-        for (var i = index + 1; i < readLines.Length; ++i)
+        for (var i = index + 1; i < readLines.Count; ++i)
         {
             var ints = readLines[i].Split(' ').Where(x => int.TryParse(x, out _)).Select(int.Parse).ToArray();
             var move = ints[0];

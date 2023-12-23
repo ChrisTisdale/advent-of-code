@@ -4,22 +4,16 @@ using System.Text;
 
 public class Day3 : Base2022AdventOfCodeDay<decimal>
 {
-    public override async ValueTask<decimal> ExecutePart1(Stream fileName)
-    {
-        var result = await FindScorePart1(fileName);
-        return result;
-    }
+    public override async ValueTask<decimal> ExecutePart1(Stream fileName, CancellationToken token = default) =>
+        await FindScorePart1(fileName, token);
 
-    public override async ValueTask<decimal> ExecutePart2(Stream fileName)
-    {
-        var result = await FindScorePart2(fileName);
-        return result;
-    }
+    public override async ValueTask<decimal> ExecutePart2(Stream fileName, CancellationToken token = default) =>
+        await FindScorePart2(fileName, token);
 
-    private static async ValueTask<decimal> FindScorePart1(Stream filename)
+    private static async ValueTask<decimal> FindScorePart1(Stream filename, CancellationToken token)
     {
         var score = 0m;
-        await foreach (var line in EnumerateLinesAsync(filename))
+        await foreach (var line in EnumerateLinesAsync(filename, token))
         {
             var sack = Encoding.ASCII.GetBytes(line);
             var half = sack.Length / 2;
@@ -31,10 +25,10 @@ public class Day3 : Base2022AdventOfCodeDay<decimal>
         return score;
     }
 
-    private static async ValueTask<decimal> FindScorePart2(Stream filename)
+    private static async ValueTask<decimal> FindScorePart2(Stream filename, CancellationToken token)
     {
         var score = 0m;
-        var readLines = await ReadAllLinesAsync(filename);
+        var readLines = await ReadAllLinesAsync(filename, token);
         for (var i = 0; i <= readLines.Count - 3; i += 3)
         {
             var first = Encoding.ASCII.GetBytes(readLines[i]);

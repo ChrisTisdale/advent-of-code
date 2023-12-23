@@ -2,24 +2,26 @@
 
 public class Day10 : Base2022AdventOfCodeDay<int>
 {
-    public override async ValueTask<int> ExecutePart1(Stream fileName) => await ProcessSignals(fileName);
+    public override async ValueTask<int> ExecutePart1(Stream fileName, CancellationToken token = default) =>
+        await ProcessSignals(fileName, token);
 
-    public override async ValueTask<int> ExecutePart2(Stream fileName) => await ProcessSignals(fileName);
+    public override async ValueTask<int> ExecutePart2(Stream fileName, CancellationToken token = default) =>
+        await ProcessSignals(fileName, token);
 
-    private static async ValueTask<int> ProcessSignals(Stream fileName)
+    private static async ValueTask<int> ProcessSignals(Stream fileName, CancellationToken token)
     {
         var cycles = new[] { 20, 60, 100, 140, 180, 220 };
-        var result = await GetSignalStrengths(await ProcessFile(fileName), cycles);
+        var result = await GetSignalStrengths(await ProcessFile(fileName, token), cycles);
         return result.Sum();
     }
 
-    private static async ValueTask<IReadOnlyList<ICommand>> ProcessFile(Stream fileName)
+    private static async ValueTask<IReadOnlyList<ICommand>> ProcessFile(Stream fileName, CancellationToken token)
     {
         var items = new List<ICommand>();
         using var sr = new StreamReader(fileName);
         while (!sr.EndOfStream)
         {
-            var line = await sr.ReadLineAsync();
+            var line = await sr.ReadLineAsync(token);
             if (line == null)
             {
                 continue;

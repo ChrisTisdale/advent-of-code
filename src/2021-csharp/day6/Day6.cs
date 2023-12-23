@@ -2,15 +2,15 @@ namespace AdventOfCode2021.day6;
 
 public class Day6 : Base2021AdventOfCodeDay<long>
 {
-    public override async ValueTask<long> ExecutePart1(Stream stream)
+    public override async ValueTask<long> ExecutePart1(Stream stream, CancellationToken token = default)
     {
-        var fish = await ReadFish(stream);
+        var fish = await ReadFish(stream, token);
         return DetermineFishSize(fish, 80);
     }
 
-    public override async ValueTask<long> ExecutePart2(Stream stream)
+    public override async ValueTask<long> ExecutePart2(Stream stream, CancellationToken token = default)
     {
-        var fish = await ReadFish(stream);
+        var fish = await ReadFish(stream, token);
         return DetermineFishSize(fish, 256);
     }
 
@@ -60,9 +60,9 @@ public class Day6 : Base2021AdventOfCodeDay<long>
         return addCount;
     }
 
-    private static async ValueTask<IReadOnlyList<long>> ReadFish(Stream stream)
+    private static async ValueTask<IReadOnlyList<long>> ReadFish(Stream stream, CancellationToken token)
     {
-        var input = await EnumerateLinesAsync(stream).FirstOrDefaultAsync().ConfigureAwait(false);
+        var input = await EnumerateLinesAsync(stream, token).FirstOrDefaultAsync(cancellationToken: token).ConfigureAwait(false);
         return string.IsNullOrEmpty(input) ? Array.Empty<long>() : input.Split(',').Select(long.Parse).ToList();
     }
 }

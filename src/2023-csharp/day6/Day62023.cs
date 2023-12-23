@@ -6,15 +6,15 @@ public class Day62023 : BaseAdventOfCodeDay<long>
 {
     public override DateOnly Year => new(2023, 12, 6);
 
-    public override async ValueTask<long> ExecutePart1(Stream stream)
+    public override async ValueTask<long> ExecutePart1(Stream stream, CancellationToken token = default)
     {
-        var races = await GetRaces(stream);
+        var races = await GetRaces(stream, token);
         return races.Aggregate(1L, (current, race) => current * GetPossibleWins(race));
     }
 
-    public override async ValueTask<long> ExecutePart2(Stream stream)
+    public override async ValueTask<long> ExecutePart2(Stream stream, CancellationToken token = default)
     {
-        var race = await GetRace(stream);
+        var race = await GetRace(stream, token);
         return GetPossibleWins(race);
     }
 
@@ -42,11 +42,11 @@ public class Day62023 : BaseAdventOfCodeDay<long>
         return count;
     }
 
-    private static async ValueTask<IReadOnlyList<Race>> GetRaces(Stream stream)
+    private static async ValueTask<IReadOnlyList<Race>> GetRaces(Stream stream, CancellationToken token)
     {
         using var sr = new StreamReader(stream);
-        var times = await sr.ReadLineAsync().ConfigureAwait(false);
-        var distances = await sr.ReadLineAsync().ConfigureAwait(false);
+        var times = await sr.ReadLineAsync(token).ConfigureAwait(false);
+        var distances = await sr.ReadLineAsync(token).ConfigureAwait(false);
         var raceTimes = times!.Split(':')[1]
             .Split(' ', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
             .Select(int.Parse)
@@ -60,11 +60,11 @@ public class Day62023 : BaseAdventOfCodeDay<long>
         return raceTimes.Select((t, i) => new Race(t, allDistances[i])).ToList();
     }
 
-    private static async ValueTask<Race> GetRace(Stream stream)
+    private static async ValueTask<Race> GetRace(Stream stream, CancellationToken token)
     {
         using var sr = new StreamReader(stream);
-        var times = await sr.ReadLineAsync().ConfigureAwait(false);
-        var distances = await sr.ReadLineAsync().ConfigureAwait(false);
+        var times = await sr.ReadLineAsync(token).ConfigureAwait(false);
+        var distances = await sr.ReadLineAsync(token).ConfigureAwait(false);
         var time = times!.Split(':')[1]
             .Replace(" ", string.Empty);
         var distance = distances!.Split(':')[1]
