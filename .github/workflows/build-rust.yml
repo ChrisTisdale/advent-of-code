@@ -24,3 +24,5 @@ jobs:
           toolchain: stable
       - name: Build
         run: cargo build --release --all-features
+      - name: Test
+        run: cargo test --release --all-features
