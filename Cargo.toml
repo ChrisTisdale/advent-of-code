@@ -1,4 +1,6 @@
 [workspace]
 members = [
-    'src/2022-rust/*/'
+    'src/2022-rust/*/',
+    "src/rust-2023"
 ]
+resolver = "2"
