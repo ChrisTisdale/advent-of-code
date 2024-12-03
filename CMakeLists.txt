@@ -1,11 +1,8 @@
 # CMakeList.txt : Top-level CMake project file, do global configuration
 # and include sub-projects here.
 #
-cmake_minimum_required(VERSION 3.8)
+cmake_minimum_required(VERSION 3.20)
 set(CMAKE_EXPORT_COMPILE_COMMANDS 1)
-
-set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/externals/vcpkg/scripts/buildsystems/vcpkg.cmake"
-        CACHE STRING "Vcpkg toolchain file")
 
 # Enable Hot Reload for MSVC compilers if supported.
 if (POLICY CMP0141)
@@ -30,22 +27,18 @@ if (PACKAGE_TESTS)
     )
 endif ()
 
-macro(package_add_test TESTNAME)
+macro(package_add_test TEST_NAME)
     if (PACKAGE_TESTS)
         enable_testing()
         # create an executable in which the tests will be stored
-        add_executable(${TESTNAME} ${ARGN})
+        add_executable(${TEST_NAME} ${ARGN})
         # link the Google test infrastructure, mocking library, and a default main function to
         # the test executable.  Remove g_test_main if writing your own main function.
-        target_link_libraries(${TESTNAME} PRIVATE GTest::gtest GTest::gmock GTest::gtest_main)
+        target_link_libraries(${TEST_NAME} PRIVATE GTest::gtest GTest::gmock GTest::gtest_main)
         # gtest_discover_tests replaces gtest_add_tests,
         # see https://cmake.org/cmake/help/v3.10/module/GoogleTest.html for more options to pass to it
-        gtest_discover_tests(${TESTNAME}
-                # set a working directory so your project root so that you can find test data via paths relative to the project root
-                WORKING_DIRECTORY ${PROJECT_DIR}
-                PROPERTIES VS_DEBUGGER_WORKING_DIRECTORY "${PROJECT_DIR}"
-        )
-        set_target_properties(${TESTNAME} PROPERTIES FOLDER tests)
+        gtest_discover_tests(${TEST_NAME})
+        set_target_properties(${TEST_NAME} PROPERTIES FOLDER tests)
     endif ()
 endmacro()
 
