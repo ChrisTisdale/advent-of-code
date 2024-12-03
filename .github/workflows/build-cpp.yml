@@ -23,11 +23,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Create CMake build files
+        shell: pwsh
         working-directory: ${{github.workspace}}
-        # Note the current convention is to use the -S and -B options here to specify source
-        # and build directories, but this is only available with CMake 3.13 and higher.
         run: |
-          cmake -B build -DCMAKE_TOOLCHAIN_FILE="${{env.VCPKG_INSTALLATION_ROOT}}/scripts/buildsystems/vcpkg.cmake"
+          cmake -B build -S . "-DCMAKE_TOOLCHAIN_FILE=$Env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
 
       - name: Compile the project
         working-directory: ${{github.workspace}}
