@@ -23,6 +23,8 @@ jobs:
         with:
           toolchain: stable
       - name: Build
+        working-directory: ${{github.workspace}}/src/rust
         run: cargo build --release --all-features
       - name: Test
+        working-directory: ${{github.workspace}}/src/rust
         run: cargo test --release --all-features

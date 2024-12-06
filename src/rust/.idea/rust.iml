@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="EMPTY_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src/2022-rust/day1/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/2022-rust/day2/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/2022-rust/day3/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/2022-rust/day4/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/2022-rust/day5/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/2022-rust/day6/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/2022-rust/day7/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/2022-rust/day8/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/rust-2023/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>
