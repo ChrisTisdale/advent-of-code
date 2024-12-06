@@ -24,16 +24,16 @@ jobs:
         uses: actions/checkout@v4
       - name: Create CMake build files
         shell: pwsh
-        working-directory: ${{github.workspace}}
+        working-directory: ${{github.workspace}}/src/cpp
         run: |
           cmake -B build -S . "-DCMAKE_TOOLCHAIN_FILE=$Env:VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
 
       - name: Compile the project
-        working-directory: ${{github.workspace}}
+        working-directory: ${{github.workspace}}/src/cpp
         run: |
           cmake --build build --config Debug -j8
 
       - name: Run the tests
-        working-directory: ${{github.workspace}}/build
+        working-directory: ${{github.workspace}}/src/cpp/build
         run: |
           ctest
