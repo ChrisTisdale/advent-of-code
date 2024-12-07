@@ -3,31 +3,37 @@ use std::collections::HashMap;
 struct Game {
     r: u32,
     g: u32,
-    b: u32
+    b: u32,
 }
 
+#[must_use]
 pub fn part_1(input: &str) -> usize {
     let mut total: usize = 0;
     for (i, s) in input.lines().enumerate() {
-        let value = s.split(&[';', ':'])
+        let value = s
+            .split(&[';', ':'])
             .skip(1)
-            .map(|d| d.trim())
-            .map(|d| d.split(';')
-                .map(|g| g.trim()
-                    .split(',')
-                    .map(|z| z.trim())
-                    .map(get_marble_details)
-                    .collect::<HashMap<char, u32>>())
-                .map(|x| round_possible(i, x)))
+            .map(str::trim)
+            .map(|d| {
+                d.split(';')
+                    .map(|g| {
+                        g.trim()
+                            .split(',')
+                            .map(str::trim)
+                            .map(get_marble_details)
+                            .collect::<HashMap<char, u32>>()
+                    })
+                    .map(|x| round_possible(i, &x))
+            })
             .map(|mut f| {
                 if f.all(|d| d.is_some()) {
                     return Some(i);
                 }
-                
+
                 None
             })
             .all(|v| v.is_some());
-        
+
         if value {
             total += i + 1;
         }
@@ -36,36 +42,54 @@ pub fn part_1(input: &str) -> usize {
     total
 }
 
+#[must_use]
 pub fn part_2(input: &str) -> usize {
     let mut total: usize = 0;
     for s in input.lines() {
-        let value = s.split(&[';', ':'])
+        let value = s
+            .split(&[';', ':'])
             .skip(1)
-            .map(|d| d.trim())
-            .map(|d| d.split(';')
-                .map(|g| g.trim()
-                    .split(',')
-                    .map(|z| z.trim())
-                    .map(get_marble_details)
-                    .collect::<HashMap<char, u32>>()))
+            .map(str::trim)
+            .map(|d| {
+                d.split(';').map(|g| {
+                    g.trim()
+                        .split(',')
+                        .map(str::trim)
+                        .map(get_marble_details)
+                        .collect::<HashMap<char, u32>>()
+                })
+            })
             .map(|d| {
                 let res = d.collect::<Vec<HashMap<char, u32>>>();
-                let r = res.iter().flat_map(|m| m.get(&'r').copied()).max().unwrap_or(0);
-                let g = res.iter().flat_map(|m| m.get(&'g').copied()).max().unwrap_or(0);
-                let b = res.iter().flat_map(|m| m.get(&'b').copied()).max().unwrap_or(0);
+                let r = res
+                    .iter()
+                    .filter_map(|m| m.get(&'r').copied())
+                    .max()
+                    .unwrap_or(0);
+                let g = res
+                    .iter()
+                    .filter_map(|m| m.get(&'g').copied())
+                    .max()
+                    .unwrap_or(0);
+                let b = res
+                    .iter()
+                    .filter_map(|m| m.get(&'b').copied())
+                    .max()
+                    .unwrap_or(0);
                 Game { r, g, b }
-            }).collect::<Vec<Game>>();
-        
+            })
+            .collect::<Vec<Game>>();
+
         let r = value.iter().map(|g| g.r as usize).max().unwrap_or(0);
         let g = value.iter().map(|g| g.g as usize).max().unwrap_or(0);
         let b = value.iter().map(|g| g.b as usize).max().unwrap_or(0);
         total += r * g * b;
     }
-    
+
     total
 }
 
-fn round_possible(i: usize, x: HashMap<char, u32>) -> Option<usize> {
+fn round_possible(i: usize, x: &HashMap<char, u32>) -> Option<usize> {
     if x.get(&'r').filter(|v| **v > 12).is_some() {
         return None;
     }
@@ -87,7 +111,7 @@ fn get_marble_details(x: &str) -> (char, u32) {
     let char = match split.next().unwrap() {
         "red" => 'r',
         "green" => 'g',
-        _ => 'b'
+        _ => 'b',
     };
 
     (char, value)
@@ -102,7 +126,7 @@ mod tests {
         let actual = part_1(SAMPLE);
         assert_eq!(actual, 8);
     }
-    
+
     #[test]
     fn part_1_measure() {
         let actual = part_1(MEASURE);
@@ -120,13 +144,13 @@ mod tests {
         let actual = part_2(MEASURE);
         assert_eq!(actual, 67953);
     }
-    
+
     const SAMPLE: &str = "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green
 Game 2: 1 blue, 2 green; 3 green, 4 blue, 1 red; 1 green, 1 blue
 Game 3: 8 green, 6 blue, 20 red; 5 blue, 4 red, 13 green; 5 green, 1 red
 Game 4: 1 green, 3 red, 6 blue; 3 green, 6 red; 3 green, 15 blue, 14 red
 Game 5: 6 red, 1 blue, 3 green; 2 blue, 1 red, 2 green";
-    
+
     const MEASURE: &str = "Game 1: 9 red, 5 blue, 6 green; 6 red, 13 blue; 2 blue, 7 green, 5 red
 Game 2: 6 red, 2 green, 2 blue; 12 green, 11 red, 17 blue; 2 blue, 10 red, 11 green; 13 green, 17 red; 15 blue, 20 red, 3 green; 3 blue, 11 red, 1 green
 Game 3: 20 green, 1 blue, 7 red; 20 green, 7 blue; 18 red, 8 green, 3 blue; 7 red, 6 blue, 11 green; 11 red, 6 blue, 16 green

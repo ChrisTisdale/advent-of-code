@@ -1,5 +1,8 @@
+#[must_use]
 pub fn part_1(input: &str) -> u32 {
-    input.lines().map(|l| l.chars())
+    input
+        .lines()
+        .map(|l| l.chars())
         .map(|s| s.filter_map(|c| c.to_digit(10)).collect::<Vec<u32>>())
         .map(|v| get_digits(&v))
         .sum()
@@ -10,14 +13,16 @@ fn get_digits(input: &[u32]) -> u32 {
 }
 
 pub fn part_2(input: &str) -> u32 {
-    input.lines()
+    input
+        .lines()
         .map(find_digits_part_2)
         .map(|v| get_digits(&v))
         .sum()
 }
 
 fn find_digits_part_2(s: &str) -> Vec<u32> {
-    s.chars().enumerate()
+    s.chars()
+        .enumerate()
         .filter_map(|(i, c)| {
             if let Some(d) = c.to_digit(10) {
                 return Some(d);
@@ -26,19 +31,20 @@ fn find_digits_part_2(s: &str) -> Vec<u32> {
             }
 
             None
-        }).collect::<Vec<u32>>()
+        })
+        .collect::<Vec<u32>>()
 }
 
 fn matches_digit(s: &str, i: usize) -> Option<u32> {
     if s.chars().count() < i + 3 {
         return None;
     }
-    
+
     match &s[i..(i + 3)] {
         "one" => Some(1),
         "two" => Some(2),
         "six" => Some(6),
-        _ => check_four_letter_numbers(s, i)
+        _ => check_four_letter_numbers(s, i),
     }
 }
 
@@ -51,7 +57,7 @@ fn check_four_letter_numbers(s: &str, i: usize) -> Option<u32> {
         "four" => Some(4),
         "five" => Some(5),
         "nine" => Some(9),
-        _ => check_five_letter_numbers(s, i)
+        _ => check_five_letter_numbers(s, i),
     }
 }
 
@@ -64,7 +70,7 @@ fn check_five_letter_numbers(s: &str, i: usize) -> Option<u32> {
         "three" => Some(3),
         "seven" => Some(7),
         "eight" => Some(8),
-        _ => None
+        _ => None,
     }
 }
 
@@ -98,11 +104,11 @@ xtwone3four
 4nineeightseven2
 zoneight234
 7pqrstsixteen";
-        
+
         let result = part_2(data);
         assert_eq!(result, 281);
     }
-    
+
     #[test]
     fn part_2_measure() {
         let result = part_2(MESSURE);

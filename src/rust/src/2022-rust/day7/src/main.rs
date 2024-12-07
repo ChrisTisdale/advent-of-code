@@ -35,7 +35,10 @@ fn main() {
                 }
 
                 current_dir.push_str(d[2]);
-                assert!(!map.contains_key(current_dir.as_str()), "We have a duplicate: {current_dir}");
+                assert!(
+                    !map.contains_key(current_dir.as_str()),
+                    "We have a duplicate: {current_dir}"
+                );
 
                 map.insert(
                     current_dir.to_string(),
@@ -72,12 +75,10 @@ fn main() {
     let free_space = 70_000_000 - min_size;
     let need_free = 30_000_000 - free_space;
 
-    println!(
-        "Root size: {min_size}, need: {need_free}, free space: {free_space}"
-    );
+    println!("Root size: {min_size}, need: {need_free}, free space: {free_space}");
     for d in &root.directories {
         let f = map.get(d).expect("aoc isn't a liar");
-        let size = find_min_size(&mut min_size, f, &map, &need_free, d);
+        let size = find_min_size(&mut min_size, f, &map, need_free, d);
         match size {
             None => {}
             Some(d) => {
@@ -99,11 +100,11 @@ fn find_min_size(
     cur: &mut usize,
     folder: &Folder,
     map: &HashMap<String, Folder>,
-    needed: &usize,
+    needed: usize,
     name: &str,
 ) -> Option<SizeResult> {
     let cal = cal_folder_size(folder, map);
-    if folder.directories.is_empty() && cal < *cur && cal >= *needed {
+    if folder.directories.is_empty() && cal < *cur && cal >= needed {
         *cur = cal;
         return Some(SizeResult {
             name: name.to_owned(),
@@ -128,7 +129,7 @@ fn find_min_size(
 
     match result {
         None => {
-            if cal < *cur && cal >= *needed {
+            if cal < *cur && cal >= needed {
                 *cur = cal;
                 Some(SizeResult {
                     name: name.to_owned(),

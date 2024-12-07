@@ -6,10 +6,9 @@ fn main() {
     let data = fs::read_to_string("assets/measurements.txt")
         .unwrap()
         .lines()
-        .filter(|s | !s.is_empty())
-        .map(|s | {
-            s.parse::<i32>().unwrap()
-        }).collect::<Vec<i32>>();
+        .filter(|s| !s.is_empty())
+        .map(|s| s.parse::<i32>().unwrap())
+        .collect::<Vec<i32>>();
 
     println!("{}", count)
 }
