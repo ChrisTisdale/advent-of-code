@@ -255,53 +255,6 @@ pub fn part2(input: &str) -> usize {
         guard_map.map[visitor.y][visitor.x] = c;
     }
 
-    /*
-
-    loop {
-        if !line_map.insert(current) {
-            break;
-        }
-
-        let iter = get_iterator(&current, len_y, len_x);
-        for i in iter.skip(2) {
-            let c = match current.direction {
-                Direction::North | Direction::South => guard_map.map[i][current.x],
-                Direction::East | Direction::West => guard_map.map[current.y][i],
-                Direction::Exit => panic!(),
-            };
-
-            if c == '#' {
-                break;
-            }
-
-            match current.direction {
-                Direction::North | Direction::South => {
-                    guard_map.map[i][current.x] = '#';
-                    if do_loop(start, &guard_map, &mut hit_map, len_y, len_x) {
-                        found_points.insert(Index { x: current.x, y: i });
-                    }
-
-                    guard_map.map[i][current.x] = c;
-                }
-                Direction::West | Direction::East => {
-                    guard_map.map[current.y][i] = '#';
-                    if do_loop(start, &guard_map, &mut hit_map, len_y, len_x) {
-                        found_points.insert(Index { x: i, y: current.y });
-                    }
-
-                    guard_map.map[current.y][i] = c;
-                }
-                Direction::Exit => panic!(),
-            };
-        }
-
-        current = handle_direction(&current, &guard_map, &mut hit_map, len_y, len_x, true);
-        if current.direction == Direction::Exit {
-            break;
-        }
-    }
-     */
-
     found_points.len()
 }
 
