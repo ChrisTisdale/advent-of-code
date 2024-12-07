@@ -14,7 +14,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="$(SolutionDir)\LICENSE">
+        <None Include="$(SolutionDir)..\..\LICENSE">
             <Pack>True</Pack>
             <PackagePath/>
         </None>
