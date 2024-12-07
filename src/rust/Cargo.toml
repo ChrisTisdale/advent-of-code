@@ -1,6 +1,6 @@
 [workspace]
 members = [
     'src/2022-rust/*/',
-    "src/rust-2023"
-]
+    "src/rust-2023",
+    "src/rust-2024"]
 resolver = "2"
