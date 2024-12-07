@@ -159,7 +159,7 @@ impl Iterator for DirectionIterator {
     }
 }
 
-fn do_loop(
+fn has_cycle(
     mut current: Line,
     guard_map: &GuardMap,
     hit_map: &mut HashSet<Index>,
@@ -247,7 +247,7 @@ pub fn part2(input: &str) -> usize {
 
         let c = guard_map.map[visitor.y][visitor.x];
         guard_map.map[visitor.y][visitor.x] = '#';
-        let cycle = do_loop(start, &guard_map, &mut hit_map, len_y, len_x);
+        let cycle = has_cycle(start, &guard_map, &mut hit_map, len_y, len_x);
         if cycle {
             found_points.insert(visitor);
         }
