@@ -48,7 +48,7 @@ public class Day7Tests
         part1Result.Should().Be(1298300076754UL);
     }
 
-    [Fact(Skip = "Test is too long")]
+    [Fact(Timeout = 5000)]
     public async Task Measurements_Part_2_Matches()
     {
         var part1Result = await _target.ExecutePart2(_target.GetFileStream("measurements.txt"));

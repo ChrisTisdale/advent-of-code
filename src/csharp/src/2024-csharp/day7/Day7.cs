@@ -31,7 +31,7 @@ public class Day7 : Base2024AdventOfCodeDay<ulong>
         var calibrations = await ReadOperations(stream, operations, token);
         return calibrations
             .Where(
-                calibration => calibration.Operations.Select(operation => operation.Handle())
+                calibration => calibration.Operations.Select(operation => operation.Value)
                     .Any(calculated => calibration.Expected == calculated))
             .Aggregate<Calibration, ulong>(0, (current, calibration) => current + calibration.Expected);
     }
@@ -49,16 +49,16 @@ public class Day7 : Base2024AdventOfCodeDay<ulong>
 
             var expected = ulong.Parse(strings[0]);
             var count = 0;
-            var ops = new Dictionary<int, IReadOnlyList<IOperation>>();
+            var ops = new Dictionary<int, IEnumerable<IOperation>>();
             foreach (var value in strings[1].Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(ulong.Parse))
             {
                 if (ops.TryGetValue(count - 1, out var previous))
                 {
-                    ops[count++] = previous.SelectMany(p => BuildOperations(operations, p, value)).ToList();
+                    ops[count++] = previous.SelectMany(p => BuildOperations(operations, p, value));
                 }
                 else
                 {
-                    ops[count++] = BuildOperations(operations, null, value).ToList();
+                    ops[count++] = BuildOperations(operations, null, value);
                 }
             }
 
