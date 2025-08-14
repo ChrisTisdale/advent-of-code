@@ -14,6 +14,7 @@
 
 #include "day12.h"
 
+#include <algorithm>
 #include <sstream>
 
 using namespace aoc2022::day12;
