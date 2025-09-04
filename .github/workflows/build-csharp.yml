@@ -24,7 +24,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
-        uses: actions/setup-dotnet@v4
+        uses: actions/setup-dotnet@v5
         with:
           global-json-file: src/csharp/global.json
       - name: Install dependencies
