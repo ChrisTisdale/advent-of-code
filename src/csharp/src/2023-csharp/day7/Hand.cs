@@ -14,4 +14,12 @@
 
 namespace AdventOfCode2023.day7;
 
-public record Hand(IReadOnlyList<CardNumber> Numbers, long Bid);
+using System.Text;
+
+public record Hand(IReadOnlyList<CardNumber> Numbers, long Bid) {
+    protected virtual bool PrintMembers(StringBuilder builder) {
+        builder.Append(nameof(Numbers)).Append(" = ").Append(" [ ").Append(string.Join(",", Numbers)).Append(" ]");
+        builder.Append(", ").Append(nameof(Bid)).Append(" = ").Append(Bid);
+        return true;
+    }
+}

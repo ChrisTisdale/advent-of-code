@@ -23,34 +23,34 @@ public class Day72023Tests
     [Fact]
     public void YearTest()
     {
-        _target.Year.Should().Be(new DateOnly(2023, 12, 7));
+        Assert.Equal(new DateOnly(2023, 12, 7), _target.Year);
     }
 
     [Fact(Timeout = 1000)]
     public async Task Sample_Part_1_Matches()
     {
-        var part1Result = await _target.ExecutePart1(_target.GetFileStream("sample.txt"));
-        part1Result.Should().Be(6440L);
+        var part1Result = await _target.ExecutePart1(_target.GetFileStream("sample.txt"), TestContext.Current.CancellationToken);
+        Assert.Equal(6440L, part1Result);
     }
 
     [Fact(Timeout = 1000)]
     public async Task Sample_Part_2_Matches()
     {
-        var part1Result = await _target.ExecutePart2(_target.GetFileStream("sample.txt"));
-        part1Result.Should().Be(5905L);
+        var part1Result = await _target.ExecutePart2(_target.GetFileStream("sample.txt"), TestContext.Current.CancellationToken);
+        Assert.Equal(5905L, part1Result);
     }
 
     [Fact(Timeout = 2000)]
     public async Task Measurements_Part_1_Matches()
     {
-        var part1Result = await _target.ExecutePart1(_target.GetFileStream("measurements.txt"));
-        part1Result.Should().Be(251136060L);
+        var part1Result = await _target.ExecutePart1(_target.GetFileStream("measurements.txt"), TestContext.Current.CancellationToken);
+        Assert.Equal(251136060L, part1Result);
     }
 
     [Fact(Timeout = 3000)]
     public async Task Measurements_Part_2_Matches()
     {
-        var part1Result = await _target.ExecutePart2(_target.GetFileStream("measurements.txt"));
-        part1Result.Should().Be(249400220L);
+        var part1Result = await _target.ExecutePart2(_target.GetFileStream("measurements.txt"), TestContext.Current.CancellationToken);
+        Assert.Equal(249400220L, part1Result);
     }
 }

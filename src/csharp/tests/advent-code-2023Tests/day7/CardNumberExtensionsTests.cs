@@ -22,6 +22,6 @@ public class CardNumberExtensionsTests
     [ClassData(typeof(HandScoreTestData))]
     public void HandScoreTest(Hand hand, HandScore expectedScore)
     {
-        hand.CalculateScore().Should().Be(expectedScore);
+        Assert.Equal(expectedScore, hand.CalculateScore());
     }
 }

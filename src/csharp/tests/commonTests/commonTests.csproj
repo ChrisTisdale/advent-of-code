@@ -3,6 +3,7 @@
     <PropertyGroup>
         <RootNamespace>CommonTests</RootNamespace>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <OutputType>Exe</OutputType>
     </PropertyGroup>
 
     <ItemGroup>

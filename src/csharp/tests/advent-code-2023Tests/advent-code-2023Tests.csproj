@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <RootNamespace>AdventOfCode2023Tests</RootNamespace>
+        <OutputType>Exe</OutputType>
     </PropertyGroup>
 
     <ItemGroup>

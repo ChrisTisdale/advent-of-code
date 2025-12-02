@@ -28,7 +28,7 @@ public class PointTests
     {
         var p1 = new Point<int>(x1, y1);
         var p2 = new Point<int>(x2, y2);
-        Point<int>.ManhattanDistance(p1, p2).Should().Be(expectedDistance);
+        Assert.Equal(expectedDistance, Point<int>.ManhattanDistance(p1, p2));
     }
 
     [Theory]
@@ -41,7 +41,7 @@ public class PointTests
     {
         var p1 = new Point<long>(x1, y1);
         var p2 = new Point<long>(x2, y2);
-        p1.ManhattanDistance(p2).Should().Be(expectedDistance);
+        Assert.Equal(expectedDistance, p1.ManhattanDistance(p2));
     }
 
     [Fact]
@@ -51,8 +51,8 @@ public class PointTests
         const double expectedY = 0.3;
         var p = new Point<double>(expectedX, expectedY);
         var (x, y) = p;
-        x.Should().Be(expectedX);
-        y.Should().Be(expectedY);
+        Assert.Equal(expectedX, x);
+        Assert.Equal(expectedY, y);
     }
 
     [Theory]
@@ -73,8 +73,8 @@ public class PointTests
             Y = y2
         };
 
-        p1.Equals(p2).Should().Be(expectedResult);
-        p2.Equals(p1).Should().Be(expectedResult);
-        (p1 == p2).Should().Be(expectedResult);
+        Assert.Equal(expectedResult, p1.Equals(p2));
+        Assert.Equal(expectedResult, p2.Equals(p1));
+        Assert.Equal(expectedResult, p1 == p2);
     }
 }

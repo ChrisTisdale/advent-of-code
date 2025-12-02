@@ -3,7 +3,12 @@
     <PropertyGroup>
         <RootNamespace>AdventOfCode2022Tests</RootNamespace>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <OutputType>Exe</OutputType>
     </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FluentAssertions" Version="7.2.0"/>
+    </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\..\src\2022-csharp\advent-code-2022.csproj"/>

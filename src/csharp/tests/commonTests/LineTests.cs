@@ -27,10 +27,7 @@ public class LineTests
     [Conditional("DEBUG")]
     public void InvalidIncrementLineTest(int x1, int y1, int x2, int y2, int increment)
     {
-        var constructor = () => new Line<int>(new Point<int>(x1, y1), new Point<int>(x2, y2), increment);
-        constructor.Should()
-            .Throw<InvalidDataException>("Lines that make invalid points are invalid")
-            .WithMessage("The line can't make valid points");
+        Assert.Throws<InvalidDataException>(() => new Line<int>(new Point<int>(x1, y1), new Point<int>(x2, y2), increment));
     }
 
     [Theory]
@@ -47,7 +44,7 @@ public class LineTests
         var checkPoint = new Point<int>(checkX, checkY);
         var line = new Line<int>(p1, p2);
         var result = line.IsInLine(checkPoint);
-        result.Should().Be(expectedResult);
+        Assert.Equal(expectedResult, result);
     }
 
     [Fact]
@@ -59,8 +56,10 @@ public class LineTests
         const decimal y2 = 0.8M;
         var line = new Line<decimal>(new Point<decimal>(x1, y1), new Point<decimal>(x2, y2), 0.1M);
         var (left, right) = line;
-        left.Should().Match<Point<decimal>>(p => p.X == x1 && p.Y == y1);
-        right.Should().Match<Point<decimal>>(p => p.X == x2 && p.Y == y2);
+        Assert.Equal(x1, left.X);
+        Assert.Equal(y1, left.Y);
+        Assert.Equal(x2, right.X);
+        Assert.Equal(y2, right.Y);
     }
 
     [Fact]
@@ -73,9 +72,11 @@ public class LineTests
         const decimal expectedIncrement = 0.001M;
         var line = new Line<decimal>(new Point<decimal>(x1, y1), new Point<decimal>(x2, y2), expectedIncrement);
         var (left, right, increment) = line;
-        left.Should().Match<Point<decimal>>(p => p.X == x1 && p.Y == y1);
-        right.Should().Match<Point<decimal>>(p => p.X == x2 && p.Y == y2);
-        increment.Should().Be(expectedIncrement);
+        Assert.Equal(x1, left.X);
+        Assert.Equal(y1, left.Y);
+        Assert.Equal(x2, right.X);
+        Assert.Equal(y2, right.Y);
+        Assert.Equal(expectedIncrement, increment);
     }
 
     [Theory]
@@ -99,9 +100,9 @@ public class LineTests
         var p4 = new Point<int>(x4, y4);
         var line1 = new Line<int>(p1, p2);
         var line2 = new Line<int>(p3, p4);
-        line1.Equals(line2).Should().Be(expectedResult);
-        line2.Equals(line1).Should().Be(expectedResult);
-        (line1 == line2).Should().Be(expectedResult);
+        Assert.Equal(expectedResult, line1.Equals(line2));
+        Assert.Equal(expectedResult, line2.Equals(line1));
+        Assert.Equal(expectedResult, line1 == line2);
     }
 
     [Theory]
@@ -115,7 +116,7 @@ public class LineTests
         var p1 = new Point<long>(x1, y1);
         var p2 = new Point<long>(x2, y2);
         var line = new Line<long>(p1, p2);
-        line.ManhattanDistance().Should().Be(expectedDistance);
+        Assert.Equal(expectedDistance, line.ManhattanDistance());
     }
 
     [Fact]
@@ -132,7 +133,7 @@ public class LineTests
 
         var line = new Line<int>(new Point<int>(0, 0), new Point<int>(0, 4));
         var results = line.GetPoints();
-        results.Should().BeEquivalentTo(expectedPoints);
+        Assert.Equal(expectedPoints, results);
     }
 
     [Fact]
@@ -149,6 +150,6 @@ public class LineTests
 
         var line = new Line<int>(new Point<int>(0, 0), new Point<int>(4, 0));
         var results = line.GetPoints();
-        results.Should().BeEquivalentTo(expectedPoints);
+        Assert.Equal(expectedPoints, results);
     }
 }

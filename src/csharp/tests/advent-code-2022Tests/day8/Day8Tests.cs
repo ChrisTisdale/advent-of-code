@@ -36,7 +36,7 @@ public class Day8Tests
     public async Task Sample_Part_1_Matches()
     {
         var expectedScore = new TreeScore(21, 8);
-        var part1Result = await _target.ExecutePart1(_target.GetFileStream("sample.txt"));
+        var part1Result = await _target.ExecutePart1(_target.GetFileStream("sample.txt"), TestContext.Current.CancellationToken);
         part1Result.Should().Be(expectedScore.VisibleTrees);
     }
 
@@ -44,7 +44,7 @@ public class Day8Tests
     public async Task Sample_Part_2_Matches()
     {
         var expectedScore = new TreeScore(21, 8);
-        var part1Result = await _target.ExecutePart2(_target.GetFileStream("sample.txt"));
+        var part1Result = await _target.ExecutePart2(_target.GetFileStream("sample.txt"), TestContext.Current.CancellationToken);
         part1Result.Should().Be(expectedScore.BestScore);
     }
 
@@ -52,7 +52,7 @@ public class Day8Tests
     public async Task Measurements_Part_1_Matches()
     {
         var expectedScore = new TreeScore(1719, 590824);
-        var part1Result = await _target.ExecutePart1(_target.GetFileStream("measurements.txt"));
+        var part1Result = await _target.ExecutePart1(_target.GetFileStream("measurements.txt"), TestContext.Current.CancellationToken);
         part1Result.Should().Be(expectedScore.VisibleTrees);
     }
 
@@ -60,7 +60,7 @@ public class Day8Tests
     public async Task Measurements_Part_2_Matches()
     {
         var expectedScore = new TreeScore(1719, 590824);
-        var part1Result = await _target.ExecutePart2(_target.GetFileStream("measurements.txt"));
+        var part1Result = await _target.ExecutePart2(_target.GetFileStream("measurements.txt"), TestContext.Current.CancellationToken);
         part1Result.Should().Be(expectedScore.BestScore);
     }
 }

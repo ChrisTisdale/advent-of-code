@@ -3,6 +3,7 @@
     <PropertyGroup>
         <RootNamespace>AdventOfCode2024Tests</RootNamespace>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <OutputType>Exe</OutputType>
     </PropertyGroup>
 
     <ItemGroup>

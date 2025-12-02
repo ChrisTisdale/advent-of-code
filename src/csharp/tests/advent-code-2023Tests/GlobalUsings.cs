@@ -13,4 +13,3 @@
 // limitations under the License.
 
 global using Xunit;
-global using FluentAssertions;
