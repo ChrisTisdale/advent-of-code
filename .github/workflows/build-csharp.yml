@@ -29,11 +29,11 @@ jobs:
           global-json-file: src/csharp/global.json
       - name: Install dependencies
         working-directory: ${{github.workspace}}/src/csharp
-        run: dotnet restore advent-code.sln
+        run: dotnet restore
       - name: Build
         working-directory: ${{github.workspace}}/src/csharp
-        run: dotnet build --configuration ${{ matrix.configuration }} --no-restore advent-code.sln
+        run: dotnet build --configuration ${{ matrix.configuration }} --no-restore
       - name: Test
         working-directory: ${{github.workspace}}/src/csharp
         if: ${{ matrix.configuration == 'Debug' }}
-        run: dotnet test --no-build --no-restore --verbosity normal advent-code.sln
+        run: dotnet test --no-build --no-restore --verbosity normal
