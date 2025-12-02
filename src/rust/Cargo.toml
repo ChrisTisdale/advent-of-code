@@ -2,5 +2,7 @@
 members = [
     'src/2022-rust/*/',
     "src/rust-2023",
-    "src/rust-2024"]
+    "src/rust-2024",
+    "src/rust-2025"
+]
 resolver = "2"

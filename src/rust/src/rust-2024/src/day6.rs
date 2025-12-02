@@ -145,7 +145,7 @@ fn handle_direction(
     }
 }
 
-enum DirectionIterator {
+pub enum DirectionIterator {
     Range(Range<usize>),
     Reverse(Rev<RangeInclusive<usize>>),
 }
