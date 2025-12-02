@@ -12,6 +12,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/2022-rust/day8/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/rust-2023/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/rust-2024/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/src/rust-2025/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
