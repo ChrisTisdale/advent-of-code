@@ -54,15 +54,9 @@ public class Day7 : Base2022AdventOfCodeDay<long>
 
         var currentDir = "";
         using var sr = new StreamReader(filename);
-        while (!sr.EndOfStream)
+        while (await sr.ReadLineAsync(token) is { } line)
         {
-            var line = await sr.ReadLineAsync(token);
-            if (line is null)
-            {
-                continue;
-            }
-
-            if (line.StartsWith("$"))
+            if (line.StartsWith('$'))
             {
                 currentDir = HandleCommand(line, currentDir, folders);
             }

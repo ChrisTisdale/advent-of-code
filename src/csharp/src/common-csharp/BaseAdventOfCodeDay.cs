@@ -67,9 +67,8 @@ public abstract class BaseAdventOfCodeDay<T> : IAdventOfCodeDay
     {
         var lines = new List<string>();
         using var sr = new StreamReader(stream);
-        while (!sr.EndOfStream)
+        while (await sr.ReadLineAsync(token) is { } line)
         {
-            var line = await sr.ReadLineAsync(token) ?? string.Empty;
             lines.Add(line);
         }
 
@@ -81,9 +80,9 @@ public abstract class BaseAdventOfCodeDay<T> : IAdventOfCodeDay
         [EnumeratorCancellation] CancellationToken token = default)
     {
         using var sr = new StreamReader(stream);
-        while (!sr.EndOfStream)
+        while (await sr.ReadLineAsync(token) is { } line)
         {
-            yield return await sr.ReadLineAsync(token) ?? string.Empty;
+            yield return line;
         }
     }
 }

@@ -33,14 +33,8 @@ public class Day10 : Base2022AdventOfCodeDay<int>
     {
         var items = new List<ICommand>();
         using var sr = new StreamReader(fileName);
-        while (!sr.EndOfStream)
+        while (await sr.ReadLineAsync(token) is { } line)
         {
-            var line = await sr.ReadLineAsync(token);
-            if (line == null)
-            {
-                continue;
-            }
-
             var inputs = line.Split(' ');
             var lower = inputs[0].ToLower();
             switch (lower)

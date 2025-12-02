@@ -26,9 +26,8 @@ public class Day2 : Base2022AdventOfCodeDay<decimal>
     {
         var score = 0m;
         using var sr = new StreamReader(filename);
-        while (!sr.EndOfStream)
+        while (await sr.ReadLineAsync(token) is { } readLine)
         {
-            var readLine = await sr.ReadLineAsync(token);
             if (string.IsNullOrWhiteSpace(readLine))
             {
                 continue;

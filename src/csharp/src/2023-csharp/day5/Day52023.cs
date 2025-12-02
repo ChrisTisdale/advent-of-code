@@ -110,9 +110,8 @@ public class Day52023 : BaseAdventOfCodeDay<long>
         var lookup = new Dictionary<MappingType, List<Mapping>>();
         var currentList = new List<Mapping>();
         var currentMapping = default(MappingType);
-        while (!sr.EndOfStream)
+        while ((line = await sr.ReadLineAsync(token)) is not null)
         {
-            line = await sr.ReadLineAsync(token);
             if (string.IsNullOrEmpty(line))
             {
                 continue;

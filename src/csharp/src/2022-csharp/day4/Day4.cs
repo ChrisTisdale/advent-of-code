@@ -26,9 +26,8 @@ public class Day4 : Base2022AdventOfCodeDay<int>
     {
         var count = 0;
         using var sr = new StreamReader(filename);
-        while (!sr.EndOfStream)
+        while (await sr.ReadLineAsync(token) is { } line)
         {
-            var line = await sr.ReadLineAsync(token);
             if (string.IsNullOrEmpty(line))
             {
                 continue;

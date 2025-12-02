@@ -27,9 +27,8 @@ public class Day1 : Base2022AdventOfCodeDay<decimal>
         var cur = 0m;
         var values = new List<decimal>();
         using var sr = new StreamReader(filename);
-        while (!sr.EndOfStream)
+        while (await sr.ReadLineAsync(token) is { } readLine)
         {
-            var readLine = await sr.ReadLineAsync(token);
             if (string.IsNullOrWhiteSpace(readLine))
             {
                 values.Add(cur);

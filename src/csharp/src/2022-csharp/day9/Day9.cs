@@ -39,14 +39,8 @@ public class Day9 : Base2022AdventOfCodeDay<int>
     private static async IAsyncEnumerable<Input> ProcessFile(Stream fileName, [EnumeratorCancellation] CancellationToken token = default)
     {
         using var sr = new StreamReader(fileName);
-        while (!sr.EndOfStream)
+        while (await sr.ReadLineAsync(token) is { } line)
         {
-            var line = await sr.ReadLineAsync(token);
-            if (line == null)
-            {
-                continue;
-            }
-
             var inputs = line.Split(' ');
             yield return new Input(inputs[0][0], int.Parse(inputs[1]));
         }

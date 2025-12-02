@@ -52,9 +52,8 @@ public class Day12023 : BaseAdventOfCodeDay<long>
     {
         long count = 0;
         using var sr = new StreamReader(stream);
-        while (!sr.EndOfStream)
+        while (await sr.ReadLineAsync(token) is { } line)
         {
-            var line = await sr.ReadLineAsync(token);
             if (string.IsNullOrEmpty(line))
             {
                 continue;

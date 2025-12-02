@@ -71,9 +71,8 @@ public class Day22023 : BaseAdventOfCodeDay<long>
     {
         using var sr = new StreamReader(stream);
         var games = new List<Game>();
-        while (!sr.EndOfStream)
+        while (await sr.ReadLineAsync(token) is { } line)
         {
-            var line = await sr.ReadLineAsync(token);
             if (string.IsNullOrEmpty(line))
             {
                 continue;

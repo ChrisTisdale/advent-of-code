@@ -62,14 +62,8 @@ public class Day15 : Base2022AdventOfCodeDay<long>
         var sensors = new List<Sensor>();
         var points = new HashSet<Point<int>>();
         using var sr = new StreamReader(fileName);
-        while (!sr.EndOfStream)
+        while (await sr.ReadLineAsync(token) is { } line)
         {
-            var line = await sr.ReadLineAsync(token);
-            if (line == null)
-            {
-                continue;
-            }
-
             var dataPoints = line.Split(':');
             var sensorData = dataPoints[0].Split('=', ',');
             var sensorPoint = new Point<int>(int.Parse(sensorData[1]), int.Parse(sensorData[3]));

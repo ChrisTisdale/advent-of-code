@@ -103,14 +103,8 @@ public class Day14 : Base2022AdventOfCodeDay<int>
         var formations = new List<RockFormation>();
         var maxY = 0;
         using var sr = new StreamReader(file);
-        while (!sr.EndOfStream)
+        while (await sr.ReadLineAsync(token) is { } line)
         {
-            var line = await sr.ReadLineAsync(token);
-            if (line == null)
-            {
-                continue;
-            }
-
             var (rockFormation, y) = ParseLine(line);
             if (y > maxY)
             {

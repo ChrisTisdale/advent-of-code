@@ -50,9 +50,8 @@ public class Day72023 : BaseAdventOfCodeDay<long>
     {
         var hands = new List<Hand>();
         using var sr = new StreamReader(stream);
-        while (!sr.EndOfStream)
+        while (await sr.ReadLineAsync(token) is { } line)
         {
-            var line = await sr.ReadLineAsync(token);
             if (string.IsNullOrEmpty(line))
             {
                 continue;

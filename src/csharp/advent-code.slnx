@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/2021-csharp/advent-code-2021.csproj" />
+    <Project Path="src/2022-csharp/advent-code-2022.csproj" />
+    <Project Path="src/2023-csharp/advent-code-2023.csproj" />
+    <Project Path="src/2024-csharp/advent-code-2024.csproj" />
+    <Project Path="src/common-csharp/common.csproj" />
+    <Project Path="src/startup-csharp/startup.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/advent-code-2021Tests/advent-code-2021Tests.csproj" />
+    <Project Path="tests/advent-code-2022Tests/advent-code-2022Tests.csproj" />
+    <Project Path="tests/advent-code-2023Tests/advent-code-2023Tests.csproj" />
+    <Project Path="tests/advent-code-2024Tests/advent-code-2024Tests.csproj" />
+    <Project Path="tests/commonTests/commonTests.csproj" />
+  </Folder>
+</Solution>

@@ -72,9 +72,8 @@ public class Day82023() : BaseAdventOfCodeDay<long>(Parts)
         var line = await sr.ReadLineAsync(token);
         var moves = line!.Select(x => x == 'R' ? Move.Right : Move.Left).ToArray();
         var leaves = new Dictionary<string, Leaf>();
-        while (!sr.EndOfStream)
+        while ((line = await sr.ReadLineAsync(token)) is not null)
         {
-            line = await sr.ReadLineAsync(token);
             if (string.IsNullOrEmpty(line))
             {
                 continue;

@@ -55,9 +55,8 @@ public class Day42023 : BaseAdventOfCodeDay<long>
     {
         var data = new List<Card>();
         using var sr = new StreamReader(stream);
-        while (!sr.EndOfStream)
+        while (await sr.ReadLineAsync(token) is { } line)
         {
-            var line = await sr.ReadLineAsync(token);
             if (string.IsNullOrEmpty(line))
             {
                 continue;
