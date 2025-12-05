@@ -26,32 +26,34 @@ fn is_number_matched_twice(input: &str) -> bool {
     left == right
 }
 
-fn any_numbers_repeated(input: &str, times: usize) -> bool {
-    let chars = input.chars().collect::<Vec<char>>();
-    let count = chars.len();
-
-    if count < times {
-        return false;
-    }
-
-    if !count.is_multiple_of(times) {
-        return any_numbers_repeated(input, times + 1);
-    }
-
-    let mut values = Vec::<&str>::with_capacity(times);
-    let r = count / times;
-    for i in 0..times {
-        values.push(input[i * r..(i + 1) * r].as_ref());
-    }
-
-    let first = values[0];
-    for text in values {
-        if first != text {
-            return any_numbers_repeated(input, times + 1);
+fn any_numbers_repeated(input: &str, mut times: usize) -> bool {
+    let count = input.len();
+    while count >= times {
+        if !count.is_multiple_of(times) {
+            times += 1;
+            continue;
         }
+
+        let r = count / times;
+        let first = &input[0..r];
+        let mut matches = true;
+        for i in 1..times {
+            let text = &input[i * r..(i + 1) * r];
+            if first != text {
+                matches = false;
+                break;
+            }
+        }
+
+        if !matches {
+            times += 1;
+            continue;
+        }
+
+        return true;
     }
 
-    true
+    false
 }
 
 #[must_use]
@@ -100,7 +102,7 @@ mod test {
         assert_eq!(4174379265, result);
     }
 
-    #[ignore]
+    #[test]
     fn part_2_measure() {
         let result = count_invalid_ids(MEASUREMENT, true);
         assert_eq!(22617871034, result);
