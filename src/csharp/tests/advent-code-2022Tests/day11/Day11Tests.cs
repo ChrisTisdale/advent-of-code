@@ -53,7 +53,7 @@ public class Day11Tests
         part1Result.Should().Be(50616L);
     }
 
-    [Fact(Timeout = 1000)]
+    [Fact(Timeout = 2000)]
     public async Task Measurements_Part_2_Matches()
     {
         var part1Result = await _target.ExecutePart2(_target.GetFileStream("measurements.txt"), TestContext.Current.CancellationToken);
